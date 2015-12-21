@@ -7,14 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60081C0C1C16BAA300C01784 /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C0B1C16BAA300C01784 /* HTAutocompleteManager.m */; };
+		60081C0F1C274EF600C01784 /* VSVineyard.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C0E1C274EF600C01784 /* VSVineyard.m */; };
+		60081C121C276B9A00C01784 /* VSVineyardDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C111C276B9A00C01784 /* VSVineyardDataSource.m */; };
+		601E50351C068D6700FEBA6E /* VSShortcutDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50341C068D6700FEBA6E /* VSShortcutDataSource.m */; };
+		601E50381C068D7C00FEBA6E /* VSShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50371C068D7C00FEBA6E /* VSShortcutView.m */; };
+		601E503B1C068DAF00FEBA6E /* VSShortcutStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E503A1C068DAF00FEBA6E /* VSShortcutStackView.m */; };
+		601E50571C08E33300FEBA6E /* VSGrapeVariety.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50561C08E33300FEBA6E /* VSGrapeVariety.m */; };
+		601E505A1C08E82F00FEBA6E /* VSGrapeVarietyDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50591C08E82F00FEBA6E /* VSGrapeVarietyDataSource.m */; };
 		602635651C029E7F00002300 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635641C029E7F00002300 /* main.m */; };
 		602635681C029E7F00002300 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635671C029E7F00002300 /* AppDelegate.m */; };
-		6026356B1C029E7F00002300 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6026356A1C029E7F00002300 /* ViewController.m */; };
-		6026356E1C029E7F00002300 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6026356C1C029E7F00002300 /* Main.storyboard */; };
-		602635711C029E7F00002300 /* VineSpectator.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6026356F1C029E7F00002300 /* VineSpectator.xcdatamodeld */; };
 		602635731C029E7F00002300 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 602635721C029E7F00002300 /* Assets.xcassets */; };
 		602635761C029E7F00002300 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602635741C029E7F00002300 /* LaunchScreen.storyboard */; };
 		602635811C029E7F00002300 /* VineSpectatorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635801C029E7F00002300 /* VineSpectatorUITests.m */; };
+		6026358D1C02A0BB00002300 /* VSTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6026358C1C02A0BB00002300 /* VSTableViewController.m */; };
+		602635911C02DB2000002300 /* VSBottleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635901C02DB2000002300 /* VSBottleDataSource.m */; };
+		602635971C02DD6500002300 /* VSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635961C02DD6500002300 /* VSTableViewCell.m */; };
+		6026359D1C02DDA700002300 /* VSBottle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6026359B1C02DDA700002300 /* VSBottle.m */; };
+		602635A31C02F57000002300 /* VSAddBottleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635A21C02F57000002300 /* VSAddBottleViewController.m */; };
+		602635A61C02F65300002300 /* VSAddBottleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635A51C02F65300002300 /* VSAddBottleView.m */; };
+		602635AC1C0431DB00002300 /* VSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635AB1C0431DB00002300 /* VSDetailViewController.m */; };
+		C0E0E3FD7C014ACC8B72F652 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A6E73F781570B865DEE9F4 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,20 +41,50 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13D17213BC3F6AFF843C664F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		26FD5A8B0A90C1CB17D9EC97 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		60081C0A1C16BAA300C01784 /* HTAutocompleteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTAutocompleteManager.h; sourceTree = "<group>"; };
+		60081C0B1C16BAA300C01784 /* HTAutocompleteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTAutocompleteManager.m; sourceTree = "<group>"; };
+		60081C0D1C274EF600C01784 /* VSVineyard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSVineyard.h; path = VineSpectator/Model/VSVineyard.h; sourceTree = "<group>"; };
+		60081C0E1C274EF600C01784 /* VSVineyard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSVineyard.m; path = VineSpectator/Model/VSVineyard.m; sourceTree = "<group>"; };
+		60081C101C276B9A00C01784 /* VSVineyardDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSVineyardDataSource.h; path = VineSpectator/Model/VSVineyardDataSource.h; sourceTree = "<group>"; };
+		60081C111C276B9A00C01784 /* VSVineyardDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSVineyardDataSource.m; path = VineSpectator/Model/VSVineyardDataSource.m; sourceTree = "<group>"; };
+		601E50331C068D6700FEBA6E /* VSShortcutDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSShortcutDataSource.h; path = VineSpectator/Model/VSShortcutDataSource.h; sourceTree = "<group>"; };
+		601E50341C068D6700FEBA6E /* VSShortcutDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSShortcutDataSource.m; path = VineSpectator/Model/VSShortcutDataSource.m; sourceTree = "<group>"; };
+		601E50361C068D7C00FEBA6E /* VSShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSShortcutView.h; path = VineSpectator/Views/VSShortcutView.h; sourceTree = "<group>"; };
+		601E50371C068D7C00FEBA6E /* VSShortcutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSShortcutView.m; path = VineSpectator/Views/VSShortcutView.m; sourceTree = "<group>"; };
+		601E50391C068DAF00FEBA6E /* VSShortcutStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSShortcutStackView.h; path = VineSpectator/Views/VSShortcutStackView.h; sourceTree = "<group>"; };
+		601E503A1C068DAF00FEBA6E /* VSShortcutStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSShortcutStackView.m; path = VineSpectator/Views/VSShortcutStackView.m; sourceTree = "<group>"; };
+		601E50551C08E33300FEBA6E /* VSGrapeVariety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSGrapeVariety.h; path = VineSpectator/Model/VSGrapeVariety.h; sourceTree = "<group>"; };
+		601E50561C08E33300FEBA6E /* VSGrapeVariety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSGrapeVariety.m; path = VineSpectator/Model/VSGrapeVariety.m; sourceTree = "<group>"; };
+		601E50581C08E82F00FEBA6E /* VSGrapeVarietyDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSGrapeVarietyDataSource.h; path = VineSpectator/Model/VSGrapeVarietyDataSource.h; sourceTree = "<group>"; };
+		601E50591C08E82F00FEBA6E /* VSGrapeVarietyDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSGrapeVarietyDataSource.m; path = VineSpectator/Model/VSGrapeVarietyDataSource.m; sourceTree = "<group>"; };
 		602635601C029E7F00002300 /* VineSpectator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VineSpectator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		602635641C029E7F00002300 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		602635661C029E7F00002300 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		602635671C029E7F00002300 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		602635691C029E7F00002300 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		6026356A1C029E7F00002300 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		6026356D1C029E7F00002300 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		602635701C029E7F00002300 /* VineSpectator.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VineSpectator.xcdatamodel; sourceTree = "<group>"; };
 		602635721C029E7F00002300 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		602635751C029E7F00002300 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		602635771C029E7F00002300 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6026357C1C029E7F00002300 /* VineSpectatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VineSpectatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		602635801C029E7F00002300 /* VineSpectatorUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VineSpectatorUITests.m; sourceTree = "<group>"; };
 		602635821C029E7F00002300 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6026358B1C02A0BB00002300 /* VSTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSTableViewController.h; path = Controllers/VSTableViewController.h; sourceTree = "<group>"; };
+		6026358C1C02A0BB00002300 /* VSTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSTableViewController.m; path = Controllers/VSTableViewController.m; sourceTree = "<group>"; };
+		6026358F1C02DB2000002300 /* VSBottleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSBottleDataSource.h; path = VineSpectator/Model/VSBottleDataSource.h; sourceTree = "<group>"; };
+		602635901C02DB2000002300 /* VSBottleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSBottleDataSource.m; path = VineSpectator/Model/VSBottleDataSource.m; sourceTree = "<group>"; };
+		602635951C02DD6500002300 /* VSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSTableViewCell.h; path = VineSpectator/Views/VSTableViewCell.h; sourceTree = "<group>"; };
+		602635961C02DD6500002300 /* VSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSTableViewCell.m; path = VineSpectator/Views/VSTableViewCell.m; sourceTree = "<group>"; };
+		6026359A1C02DDA700002300 /* VSBottle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSBottle.h; path = VineSpectator/Model/VSBottle.h; sourceTree = "<group>"; };
+		6026359B1C02DDA700002300 /* VSBottle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSBottle.m; path = VineSpectator/Model/VSBottle.m; sourceTree = "<group>"; };
+		602635A01C02EE7400002300 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		602635A11C02F57000002300 /* VSAddBottleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSAddBottleViewController.h; path = Controllers/VSAddBottleViewController.h; sourceTree = "<group>"; };
+		602635A21C02F57000002300 /* VSAddBottleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSAddBottleViewController.m; path = Controllers/VSAddBottleViewController.m; sourceTree = "<group>"; };
+		602635A41C02F65300002300 /* VSAddBottleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSAddBottleView.h; path = VineSpectator/Views/VSAddBottleView.h; sourceTree = "<group>"; };
+		602635A51C02F65300002300 /* VSAddBottleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSAddBottleView.m; path = VineSpectator/Views/VSAddBottleView.m; sourceTree = "<group>"; };
+		602635AA1C0431DB00002300 /* VSDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSDetailViewController.h; path = Controllers/VSDetailViewController.h; sourceTree = "<group>"; };
+		602635AB1C0431DB00002300 /* VSDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSDetailViewController.m; path = Controllers/VSDetailViewController.m; sourceTree = "<group>"; };
+		71A6E73F781570B865DEE9F4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0E0E3FD7C014ACC8B72F652 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,12 +106,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		56A06F2A304752774A08DFEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				71A6E73F781570B865DEE9F4 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		602635571C029E7F00002300 = {
 			isa = PBXGroup;
 			children = (
+				56A06F2A304752774A08DFEF /* Frameworks */,
+				B341B980C7AFCF35E21081EB /* Pods */,
+				602635611C029E7F00002300 /* Products */,
 				602635621C029E7F00002300 /* VineSpectator */,
 				6026357F1C029E7F00002300 /* VineSpectatorUITests */,
-				602635611C029E7F00002300 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,15 +137,15 @@
 		602635621C029E7F00002300 /* VineSpectator */ = {
 			isa = PBXGroup;
 			children = (
+				602635A01C02EE7400002300 /* PrefixHeader.pch */,
 				602635661C029E7F00002300 /* AppDelegate.h */,
 				602635671C029E7F00002300 /* AppDelegate.m */,
-				602635691C029E7F00002300 /* ViewController.h */,
-				6026356A1C029E7F00002300 /* ViewController.m */,
-				6026356C1C029E7F00002300 /* Main.storyboard */,
+				6026359E1C02DDB500002300 /* Models */,
+				6026359F1C02DDCE00002300 /* Views */,
+				6026358E1C02A0C200002300 /* Controllers */,
 				602635721C029E7F00002300 /* Assets.xcassets */,
 				602635741C029E7F00002300 /* LaunchScreen.storyboard */,
 				602635771C029E7F00002300 /* Info.plist */,
-				6026356F1C029E7F00002300 /* VineSpectator.xcdatamodeld */,
 				602635631C029E7F00002300 /* Supporting Files */,
 			);
 			path = VineSpectator;
@@ -114,6 +168,68 @@
 			path = VineSpectatorUITests;
 			sourceTree = "<group>";
 		};
+		6026358E1C02A0C200002300 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6026358B1C02A0BB00002300 /* VSTableViewController.h */,
+				6026358C1C02A0BB00002300 /* VSTableViewController.m */,
+				602635AA1C0431DB00002300 /* VSDetailViewController.h */,
+				602635AB1C0431DB00002300 /* VSDetailViewController.m */,
+				602635A11C02F57000002300 /* VSAddBottleViewController.h */,
+				602635A21C02F57000002300 /* VSAddBottleViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		6026359E1C02DDB500002300 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6026359A1C02DDA700002300 /* VSBottle.h */,
+				6026359B1C02DDA700002300 /* VSBottle.m */,
+				60081C0D1C274EF600C01784 /* VSVineyard.h */,
+				60081C0E1C274EF600C01784 /* VSVineyard.m */,
+				601E50551C08E33300FEBA6E /* VSGrapeVariety.h */,
+				601E50561C08E33300FEBA6E /* VSGrapeVariety.m */,
+				6026358F1C02DB2000002300 /* VSBottleDataSource.h */,
+				602635901C02DB2000002300 /* VSBottleDataSource.m */,
+				601E50331C068D6700FEBA6E /* VSShortcutDataSource.h */,
+				601E50341C068D6700FEBA6E /* VSShortcutDataSource.m */,
+				601E50581C08E82F00FEBA6E /* VSGrapeVarietyDataSource.h */,
+				601E50591C08E82F00FEBA6E /* VSGrapeVarietyDataSource.m */,
+				60081C101C276B9A00C01784 /* VSVineyardDataSource.h */,
+				60081C111C276B9A00C01784 /* VSVineyardDataSource.m */,
+				60081C0A1C16BAA300C01784 /* HTAutocompleteManager.h */,
+				60081C0B1C16BAA300C01784 /* HTAutocompleteManager.m */,
+			);
+			name = Models;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		6026359F1C02DDCE00002300 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				601E50361C068D7C00FEBA6E /* VSShortcutView.h */,
+				601E50371C068D7C00FEBA6E /* VSShortcutView.m */,
+				601E50391C068DAF00FEBA6E /* VSShortcutStackView.h */,
+				601E503A1C068DAF00FEBA6E /* VSShortcutStackView.m */,
+				602635951C02DD6500002300 /* VSTableViewCell.h */,
+				602635961C02DD6500002300 /* VSTableViewCell.m */,
+				602635A41C02F65300002300 /* VSAddBottleView.h */,
+				602635A51C02F65300002300 /* VSAddBottleView.m */,
+			);
+			name = Views;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		B341B980C7AFCF35E21081EB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				26FD5A8B0A90C1CB17D9EC97 /* Pods.debug.xcconfig */,
+				13D17213BC3F6AFF843C664F /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -121,9 +237,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 602635851C029E7F00002300 /* Build configuration list for PBXNativeTarget "VineSpectator" */;
 			buildPhases = (
+				782EF346D14A0CB99F152378 /* Check Pods Manifest.lock */,
 				6026355C1C029E7F00002300 /* Sources */,
 				6026355D1C029E7F00002300 /* Frameworks */,
 				6026355E1C029E7F00002300 /* Resources */,
+				180787EE837F4A96C2A8ADB8 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -196,7 +314,6 @@
 			files = (
 				602635761C029E7F00002300 /* LaunchScreen.storyboard in Resources */,
 				602635731C029E7F00002300 /* Assets.xcassets in Resources */,
-				6026356E1C029E7F00002300 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,15 +326,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		180787EE837F4A96C2A8ADB8 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		782EF346D14A0CB99F152378 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6026355C1C029E7F00002300 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6026356B1C029E7F00002300 /* ViewController.m in Sources */,
-				602635711C029E7F00002300 /* VineSpectator.xcdatamodeld in Sources */,
+				602635971C02DD6500002300 /* VSTableViewCell.m in Sources */,
+				601E50571C08E33300FEBA6E /* VSGrapeVariety.m in Sources */,
+				60081C0F1C274EF600C01784 /* VSVineyard.m in Sources */,
+				601E50381C068D7C00FEBA6E /* VSShortcutView.m in Sources */,
+				601E50351C068D6700FEBA6E /* VSShortcutDataSource.m in Sources */,
+				602635911C02DB2000002300 /* VSBottleDataSource.m in Sources */,
+				601E503B1C068DAF00FEBA6E /* VSShortcutStackView.m in Sources */,
+				6026358D1C02A0BB00002300 /* VSTableViewController.m in Sources */,
+				60081C121C276B9A00C01784 /* VSVineyardDataSource.m in Sources */,
+				601E505A1C08E82F00FEBA6E /* VSGrapeVarietyDataSource.m in Sources */,
+				602635A31C02F57000002300 /* VSAddBottleViewController.m in Sources */,
 				602635681C029E7F00002300 /* AppDelegate.m in Sources */,
+				60081C0C1C16BAA300C01784 /* HTAutocompleteManager.m in Sources */,
+				602635AC1C0431DB00002300 /* VSDetailViewController.m in Sources */,
 				602635651C029E7F00002300 /* main.m in Sources */,
+				6026359D1C02DDA700002300 /* VSBottle.m in Sources */,
+				602635A61C02F65300002300 /* VSAddBottleView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,14 +403,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6026356C1C029E7F00002300 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6026356D1C029E7F00002300 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		602635741C029E7F00002300 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -285,6 +440,8 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = VineSpectator/PrefixHeader.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -327,6 +484,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = VineSpectator/PrefixHeader.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -343,8 +502,13 @@
 		};
 		602635861C029E7F00002300 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26FD5A8B0A90C1CB17D9EC97 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = VineSpectator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pjloury.VineSpectator;
@@ -354,8 +518,13 @@
 		};
 		602635871C029E7F00002300 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 13D17213BC3F6AFF843C664F /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = VineSpectator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pjloury.VineSpectator;
@@ -406,6 +575,7 @@
 				602635871C029E7F00002300 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		602635881C029E7F00002300 /* Build configuration list for PBXNativeTarget "VineSpectatorUITests" */ = {
 			isa = XCConfigurationList;
@@ -414,21 +584,9 @@
 				6026358A1C029E7F00002300 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		6026356F1C029E7F00002300 /* VineSpectator.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				602635701C029E7F00002300 /* VineSpectator.xcdatamodel */,
-			);
-			currentVersion = 602635701C029E7F00002300 /* VineSpectator.xcdatamodel */;
-			path = VineSpectator.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 602635581C029E7F00002300 /* Project object */;
 }

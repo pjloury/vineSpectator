@@ -7,6 +7,20 @@
 //
 
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
+#import "VSTableViewController.h"
+#import "VSBottle.h"
+#import "VSGrapeVariety.h"
+#import "VSVineyard.h"
+
+// the user should be cached
+// rely on the local cache, THEN attempt to fetch from the network.
+
+
+// How to add images to the camera roll
+// T1: by default should take a picture
+// T2: Welcome back, david
+// Mock up some bottles!
 
 @interface AppDelegate ()
 
@@ -16,7 +30,35 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [PFUser enableAutomaticUser];
+    [Parse enableLocalDatastore];
+   
+    // Initialize Parse.
+    [Parse setApplicationId:@"DtRXJrCQggcg4o1L1t34CMpPS5tFwe4Crc88Y0hE"
+                  clientKey:@"HuXWIX37b4gonGqBKdK6EKdrlTR4BYjCQkVh15aF"];
+    
+    // [Optional] Track statistics around application opens.
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+//    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+//        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//        
+//        VSTableViewController *tv = [[VSTableViewController alloc] init];
+//        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:tv];
+//        
+//        self.window.rootViewController = nc;
+//        [self.window makeKeyAndVisible];
+//    }];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    VSTableViewController *tv = [[VSTableViewController alloc] init];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:tv];
+    nc.navigationBar.translucent = NO;
+    
+    self.window.rootViewController = nc;
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -28,6 +70,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [self saveContext];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
