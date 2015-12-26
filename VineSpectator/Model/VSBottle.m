@@ -9,17 +9,26 @@
 #import "VSBottle.h"
 #import <Parse/PFObject+Subclass.h>
 
+@interface VSBottle ()
+
+//@property BOOL hasImage;
+
+@end
+
 @implementation VSBottle
 
-@dynamic image;
-@dynamic hasImage;
-@dynamic year;
-@dynamic name;
+@dynamic bottleDescription;
+@dynamic cloudImage;
+@dynamic drank;
 @dynamic grapeVariety;
-@dynamic vineyard;
+@dynamic grapeVarietyName;
+@dynamic hasImage;
+@dynamic name;
 @dynamic owner;
 @dynamic tags;
-
+@dynamic vineyard;
+@dynamic vineyardName;
+@dynamic year;
 
 + (void)load {
     [VSBottle registerSubclass];
@@ -30,27 +39,36 @@
 }
 
 - (BOOL)hasImage {
-    NSString *imageName = self.objectId;
-    NSLog(@"Looking for %@", imageName);
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    return [fileManager fileExistsAtPath:getImagePath];
+//    if (_hasImage) {
+//        return _hasImage;
+//    }
+//    else {
+        NSString *imageName = self.objectId;
+        NSLog(@"Looking for %@", imageName);
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        return [fileManager fileExistsAtPath:getImagePath];
+//    }
 }
 
-- (UIImage *)cachedImage {
+- (UIImage *)image {
     NSString *imageName = self.objectId;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:getImagePath];
+    NSLog(getImagePath);
     return image;
 }
 
 - (BOOL)containsTag:(NSString *)tag
 {
-    if ([self.grapeVariety.color isEqualToString:tag]) {
+    if ([tag isEqualToString:@"Unopened"]) {
+        return !self.drank;
+    }
+    else if ([self.grapeVariety.color isEqualToString:tag]) {
         return YES;
     }
     else if ([self.tags containsObject:tag]) {

@@ -10,7 +10,7 @@
 #import "VSBottleDataSource.h"
 #import "VSGrapeVarietyDataSource.h"
 
-@interface VSAddBottleViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface VSAddBottleViewController : VSViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 - (instancetype)initWithBottleDataSource:(VSBottleDataSource *)bottleSource bottleID:(NSString *)bottleID;
 

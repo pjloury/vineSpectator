@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VSTableViewController : UIViewController
+@interface VSTableViewController : VSViewController
 
 
 @end

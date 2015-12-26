@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VSBottleDataSource.h"
 
-@interface VSDetailViewController : UIViewController
+@interface VSDetailViewController : VSViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+
+@property (nonatomic) BOOL editMode;
+- (instancetype)initWithBottleDataSource:(VSBottleDataSource *)bottleDataSource bottleID:(NSString *)bottleID;
+
+@end
+
+@protocol VSImageSelectionDelegate
+
+- (void)imageButtonWasPressed:(id)button;
 
 @end

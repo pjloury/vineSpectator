@@ -51,21 +51,17 @@
 
 @end
 
-// 1 select a tag
-// 2 reloadData
 
 @implementation VSBottleDataSource
+
+#pragma mark - Table view data source
 
 - (instancetype)init
 {
     self = [super init];
-    if (self) {
-
-    }
+    [VSGrapeVarietyDataSource sharedInstance];
     return self;
 }
-
-#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -74,6 +70,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    // the fADA is missing the cab!
     NSDictionary *bottlesDictionary = self.filteredArrayDictionaryArray[section];
     NSArray *arrayContainingArray = [bottlesDictionary allValues];
     NSArray *bottlesForSection = arrayContainingArray.firstObject;
@@ -99,21 +96,32 @@
     NSDictionary *bottlesDictionaryForGrapeVariety = self.filteredArrayDictionaryArray[indexPath.section];
     NSArray *bottlesForGrapeVariety = [bottlesDictionaryForGrapeVariety allValues].firstObject; // there is only 1 value. an array. Give me that array.
     VSBottle *bottle = [bottlesForGrapeVariety objectAtIndex:indexPath.row];
-    //cell.textLabel.text = bottle.name;po
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.text = bottle.vineyardName;
-    cell.detailTextLabel.text = @(bottle.year).stringValue;
-    if (bottle.hasImage) {
-        cell.imageView.image = bottle.cachedImage;
+    cell.detailTextLabel.text = bottle.name;
+    cell.yearLabel.text = @(bottle.year).stringValue; //@"2007";
+    if (bottle.name) {
+        cell.detailTextLabel.hidden = NO;
+    }
+    else {
+        cell.detailTextLabel.hidden = YES;
+    }
+    
+    if (bottle.image) {
+        cell.imageView.image = bottle.image;
         cell.imageView.hidden = NO;
     }
     else {
         cell.imageView.hidden = YES;
     }
     
-    //cell.bottleImageView.image = bottle.cachedImage;
-    [cell setNeedsLayout];
+//    [cell.bottomBorder mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(cell.left);
+//        make.right.equalTo(cell.right);
+//        make.top.equalTo(cell.bottom);
+//        make.height.equalTo(@(1.0));
+//    }];
     
     return cell;
 }
@@ -125,37 +133,18 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        VSBottle * b = [self.bottles objectAtIndex:indexPath.row];
-        [b deleteInBackground];
-        [self.bottles removeObjectAtIndex:indexPath.row];
+        NSString *bottleID = [self bottleIDForRowAtIndexPath:indexPath];
+        VSBottle *bottle = [self bottleForID:bottleID];
 
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [bottle deleteInBackground];
+        [self.bottles removeObject:bottle];
+        self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
+        [self generateDataModelForFilter:self.previousFilter dirty:YES];
+        [tableView reloadData];
+        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
-}
-
-# pragma mark - Generators
-- (void)fetchBottlesWithCompletion:(void (^)())completion
-{
-    // find out the list of tags
-    
-    PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
-    [query whereKeyDoesNotExist:@"owner"];
-    
-    [query fromLocalDatastore];
-    // i should only have to fetch bottles on launch, otherwise they can be updated in memory.
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        self.bottles = [objects mutableCopy];
-        [PFObject pinAllInBackground:objects];
-        self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
-        self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilter:@"None"];
-        if (completion) {
-            completion();
-        }
-    }];
 }
 
 // only use a network op when you have to
@@ -192,41 +181,35 @@
     return selectedBottle.objectId;
 }
 
-// TODO should i transform directly into the ADA?
-
-// The alternate approach would be to query each grape variety to see if the own has any bottles in this category
-//
-//- (NSMutableArray *)transformBottlesToArrayDictionaryArray:(NSArray *)bottles
-//{
-//    NSMutableArray *arrayDictionaryArray = [NSMutableArray array];
-//    
-//    for (VSBottle *bottle in bottles) {
-//        NSString *grapeVarietyKey = bottle.grapeVariety.name;
-//        // have we seen this grape variety?
-//
-//        // does the array contain a DICTIONARY with a KEY that matches this variety?
-//        [self dictionaryForGrapeVariety contains
-//        
-//        NSMutableArray *bottlesForGrapeVariety = [bottlesDict objectForKey:grapeVarietyKey];
-//        if (!bottlesForGrapeVariety) { // if we've never seen this grape variety before
-//            NSMutableArray *newBottlesForGrapeVariety = [NSMutableArray array];
-//            [newBottlesForGrapeVariety addObject:bottle];
-//            [bottlesDict setObject:newBottlesForGrapeVariety forKey:grapeVarietyKey];
-//        }
-//        else {
-//            [bottlesForGrapeVariety addObject:bottle];
-//        }
-//    }
-//    return bottlesDict;
-//}
-//
-//- ([self dictionaryForGrapeVariety contains
+# pragma mark - Generators
+- (void)fetchBottlesWithCompletion:(void (^)())completion
+{
+    // find out the list of tags
+    
+    PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
+    [query whereKeyDoesNotExist:@"owner"];
+    
+    //[query fromLocalDatastore];
+    // i should only have to fetch bottles on launch, otherwise they can be updated in memory.
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        self.bottles = [objects mutableCopy];
+        [PFObject pinAllInBackground:objects];
+        self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles]; // this is ALL the bottles
+        //self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilter:@"None"];
+        self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilter:@"Unopened"];
+        if (completion) {
+            completion();
+        }
+    }];
+}
 
 - (NSMutableDictionary *)transformBottlesArrayToDictionary:(NSArray *)bottles
 {
     NSMutableDictionary* bottlesDict = [NSMutableDictionary dictionary];
     for (VSBottle *bottle in bottles) {
         NSString *grapeVarietyKey = bottle.grapeVarietyName;
+        NSAssert(grapeVarietyKey, @"can't be nil!");
         NSMutableArray *bottlesForGrapeVariety = [bottlesDict objectForKey:grapeVarietyKey];
         if (!bottlesForGrapeVariety) {
             NSMutableArray *newBottlesForGrapeVariety = [NSMutableArray array];
@@ -240,10 +223,10 @@
     return bottlesDict;
 }
 
-- (void)generateDataModelForFilter:(NSString *)filter;
+- (void)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
 {
-    if (![filter isEqualToString:self.previousFilter]) {
-        self.previousFilter = filter;
+    if (![filter isEqualToString:self.previousFilter] || dirty) {
+        self.previousFilter = filter; // TODO: Don't need this one again
         self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilter:filter];
     }
 }
@@ -251,10 +234,10 @@
 - (NSArray *)bottlesArrayDictionaryArrayForFilter:(NSString *)filter
 {
     NSMutableArray *arrayDictionaryArray = [NSMutableArray array];
-    NSMutableDictionary *filteredDictionary = [self.bottlesDictionary mutableCopy];
+    // Uses bottlesDictionary, which is created by
+    NSMutableDictionary *filteredDictionary = [self.bottlesDictionary mutableCopy]; //starts from the bas dictionary
     
     if ([filter isEqualToString:@"None"]) {
-
         for (NSString *key in filteredDictionary.allKeys) { // cycle through the varieties
             NSMutableArray *bottlesForGrapeVariety = [filteredDictionary objectForKey:key];
             NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"vineyardName" ascending:YES];
@@ -268,12 +251,14 @@
         // TODO: if Tag is Equal to a grape variety in bottlesDictionary (ie one of the keys), then return just that Grape Variety
         for (NSString *key in filteredDictionary.allKeys)
         {
+            // will get a key for "cab sav"
+            // we're going to remove the cab
             NSMutableArray *bottlesForGrapeVariety = [filteredDictionary objectForKey:key];
-            NSMutableArray *filteredBottlesForGrapeVariety = [bottlesForGrapeVariety copy];
-            for (VSBottle *bottle in filteredBottlesForGrapeVariety) {
+            NSMutableArray *filteredBottlesForGrapeVariety = [bottlesForGrapeVariety mutableCopy];
+            for (VSBottle *bottle in bottlesForGrapeVariety) {
                 if (![bottle containsTag:filter]) {
                     [filteredBottlesForGrapeVariety removeObject:bottle]; // make sure that this is removeable!
-                }
+                } // the cab is getting removed when it shouldn't !!!!
             }
             if (filteredBottlesForGrapeVariety.count != 0) {
                 NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"vineyardName" ascending:YES];
@@ -283,6 +268,8 @@
             }
         }
     }
+    
+    self.previousFilter = filter;
     
     // Sort the array of variety dictionaries by variety
     return [arrayDictionaryArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
@@ -298,14 +285,13 @@
     PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
     [query whereKeyDoesNotExist:@"owner"];
     
-    [query fromLocalDatastore];
+    //[query fromLocalDatastore];
     // i should only have to fetch bottles on launch, otherwise they can be updated in memory.
     
     NSArray *objects = [query findObjects];
     [PFObject pinAllInBackground:objects];
     return [objects mutableCopy];
 }
-
 
 - (NSMutableArray *)_fetchBottles
 {
@@ -322,59 +308,102 @@
     }
 }
 
-
 # pragma mark - Mutators
-- (void)insertBottleWithImage:(UIImage *)image name:(NSString *)name
-                         year:(NSString *)year grapeVariety:(NSString *)grapeVariety vineyard:vineyard
+
+- (NSString *)insertBottleWithImage:(UIImage *)image name:(NSString *)name
+                         year:(NSString *)year grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard
 {
     VSBottle *bottle = [VSBottle object];
     // HANDLE IMAGE
-    bottle.image = image?[PFFile fileWithName:name data:UIImageJPEGRepresentation(image, 1.0) contentType:@"jpg"]:nil;
+    bottle.drank = NO;
     bottle.name = name ? name : @"";
     bottle.year = year.integerValue;
-    bottle.grapeVarietyName = grapeVariety;
-    bottle.grapeVariety = [[VSGrapeVarietyDataSource sharedInstance] grapeVarietyForString:grapeVariety];
+    VSGrapeVariety *grapeVarietyObject = [[VSGrapeVarietyDataSource sharedInstance] grapeVarietyForString:grapeVariety?:@""];
+    NSAssert(grapeVarietyObject, @"grape variety cannot be nil");
+    bottle.grapeVariety = grapeVarietyObject;
+    bottle.grapeVarietyName = grapeVarietyObject.name;
+    NSAssert(bottle.grapeVarietyName, @"grape variety cannot be nil");
     bottle.vineyardName = vineyard;
-    bottle.vineyard = nil;
+    VSVineyard *vineyardObject = [VSVineyard object];
+    vineyardObject.name = vineyard;
+    [vineyardObject saveInBackground];
+    bottle.vineyard = vineyardObject;
     bottle.owner = [PFUser currentUser];
-    [bottle saveInBackground];
+    [bottle save];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [self saveBottleImage:image withName:name uuid:bottle.objectId];
-    });
-
-    
+    if (image) bottle.hasImage = YES;
+    [self saveBottleImage:image withUUID:bottle.objectId];
     [self.bottles addObject:bottle];
+    self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
+    
+    return bottle.objectId;
 }
 
 - (void)updateBottleWithImage:(UIImage *)image name:(NSString *)name year:(NSString *)year
-                 grapeVariety:(NSString *)grapeVariety vineyard:vineyard bottleID:(NSString *)bottleID
+                 grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard bottleID:(NSString *)bottleID
 {
     VSBottle *bottle = [self bottleForID:bottleID];
-    bottle.image = image ? [PFFile fileWithName:bottle.objectId data:UIImageJPEGRepresentation(image, 0.5) contentType:@"jpg"]:nil;
     bottle.name = name ? name : @"";
     bottle.year = year.integerValue;
-    bottle.grapeVarietyName = grapeVariety;
-    bottle.grapeVariety = [[VSGrapeVarietyDataSource sharedInstance] grapeVarietyForString:grapeVariety];
+    VSGrapeVariety *grapeVarietyObject = [[VSGrapeVarietyDataSource sharedInstance] grapeVarietyForString:grapeVariety?:@""];
+    NSAssert(grapeVarietyObject, @"grape variety cannot be nil");
+    bottle.grapeVariety = grapeVarietyObject;
+    bottle.grapeVarietyName = grapeVarietyObject.name;
+    NSAssert(bottle.grapeVarietyName, @"grape variety cannot be nil");
     bottle.vineyardName = vineyard;
     bottle.vineyard = nil;
-    [bottle saveInBackground];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        [self saveBottleImage:image withName:name uuid:bottle.objectId];
-    });
+    if (image) bottle.hasImage = YES;
+    [bottle saveInBackground];
+    [self saveBottleImage:image withUUID:bottleID];
 }
 
-- (void)saveBottleImage:(UIImage *)image withName:(NSString *)name uuid:(NSString *)uuid
+//- (BOOL)_changesMade
+//{
+//    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
+//    BOOL nameChanged = ![bottle.name isEqualToString: self.addBottleView.nameTextField.text];
+//    BOOL yearChanged = !(bottle.year == self.addBottleView.yearTextField.text.integerValue);
+//    BOOL grapeVarietyChanged = ![bottle.grapeVariety.name isEqualToString:self.addBottleView.grapeVarietyTextField.text];
+//    // TODO: Compare the string to the vineyard
+//    //BOOL vineyardChanged = ![bottle.vineyard isEqualToString:self.addBottleView.vineyardTextField.text];
+//    return (nameChanged || yearChanged || grapeVarietyChanged); //|| vineyardChanged);
+//}
+
+- (BOOL)_image:(UIImage *)image changedForID:(NSString *)bottleID
 {
-    // NSData  *data = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-    NSData *data = UIImageJPEGRepresentation(image, 0.5);
-    NSLog(@"*** SIZE *** : Saving file of size %lu", (unsigned long)[data length]);
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", uuid]];
-    [fileManager createFileAtPath:fullPath contents:data attributes:nil];
+    VSBottle *bottle = [self bottleForID:bottleID];
+    return ![bottle.image isEqual:bottle.image] && ![bottle.image isEqual:[UIImage imageNamed:@"add-photo"]];
+}
+
+- (void)saveBottleImage:(UIImage *)image withUUID:(NSString *)UUID// completion:
+{
+    if (!image) return;
+    
+    if (!UUID) {
+        VSBottle *bottle = [VSBottle object];
+        //bottle.grapeVarietyName = @"Other";
+        [bottle save];
+        UUID = bottle.objectId;
+    }
+    
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        if ([self _image:image changedForID:UUID]) {
+            NSData *data = UIImageJPEGRepresentation(image, 0.5);
+            NSLog(@"*** SIZE *** : Saving file of size %lu", (unsigned long)[data length]);
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            NSString *documentsDirectory = [paths objectAtIndex:0];
+            NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:UUID];
+            [fileManager createFileAtPath:fullPath contents:data attributes:nil];
+            
+            VSBottle *bottle = [self bottleForID:UUID];
+            bottle.hasImage = YES;
+            bottle.cloudImage = image?[PFFile fileWithName:UUID data:UIImageJPEGRepresentation(image, 0.5) contentType:@"jpg"]:nil;
+            [bottle saveEventually];
+        }
+    //});
+    
+    
 }
 
 - (VSBottle *)bottleForID:(NSString *)bottleID

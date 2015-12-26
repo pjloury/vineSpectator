@@ -47,13 +47,12 @@
 //                                                                           cellFactory:
 //                                                                          presentingIn:self];
     
-    
     [self.view addSubview:self.addBottleView];
     
     self.addBottleButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.addBottleButton addTarget:self action:@selector(didPressAddBottle:) forControlEvents:UIControlEventTouchUpInside];
     [self.addBottleButton setTitle:@"Add Bottle!" forState:UIControlStateNormal];
-    self.addBottleButton.backgroundColor = [UIColor redColor];
+    self.addBottleButton.backgroundColor = [UIColor wineColor];
     [self.view addSubview:self.addBottleButton];
     
     if (self.bottleID) {
@@ -67,7 +66,13 @@
         self.addBottleView.editMode = NO;
     }
     else {
-        UIBarButtonItem *cancelBottle = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(didPressCancel:)];
+        UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,50,150)];
+        cancelButton.titleLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:16.0];
+        [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+        [cancelButton setTitleColor:[UIColor pateColor] forState:UIControlStateNormal];
+        [cancelButton setTitleColor:[UIColor highlightedPateColor] forState:UIControlStateHighlighted];
+        [cancelButton addTarget:self action:@selector(didPressCancel:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *cancelBottle = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
         self.navigationItem.leftBarButtonItem = cancelBottle;
         
         self.addBottleView.editMode = YES;
@@ -81,10 +86,7 @@
 //        UIBarButtonItem *saveBottle = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(didPressSave:)];
 //        self.navigationItem.rightBarButtonItem = saveBottle;
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self.addBottleButton mas_makeConstraints:^(MASConstraintMaker *make){
@@ -94,10 +96,15 @@
     
     [self.addBottleView mas_makeConstraints:^(MASConstraintMaker *make){
         //make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
-        make.top.equalTo(@(self.topLayoutGuide.length + 75));
+        make.top.equalTo(@(self.topLayoutGuide.length));
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.addBottleButton.mas_top);
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+
 }
 
 - (void)configureBottleViewWithID:(NSString *)bottleID
@@ -108,7 +115,7 @@
         [self.addBottleView setImage:[UIImage imageNamed:@"add-photo"]];
     }
     else {
-        [self.addBottleView setImage:bottle.cachedImage];
+        [self.addBottleView setImage:bottle.image];
     }
     self.addBottleView.yearTextField.text = [NSString stringWithFormat:@"%ld",bottle.year];
     //self.addBottleView.nameTextField.text = bottle.name;
@@ -124,12 +131,8 @@
 
 - (void)didPressSave:(id)sender
 {
+    [self.addBottleView dismissKeyboard];
     [self _saveData];
-}
-
-- (void)_saveImage:(UIImage *)image
-{
-    
 }
 
 - (void)_saveData
@@ -139,30 +142,16 @@
     NSString *year = self.addBottleView.yearTextField.text;
     NSString *grapeVariety = self.addBottleView.grapeVarietyTextField.text;
     NSString *vineyard = self.addBottleView.vineyardTextField.text;
+    if ([image isEqual:[UIImage imageNamed:@"add-photo"]]) image = nil;
     
-    // CHECK IF ANY ARE DIRTY
     if (self.bottleID) {
-        if ([self _changesMade]) {
         [self.bottleDataSource updateBottleWithImage:image name:name year:year
                                         grapeVariety:grapeVariety vineyard:vineyard bottleID:self.bottleID];
-        }
     }
     else {
         [self.bottleDataSource insertBottleWithImage:image name:name
                                                 year:year grapeVariety:grapeVariety vineyard:vineyard];
     }
-}
-
-- (BOOL)_changesMade
-{
-    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
-    BOOL imageChanged = !([bottle.cachedImage isEqual: [self.addBottleView.imageButton imageForState:UIControlStateNormal]]) && ![bottle.cachedImage isEqual:[UIImage imageNamed:@"add-photo"]];
-    BOOL nameChanged = ![bottle.name isEqualToString: self.addBottleView.nameTextField.text];
-    BOOL yearChanged = !(bottle.year == self.addBottleView.yearTextField.text.integerValue);
-    BOOL grapeVarietyChanged = ![bottle.grapeVariety.name isEqualToString:self.addBottleView.grapeVarietyTextField.text];
-    // TODO: Compare the string to the vineyard
-    //BOOL vineyardChanged = ![bottle.vineyard isEqualToString:self.addBottleView.vineyardTextField.text];
-    return (imageChanged || nameChanged || yearChanged || grapeVarietyChanged); //|| vineyardChanged);
 }
 
 - (void)didPressEdit:(id)sender
@@ -208,7 +197,7 @@
     
     [self.addBottleView setImage:croppedImage];
     [picker dismissViewControllerAnimated:YES completion:nil];
-    [self _saveData];
+//    [self _saveData];
 }
 
 - (UIImage *)cropImage:(UIImage *)original

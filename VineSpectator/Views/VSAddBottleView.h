@@ -32,6 +32,7 @@
 @property (nonatomic) BOOL editMode;
 
 - (void)setImage:(UIImage *)image;
+- (void)dismissKeyboard;
 
 //- (void)setGrapeVarietyLabel:(NSString *)text;
 //- (void)setYearLabel:(NSString *)text;

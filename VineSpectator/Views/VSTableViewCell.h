@@ -10,7 +10,8 @@
 
 @interface VSTableViewCell : UITableViewCell
 
-@property UIImageView *bottleImageView;
+@property (nonatomic) UILabel *yearLabel;
+@property (nonatomic) UIView *bottomBorder;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)identifier;
 

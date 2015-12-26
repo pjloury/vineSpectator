@@ -10,6 +10,20 @@
 		60081C0C1C16BAA300C01784 /* HTAutocompleteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C0B1C16BAA300C01784 /* HTAutocompleteManager.m */; };
 		60081C0F1C274EF600C01784 /* VSVineyard.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C0E1C274EF600C01784 /* VSVineyard.m */; };
 		60081C121C276B9A00C01784 /* VSVineyardDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C111C276B9A00C01784 /* VSVineyardDataSource.m */; };
+		60081C151C28E45200C01784 /* UIColor+VineSpectator.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C141C28E45200C01784 /* UIColor+VineSpectator.m */; };
+		60081C1A1C29278300C01784 /* Bauer-Bodoni.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60081C181C28EC1400C01784 /* Bauer-Bodoni.ttf */; };
+		60081C1C1C2A374800C01784 /* Yu Mincho Demibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */; };
+		60081C1E1C2A376E00C01784 /* LucidaGrande.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */; };
+		60081C201C2A377D00C01784 /* Athelas.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1F1C2A377D00C01784 /* Athelas.ttc */; };
+		60081C221C2A37BF00C01784 /* Kaiti.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C211C2A37BF00C01784 /* Kaiti.ttc */; };
+		60081C251C2A37F900C01784 /* Yu Mincho Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */; };
+		60081C271C2A382400C01784 /* Baskerville.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C261C2A382400C01784 /* Baskerville.ttc */; };
+		60081C2B1C2BB07200C01784 /* VSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C2A1C2BB07200C01784 /* VSViewController.m */; };
+		60081C2E1C2BC0FC00C01784 /* VSSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C2D1C2BC0FC00C01784 /* VSSectionView.m */; };
+		60081C311C2CD0B900C01784 /* VSEditBottleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C301C2CD0B900C01784 /* VSEditBottleDataSource.m */; };
+		60081C341C2CD0D400C01784 /* VSEditBottleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C331C2CD0D400C01784 /* VSEditBottleDelegate.m */; };
+		60081C371C2CD81C00C01784 /* VSPromptLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C361C2CD81C00C01784 /* VSPromptLabel.m */; };
+		60081C3A1C2CD84A00C01784 /* VSTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C391C2CD84A00C01784 /* VSTextField.m */; };
 		601E50351C068D6700FEBA6E /* VSShortcutDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50341C068D6700FEBA6E /* VSShortcutDataSource.m */; };
 		601E50381C068D7C00FEBA6E /* VSShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50371C068D7C00FEBA6E /* VSShortcutView.m */; };
 		601E503B1C068DAF00FEBA6E /* VSShortcutStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E503A1C068DAF00FEBA6E /* VSShortcutStackView.m */; };
@@ -49,6 +63,28 @@
 		60081C0E1C274EF600C01784 /* VSVineyard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSVineyard.m; path = VineSpectator/Model/VSVineyard.m; sourceTree = "<group>"; };
 		60081C101C276B9A00C01784 /* VSVineyardDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSVineyardDataSource.h; path = VineSpectator/Model/VSVineyardDataSource.h; sourceTree = "<group>"; };
 		60081C111C276B9A00C01784 /* VSVineyardDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSVineyardDataSource.m; path = VineSpectator/Model/VSVineyardDataSource.m; sourceTree = "<group>"; };
+		60081C131C28E45200C01784 /* UIColor+VineSpectator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+VineSpectator.h"; path = "VineSpectator/Model/UIColor+VineSpectator.h"; sourceTree = "<group>"; };
+		60081C141C28E45200C01784 /* UIColor+VineSpectator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+VineSpectator.m"; path = "VineSpectator/Model/UIColor+VineSpectator.m"; sourceTree = "<group>"; };
+		60081C181C28EC1400C01784 /* Bauer-Bodoni.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bauer-Bodoni.ttf"; sourceTree = "<group>"; };
+		60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yu Mincho Demibold.otf"; sourceTree = "<group>"; };
+		60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = LucidaGrande.ttc; sourceTree = "<group>"; };
+		60081C1F1C2A377D00C01784 /* Athelas.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Athelas.ttc; sourceTree = "<group>"; };
+		60081C211C2A37BF00C01784 /* Kaiti.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Kaiti.ttc; sourceTree = "<group>"; };
+		60081C231C2A37DB00C01784 /* Avenir.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Avenir.ttc; sourceTree = "<group>"; };
+		60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yu Mincho Medium.otf"; sourceTree = "<group>"; };
+		60081C261C2A382400C01784 /* Baskerville.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baskerville.ttc; sourceTree = "<group>"; };
+		60081C291C2BB07200C01784 /* VSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSViewController.h; path = VineSpectator/Controllers/VSViewController.h; sourceTree = "<group>"; };
+		60081C2A1C2BB07200C01784 /* VSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSViewController.m; path = VineSpectator/Controllers/VSViewController.m; sourceTree = "<group>"; };
+		60081C2C1C2BC0FC00C01784 /* VSSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSSectionView.h; path = VineSpectator/Views/VSSectionView.h; sourceTree = "<group>"; };
+		60081C2D1C2BC0FC00C01784 /* VSSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSSectionView.m; path = VineSpectator/Views/VSSectionView.m; sourceTree = "<group>"; };
+		60081C2F1C2CD0B900C01784 /* VSEditBottleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSEditBottleDataSource.h; path = VineSpectator/Model/VSEditBottleDataSource.h; sourceTree = "<group>"; };
+		60081C301C2CD0B900C01784 /* VSEditBottleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSEditBottleDataSource.m; path = VineSpectator/Model/VSEditBottleDataSource.m; sourceTree = "<group>"; };
+		60081C321C2CD0D400C01784 /* VSEditBottleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSEditBottleDelegate.h; path = Controllers/VSEditBottleDelegate.h; sourceTree = "<group>"; };
+		60081C331C2CD0D400C01784 /* VSEditBottleDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSEditBottleDelegate.m; path = Controllers/VSEditBottleDelegate.m; sourceTree = "<group>"; };
+		60081C351C2CD81C00C01784 /* VSPromptLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSPromptLabel.h; path = VineSpectator/Views/VSPromptLabel.h; sourceTree = "<group>"; };
+		60081C361C2CD81C00C01784 /* VSPromptLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSPromptLabel.m; path = VineSpectator/Views/VSPromptLabel.m; sourceTree = "<group>"; };
+		60081C381C2CD84A00C01784 /* VSTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSTextField.h; path = VineSpectator/Views/VSTextField.h; sourceTree = "<group>"; };
+		60081C391C2CD84A00C01784 /* VSTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSTextField.m; path = VineSpectator/Views/VSTextField.m; sourceTree = "<group>"; };
 		601E50331C068D6700FEBA6E /* VSShortcutDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSShortcutDataSource.h; path = VineSpectator/Model/VSShortcutDataSource.h; sourceTree = "<group>"; };
 		601E50341C068D6700FEBA6E /* VSShortcutDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSShortcutDataSource.m; path = VineSpectator/Model/VSShortcutDataSource.m; sourceTree = "<group>"; };
 		601E50361C068D7C00FEBA6E /* VSShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSShortcutView.h; path = VineSpectator/Views/VSShortcutView.h; sourceTree = "<group>"; };
@@ -114,9 +150,30 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		60081C161C28EC0B00C01784 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				60081C1F1C2A377D00C01784 /* Athelas.ttc */,
+				60081C231C2A37DB00C01784 /* Avenir.ttc */,
+				60081C261C2A382400C01784 /* Baskerville.ttc */,
+				60081C181C28EC1400C01784 /* Bauer-Bodoni.ttf */,
+				60081C211C2A37BF00C01784 /* Kaiti.ttc */,
+				60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */,
+				60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */,
+				60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
 		602635571C029E7F00002300 = {
 			isa = PBXGroup;
 			children = (
+				60081C381C2CD84A00C01784 /* VSTextField.h */,
+				60081C391C2CD84A00C01784 /* VSTextField.m */,
+				60081C2C1C2BC0FC00C01784 /* VSSectionView.h */,
+				60081C2D1C2BC0FC00C01784 /* VSSectionView.m */,
+				60081C291C2BB07200C01784 /* VSViewController.h */,
+				60081C2A1C2BB07200C01784 /* VSViewController.m */,
 				56A06F2A304752774A08DFEF /* Frameworks */,
 				B341B980C7AFCF35E21081EB /* Pods */,
 				602635611C029E7F00002300 /* Products */,
@@ -154,6 +211,7 @@
 		602635631C029E7F00002300 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				60081C161C28EC0B00C01784 /* Fonts */,
 				602635641C029E7F00002300 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -171,6 +229,8 @@
 		6026358E1C02A0C200002300 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				60081C321C2CD0D400C01784 /* VSEditBottleDelegate.h */,
+				60081C331C2CD0D400C01784 /* VSEditBottleDelegate.m */,
 				6026358B1C02A0BB00002300 /* VSTableViewController.h */,
 				6026358C1C02A0BB00002300 /* VSTableViewController.m */,
 				602635AA1C0431DB00002300 /* VSDetailViewController.h */,
@@ -184,6 +244,8 @@
 		6026359E1C02DDB500002300 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				60081C2F1C2CD0B900C01784 /* VSEditBottleDataSource.h */,
+				60081C301C2CD0B900C01784 /* VSEditBottleDataSource.m */,
 				6026359A1C02DDA700002300 /* VSBottle.h */,
 				6026359B1C02DDA700002300 /* VSBottle.m */,
 				60081C0D1C274EF600C01784 /* VSVineyard.h */,
@@ -200,6 +262,8 @@
 				60081C111C276B9A00C01784 /* VSVineyardDataSource.m */,
 				60081C0A1C16BAA300C01784 /* HTAutocompleteManager.h */,
 				60081C0B1C16BAA300C01784 /* HTAutocompleteManager.m */,
+				60081C131C28E45200C01784 /* UIColor+VineSpectator.h */,
+				60081C141C28E45200C01784 /* UIColor+VineSpectator.m */,
 			);
 			name = Models;
 			path = ..;
@@ -208,6 +272,8 @@
 		6026359F1C02DDCE00002300 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				60081C351C2CD81C00C01784 /* VSPromptLabel.h */,
+				60081C361C2CD81C00C01784 /* VSPromptLabel.m */,
 				601E50361C068D7C00FEBA6E /* VSShortcutView.h */,
 				601E50371C068D7C00FEBA6E /* VSShortcutView.m */,
 				601E50391C068DAF00FEBA6E /* VSShortcutStackView.h */,
@@ -312,8 +378,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60081C251C2A37F900C01784 /* Yu Mincho Medium.otf in Resources */,
+				60081C201C2A377D00C01784 /* Athelas.ttc in Resources */,
+				60081C221C2A37BF00C01784 /* Kaiti.ttc in Resources */,
 				602635761C029E7F00002300 /* LaunchScreen.storyboard in Resources */,
+				60081C1E1C2A376E00C01784 /* LucidaGrande.ttc in Resources */,
+				60081C1C1C2A374800C01784 /* Yu Mincho Demibold.otf in Resources */,
 				602635731C029E7F00002300 /* Assets.xcassets in Resources */,
+				60081C1A1C29278300C01784 /* Bauer-Bodoni.ttf in Resources */,
+				60081C271C2A382400C01784 /* Baskerville.ttc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,13 +442,20 @@
 				60081C0F1C274EF600C01784 /* VSVineyard.m in Sources */,
 				601E50381C068D7C00FEBA6E /* VSShortcutView.m in Sources */,
 				601E50351C068D6700FEBA6E /* VSShortcutDataSource.m in Sources */,
+				60081C2B1C2BB07200C01784 /* VSViewController.m in Sources */,
 				602635911C02DB2000002300 /* VSBottleDataSource.m in Sources */,
 				601E503B1C068DAF00FEBA6E /* VSShortcutStackView.m in Sources */,
+				60081C151C28E45200C01784 /* UIColor+VineSpectator.m in Sources */,
+				60081C341C2CD0D400C01784 /* VSEditBottleDelegate.m in Sources */,
+				60081C3A1C2CD84A00C01784 /* VSTextField.m in Sources */,
 				6026358D1C02A0BB00002300 /* VSTableViewController.m in Sources */,
+				60081C311C2CD0B900C01784 /* VSEditBottleDataSource.m in Sources */,
 				60081C121C276B9A00C01784 /* VSVineyardDataSource.m in Sources */,
+				60081C2E1C2BC0FC00C01784 /* VSSectionView.m in Sources */,
 				601E505A1C08E82F00FEBA6E /* VSGrapeVarietyDataSource.m in Sources */,
 				602635A31C02F57000002300 /* VSAddBottleViewController.m in Sources */,
 				602635681C029E7F00002300 /* AppDelegate.m in Sources */,
+				60081C371C2CD81C00C01784 /* VSPromptLabel.m in Sources */,
 				60081C0C1C16BAA300C01784 /* HTAutocompleteManager.m in Sources */,
 				602635AC1C0431DB00002300 /* VSDetailViewController.m in Sources */,
 				602635651C029E7F00002300 /* main.m in Sources */,

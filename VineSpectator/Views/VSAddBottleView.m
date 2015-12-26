@@ -13,9 +13,7 @@
 
 @interface VSAddBottleView ()<UITextFieldDelegate>
 
-// I can use interchangeable views for Add and Edit
 @property UITextField *activeField;
-
 
 @end
 
@@ -77,10 +75,11 @@
 
 - (void)_configureViews
 {
-    [self configureYearTextField:self.yearTextField];
-    [self configureDetailsTextField:self.nameTextField tabOrder:1];
-    [self configureDetailsTextField:self.grapeVarietyTextField tabOrder:2];
+//    [self configureYearTextField:self.yearTextField];
+    [self configureDetailsTextField:self.yearTextField tabOrder:2];
+    [self configureDetailsTextField:self.grapeVarietyTextField tabOrder:1];
     [self configureDetailsTextField:self.vineyardTextField tabOrder:3];
+    self.yearTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.vineyardTextField.returnKeyType = UIReturnKeyDone;
     [self layoutIfNeeded];
 }
@@ -88,7 +87,6 @@
 - (void)configureYearTextField:(UITextField *)textField
 {
     textField.textAlignment = NSTextAlignmentCenter;
-    textField.keyboardType = UIKeyboardTypeNumberPad;
     textField.keyboardAppearance = UIKeyboardAppearanceDefault;
     textField.delegate = self;
 }
@@ -108,39 +106,35 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    // if no image yet then..
     
     [self.grapeVarietyTextField mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.nameTextField.mas_bottom).offset(20);
+        make.top.equalTo(self.top).offset(40);
         make.left.equalTo(self).offset(40);
-        make.width.equalTo(@300);
-        //make.right.equalTo(self).offset(-40);
+        make.width.equalTo(@200);
         make.height.equalTo(@30);
-    }];
-    
-    // below the variety
-    [self.vineyardTextField mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.grapeVarietyTextField.mas_bottom).offset(20);
-        make.left.equalTo(self).offset(40);
-        make.width.equalTo(@300);
-        //make.right.equalTo(self).offset(-40);
-        make.height.equalTo(@30);
-    }];
-    
-    [self.imageButton mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.mas_top).offset(30); // border from the top
-        make.centerX.equalTo(self.mas_centerX);
-        make.width.equalTo(@150);
-        make.height.equalTo(self.imageButton.mas_width); // width equal to height
     }];
     
     [self.yearTextField mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.imageButton.mas_bottom).offset(30);
-//        make.left.equalTo(self).offset(40);
-//        make.right.equalTo(self).offset(-40);
-        make.centerX.equalTo(self.mas_centerX);
+        make.top.equalTo(self.grapeVarietyTextField.top);
+        make.bottom.equalTo(self.grapeVarietyTextField.bottom);
+        make.right.equalTo(self.right).offset(-30);
         make.width.equalTo(@120);
-        make.height.equalTo(@30);
+//        make.left.equalTo(self.grapeVarietyTextField.right).offset(30);
+     }];
+    
+    // below the variety
+    [self.vineyardTextField mas_makeConstraints:^(MASConstraintMaker *make){
+        make.top.equalTo(self.grapeVarietyTextField.bottom).offset(20);
+        make.left.equalTo(self.grapeVarietyTextField.left);
+        make.width.equalTo(self.grapeVarietyTextField.width);
+        make.height.equalTo(self.grapeVarietyTextField.height);
+    }];
+    
+    [self.imageButton mas_makeConstraints:^(MASConstraintMaker *make){
+        make.top.equalTo(self.vineyardTextField.bottom).offset(40); // border from the top
+        make.centerX.equalTo(self.mas_centerX);
+        make.left.equalTo(self.left).offset(40);
+        make.height.equalTo(self.imageButton.mas_width); // width equal to height
     }];
     
 //    // below the year
@@ -151,9 +145,6 @@
 //        //make.right.equalTo(self).offset(-40);
 //        make.height.equalTo(@30);
 //    }];
-    
-
-    
     self.contentSize = CGSizeMake(self.frame.size.width, self.vineyardTextField.frame.origin.y + self.vineyardTextField.frame.size.height +225);
 }
 
@@ -213,31 +204,31 @@
 // Called when the UIKeyboardDidShowNotification is sent.
 - (void)keyboardWillShow:(NSNotification*)aNotification
 {
-    self.scrollEnabled = YES;
-    NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
-    self.contentInset = contentInsets;
-    self.scrollIndicatorInsets = contentInsets;
-    
-    // If active text field is hidden by keyboard, scroll it so it's visible
-    // Your app might not need or want this behavior.
-    CGRect aRect = self.frame;
-    aRect.size.height -= kbSize.height;
-    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin) ) {
-        [self scrollRectToVisible:self.activeField.frame animated:YES];
-    }
+//    self.scrollEnabled = YES;
+//    NSDictionary* info = [aNotification userInfo];
+//    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+//    
+//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+//    self.contentInset = contentInsets;
+//    self.scrollIndicatorInsets = contentInsets;
+//    
+//    // If active text field is hidden by keyboard, scroll it so it's visible
+//    // Your app might not need or want this behavior.
+//    CGRect aRect = self.frame;
+//    aRect.size.height -= kbSize.height;
+//    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin) ) {
+//        [self scrollRectToVisible:self.activeField.frame animated:YES];
+//    }
 }
 
 // Called when the UIKeyboardWillHideNotification is sent
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification
 {
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.contentInset = contentInsets;
-    self.scrollIndicatorInsets = contentInsets;
-    [self setContentOffset:CGPointZero animated:YES];
-    self.scrollEnabled = NO;
+//    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+//    self.contentInset = contentInsets;
+//    self.scrollIndicatorInsets = contentInsets;
+//    [self setContentOffset:CGPointZero animated:YES];
+//    self.scrollEnabled = NO;
 }
 
 /*

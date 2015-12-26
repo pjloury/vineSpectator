@@ -27,19 +27,21 @@ typedef NS_ENUM(NSInteger, VSWineColorType) {
 + (NSString *)parseClassName;
 // Insert code here to declare functionality of your managed object subclass
 
-@property PFFile *image;
-@property BOOL hasImage;
-@property NSInteger year;
-@property NSString *name;
-@property NSString *grapeVarietyName;
+@property NSString *bottleDescription;
+@property PFFile *cloudImage;
+@property BOOL drank;
 @property VSGrapeVariety *grapeVariety;
-@property NSString *vineyardName;
-@property VSVineyard *vineyard;
+@property NSString *grapeVarietyName;
+@property (nonatomic) BOOL hasImage;
+@property NSString *name;
 @property PFUser *owner;
 @property NSArray *tags;
+@property VSVineyard *vineyard;
+@property NSString *vineyardName;
+@property NSInteger year;
 
 - (BOOL)containsTag:(NSString *)tag;
-- (UIImage *)cachedImage;
+- (UIImage *)image;
 
 @end
 
