@@ -7,22 +7,30 @@
 //
 
 #import "VSTableViewController.h"
-#import "VSAddBottleViewController.h"
 #import "VSDetailViewController.h"
 #import "VSBottleDataSource.h"
+
+#import "VSStackViewDelegate.h"
+#import "VSStackViewDataSource.h"
+
 #import "Masonry.h"
 
-@interface VSTableViewController () <UITableViewDelegate>
+@interface VSTableViewController () <UITableViewDelegate, VSFilterSelectionDelegate>
 
 // save VSShortcutViewController for last!
-//@property VSAddBottleViewController *detailViewController;
+
+// Might not need a stack view controller!
+
 @property VSDetailViewController *detailViewController;
 @property UINavigationController *detailNavigationController;
 
 @property UIButton *addBottleButton;
 @property VSBottleDataSource *bottleDataSource;
-@property UIStackView *stackView;
+@property UIView *stackView;
 @property UITableView *tableView;
+
+@property VSStackViewDelegate *stackViewDelegate;
+@property VSStackViewDataSource *stackViewDataSource;
 
 @end
 
@@ -159,16 +167,19 @@
     
 }
 
-//- (nullable NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *bottleID = [self.bottleDataSource bottleIDForRowAtIndexPath:indexPath];
     VSDetailViewController *vc = [[VSDetailViewController alloc] initWithBottleDataSource:self.bottleDataSource bottleID:bottleID];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+# pragma mark - VSFilterSelectionDelegate
+
+- (void)stackViewDelegate:(VSStackViewDelegate *)delegate didSelectFilter:(NSString *)filter
+{
+    [self.bottleDataSource generateDataModelForFilter:filter dirty:YES];
+    [self.tableView reloadData];
 }
 
 @end

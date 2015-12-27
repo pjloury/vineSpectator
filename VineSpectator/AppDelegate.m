@@ -16,25 +16,20 @@
 // the user should be cached
 // rely on the local cache, THEN attempt to fetch from the network.
 
-
 // How to add images to the camera roll
 // T1: by default should take a picture
 // T2: Welcome back, david
 // T3: Tap on the next field and it will jump to complete the word
 // Mock up some bottles!
 
-
-// TABLE: Sas "Photos" when photos is pressed
-//
-
 // No intuitive way to dismiss number keyboard
 // Add drank feature to tableview
-// Dad couldn't save
-
-
-// Edit a bottle that doesn't have an image
-// Add the image when NOT in edit mode
-// Go into edit mode.
+// Rely on cache, then hit the network
+// Downsize Kaiti and Yu Mincho fonts
+// Sort Bottles by Date
+// Add Back button back
+// Scrolls to support text views
+// Support 
 
 @interface AppDelegate ()
 

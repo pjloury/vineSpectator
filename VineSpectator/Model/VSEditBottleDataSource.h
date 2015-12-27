@@ -24,6 +24,8 @@
 @property (nonatomic) NSString *year;
 @property (nonatomic) NSString *name;
 @property (nonatomic) UIImage *image;
+@property (nonatomic) NSArray *tags;
+
 @property (nonatomic, weak) id<VSImageSelectionDelegate> imageSelectionDelegate;
 
 - (instancetype)initWithBottleDataSource:(VSBottleDataSource *)bottleDataSource bottleID:(NSString *)bottleID;

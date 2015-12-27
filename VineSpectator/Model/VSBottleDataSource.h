@@ -11,17 +11,14 @@
 
 @interface VSBottleDataSource: NSObject <UITableViewDataSource>
 
-// State
-@property (nonatomic) NSString *bottleTag;
-
 // Generators
 - (void)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
 
 // Mutators
-- (NSString *)insertBottleWithImage:(UIImage *)image name:(NSString *)name
-                         year:(NSString *)year grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard;
-- (void)updateBottleWithImage:(UIImage *)image name:(NSString *)name year:(NSString *)year
-                 grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard bottleID:(NSString *)bottleID;
+- (NSString *)insertBottleWithImage:(UIImage *)image name:(NSString *)name year:(NSString *)year grapeVariety:(NSString *)grapeVariety
+                           vineyard:(NSString *)vineyard tags:(NSArray *)tags;
+- (void)updateBottleWithBottleID:(NSString *)bottleID image:(UIImage *)image name:(NSString *)name year:(NSString *)year
+                    grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard tags:(NSArray *)tags;
 
 // Accessors
 - (void)fetchBottlesWithCompletion:(void (^)())completion;
@@ -29,7 +26,8 @@
 - (void)saveBottleImage:(UIImage *)image withUUID:(NSString *)UUID;
 
 - (VSBottle *)bottleForID:(NSString *)bottleID;
-- (NSArray *)bottlesForTag:(NSString *)tag;
 - (NSString *)bottleIDForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (NSArray *)allBottles;
 
 @end

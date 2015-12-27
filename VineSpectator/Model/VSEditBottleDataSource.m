@@ -283,4 +283,9 @@
     return [self.imageButton imageForState:UIControlStateNormal];
 }
 
+- (NSArray *)tags {
+    NSString *trimmedString = [self.tagsTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return [trimmedString componentsSeparatedByString:@","];
+}
+
 @end

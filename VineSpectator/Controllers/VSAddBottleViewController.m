@@ -145,12 +145,12 @@
     if ([image isEqual:[UIImage imageNamed:@"add-photo"]]) image = nil;
     
     if (self.bottleID) {
-        [self.bottleDataSource updateBottleWithImage:image name:name year:year
-                                        grapeVariety:grapeVariety vineyard:vineyard bottleID:self.bottleID];
+        [self.bottleDataSource updateBottleWithBottleID:self.bottleID image:image name:name year:year
+                                           grapeVariety:grapeVariety vineyard:vineyard tags:nil];
     }
     else {
         [self.bottleDataSource insertBottleWithImage:image name:name
-                                                year:year grapeVariety:grapeVariety vineyard:vineyard];
+                                                year:year grapeVariety:grapeVariety vineyard:vineyard tags:nil];
     }
 }
 

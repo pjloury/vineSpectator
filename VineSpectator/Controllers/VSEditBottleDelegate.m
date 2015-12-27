@@ -17,6 +17,8 @@
 @property VSBottleDataSource *bottleDataSource;
 @property NSString *bottleID;
 @property UITableView *tableView;
+@property UISwitch *drunkSwitch;
+@property UIButton *discardBottleButton;
 
 @end
 
@@ -129,6 +131,8 @@
             drunkSwitch.tintColor = [UIColor highlightedRedInkColor];
             drunkSwitch.onTintColor = [UIColor wineColor];
             [drunkSwitch sizeToFit];
+            [drunkSwitch addTarget:self action:@selector(drunkSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+            self.drunkSwitch = drunkSwitch;
             [sectionView addSubview:drunkSwitch];
             
             [drunkSwitchPrompt mas_makeConstraints:^(MASConstraintMaker *make){
@@ -146,14 +150,15 @@
         }
         case 4: {
             sectionView = [[VSSectionView alloc] initWithTableView:self.tableView title:@"" height:50.0];
-            UIButton *editBottleButton = [[UIButton alloc] initWithFrame:sectionView.frame];
-            [editBottleButton setTitle:@"Discard Bottle" forState:UIControlStateNormal];
-            editBottleButton.titleLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:24.0];
-            editBottleButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-            [editBottleButton setTitleColor:[UIColor redInkColor] forState:UIControlStateNormal];
-            [editBottleButton setTitleColor:[UIColor highlightedRedInkColor] forState:UIControlStateHighlighted];
-            [editBottleButton addTarget:self action:@selector(didPressDiscardBottle:) forControlEvents:UIControlEventTouchUpInside];
-            [sectionView addSubview:editBottleButton];
+            UIButton *discardBottleButton = [[UIButton alloc] initWithFrame:sectionView.frame];
+            [discardBottleButton setTitle:@"Discard Bottle" forState:UIControlStateNormal];
+            discardBottleButton.titleLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:24.0];
+            discardBottleButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+            [discardBottleButton setTitleColor:[UIColor redInkColor] forState:UIControlStateNormal];
+            [discardBottleButton setTitleColor:[UIColor highlightedRedInkColor] forState:UIControlStateHighlighted];
+            [discardBottleButton addTarget:self action:@selector(didPressDiscardBottle:) forControlEvents:UIControlEventTouchUpInside];
+            [sectionView addSubview:discardBottleButton];
+            self.discardBottleButton = discardBottleButton;
             break;
         }
     }
@@ -162,6 +167,12 @@
 
 # pragma mark - Tap Handlers
 
+- (void)drunkSwitchChanged:(id)sender
+{
+    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
+    bottle.drank = self.drunkSwitch.isOn;
+    [bottle saveInBackground];
+}
 
 - (void)didPressDiscardBottle:(id)sender
 {

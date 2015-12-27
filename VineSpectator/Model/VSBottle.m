@@ -19,6 +19,7 @@
 
 @dynamic bottleDescription;
 @dynamic cloudImage;
+@dynamic color;
 @dynamic drank;
 @dynamic grapeVariety;
 @dynamic grapeVarietyName;
@@ -36,6 +37,11 @@
 
 + (NSString *)parseClassName {
     return @"Bottle";
+}
+
+- (VSWineColorType)color
+{
+    return self.grapeVariety.color;
 }
 
 - (BOOL)hasImage {
@@ -68,9 +74,9 @@
     if ([tag isEqualToString:@"Unopened"]) {
         return !self.drank;
     }
-    else if ([self.grapeVariety.color isEqualToString:tag]) {
-        return YES;
-    }
+//    else if ([self.grapeVariety.color isEqualToString:tag]) {
+//        return YES;
+//    }
     else if ([self.tags containsObject:tag]) {
         return YES;
     }

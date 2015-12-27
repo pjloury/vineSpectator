@@ -134,18 +134,23 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString *bottleID = [self bottleIDForRowAtIndexPath:indexPath];
-        VSBottle *bottle = [self bottleForID:bottleID];
-
-        [bottle deleteInBackground];
-        [self.bottles removeObject:bottle];
-        self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
-        [self generateDataModelForFilter:self.previousFilter dirty:YES];
+        [self deleteBottleWithID:bottleID];
         [tableView reloadData];
         //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
 }
+
+- (void)deleteBottleWithID:(NSString *)bottleID
+{
+    VSBottle *bottle = [self bottleForID:bottleID];
+    [bottle deleteInBackground];
+    [self.bottles removeObject:bottle];
+    self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
+    [self generateDataModelForFilter:self.previousFilter dirty:YES];
+}
+
 
 // only use a network op when you have to
 - (NSArray *)grapeVarieties
@@ -279,39 +284,10 @@
     }];
 }
 
-- (NSMutableArray *)_fetchBottlesTEST
-{
-    // find out the list of tags
-    PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
-    [query whereKeyDoesNotExist:@"owner"];
-    
-    //[query fromLocalDatastore];
-    // i should only have to fetch bottles on launch, otherwise they can be updated in memory.
-    
-    NSArray *objects = [query findObjects];
-    [PFObject pinAllInBackground:objects];
-    return [objects mutableCopy];
-}
-
-- (NSMutableArray *)_fetchBottles
-{
-    // find out the list of tags
-    if ([PFUser currentUser]) {
-        PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
-        [query whereKey:@"owner" equalTo:[PFUser currentUser]];
-        
-        // i should only have to fetch bottles on launch, otherwise they can be updated in memory.
-        return [[query findObjects] mutableCopy];
-    }
-    else {
-        return [NSMutableArray array];
-    }
-}
-
 # pragma mark - Mutators
 
-- (NSString *)insertBottleWithImage:(UIImage *)image name:(NSString *)name
-                         year:(NSString *)year grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard
+- (NSString *)insertBottleWithImage:(UIImage *)image name:(NSString *)name year:(NSString *)year grapeVariety:(NSString *)grapeVariety
+                           vineyard:(NSString *)vineyard tags:(NSArray *)tags
 {
     VSBottle *bottle = [VSBottle object];
     // HANDLE IMAGE
@@ -329,6 +305,7 @@
     [vineyardObject saveInBackground];
     bottle.vineyard = vineyardObject;
     bottle.owner = [PFUser currentUser];
+    bottle.tags = tags;
     [bottle save];
     
     if (image) bottle.hasImage = YES;
@@ -339,8 +316,8 @@
     return bottle.objectId;
 }
 
-- (void)updateBottleWithImage:(UIImage *)image name:(NSString *)name year:(NSString *)year
-                 grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard bottleID:(NSString *)bottleID
+- (void)updateBottleWithBottleID:(NSString *)bottleID image:(UIImage *)image name:(NSString *)name year:(NSString *)year
+                    grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard tags:(NSArray *)tags
 {
     VSBottle *bottle = [self bottleForID:bottleID];
     bottle.name = name ? name : @"";
@@ -351,7 +328,8 @@
     bottle.grapeVarietyName = grapeVarietyObject.name;
     NSAssert(bottle.grapeVarietyName, @"grape variety cannot be nil");
     bottle.vineyardName = vineyard;
-    bottle.vineyard = nil;
+    bottle.vineyard.name = vineyard;
+    bottle.tags = tags;
     
     if (image) bottle.hasImage = YES;
     [bottle saveInBackground];
@@ -429,10 +407,6 @@
 //}
 //
 //
-//- (NSArray *)bottlesForTag:(NSString *)tag
-//{
-//    return nil;
-//}
 //
 //- (void)updateOrInsertCoreDataBottleWithImage:(UIImage *)image name:(NSString *)name
 //                                         year:(NSString *)year grapeVariety:(NSString *)grapeVariety vineyard:vineyard;

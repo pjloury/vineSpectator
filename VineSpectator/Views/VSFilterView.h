@@ -1,15 +1,13 @@
 //
-//  VSViewController.h
+//  VSFilterView.h
 //  VineSpectator
 //
-//  Created by PJ Loury on 12/23/15.
+//  Created by PJ Loury on 12/26/15.
 //  Copyright © 2015 PJ Loury. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface VSViewController : UIViewController
-
-
+@interface VSFilterView : UIView
 
 @end

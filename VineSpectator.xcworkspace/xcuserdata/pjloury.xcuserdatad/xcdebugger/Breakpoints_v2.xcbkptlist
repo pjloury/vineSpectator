@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "152"
             endingLineNumber = "152"
-            landmarkName = "-grapeVarieties"
+            landmarkName = "-deleteBottleWithID:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -30,7 +30,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "18"
-            endingLineNumber = "18">
+            endingLineNumber = "18"
+            landmarkName = "@interface VSGrapeVariety"
+            landmarkType = "2">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -189,7 +191,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "335"
             endingLineNumber = "335"
-            landmarkName = "-insertBottleWithImage:name:year:grapeVariety:vineyard:"
+            landmarkName = "-updateBottleWithBottleID:image:name:year:grapeVariety:vineyard:tags:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -205,7 +207,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "330"
             endingLineNumber = "330"
-            landmarkName = "-insertBottleWithImage:name:year:grapeVariety:vineyard:"
+            landmarkName = "-updateBottleWithBottleID:image:name:year:grapeVariety:vineyard:tags:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -279,39 +281,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "236"
             endingLineNumber = "236"
-            landmarkName = "-bottlesArrayDictionaryArrayForFilter:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VineSpectator/Model/VSBottleDataSource.m"
-            timestampString = "472775632.461577"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "-tableView:commitEditingStyle:forRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VineSpectator/Model/VSBottleDataSource.m"
-            timestampString = "472777300.138073"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
-            landmarkName = "-tableView:commitEditingStyle:forRowAtIndexPath:"
+            landmarkName = "-generateDataModelForFilter:dirty:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -377,6 +347,38 @@
             endingLineNumber = "68"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[VSTableViewController viewDidLoad]"
+                  moduleName = "VineSpectator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pjloury/Xcode/VineSpectator/VineSpectator/Controllers/VSTableViewController.m"
+                  timestampString = "472895805.576566"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69"
+                  offsetFromSymbolStart = "2478">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__36-[VSTableViewController viewDidLoad]_block_invoke173"
+                  moduleName = "VineSpectator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pjloury/Xcode/VineSpectator/VineSpectator/Controllers/VSTableViewController.m"
+                  timestampString = "472895805.576705"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69"
+                  offsetFromSymbolStart = "39">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -487,8 +489,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
             endingLineNumber = "74"
-            landmarkName = "-viewWillAppear:"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[VSTableViewController viewDidLoad]"
+                  moduleName = "VineSpectator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pjloury/Xcode/VineSpectator/VineSpectator/Controllers/VSTableViewController.m"
+                  timestampString = "472895805.579489"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "2667">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__36-[VSTableViewController viewDidLoad]_block_invoke178"
+                  moduleName = "VineSpectator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pjloury/Xcode/VineSpectator/VineSpectator/Controllers/VSTableViewController.m"
+                  timestampString = "472895805.579608"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -503,7 +537,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
             endingLineNumber = "75"
-            landmarkName = "-viewWillAppear:"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

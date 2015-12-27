@@ -8,13 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "VSGrapeVariety.h"
 #import "VSVineyard.h"
 #import <Parse/Parse.h>
+#import "VSGrapeVariety.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class VSGrapeVariety;
+
 typedef NS_ENUM(NSInteger, VSWineColorType) {
+    VSWineColorTypeUnspecified,
     VSWineColorTypeRed,
     VSWineColorTypeWhite,
     VSWineColorTypeRose,
@@ -31,6 +34,7 @@ typedef NS_ENUM(NSInteger, VSWineColorType) {
 @property PFFile *cloudImage;
 @property BOOL drank;
 @property VSGrapeVariety *grapeVariety;
+@property VSWineColorType color;
 @property NSString *grapeVarietyName;
 @property (nonatomic) BOOL hasImage;
 @property NSString *name;

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "VSGrapeVariety.h"
 #import "HTAutocompleteTextField.h"
+#import "VSBottle.h"
 
 @interface VSGrapeVarietyDataSource : NSObject <HTAutocompleteDataSource>
 
@@ -17,5 +18,6 @@
 @property (readonly) NSArray *grapeVarieties;
 
 - (VSGrapeVariety *)grapeVarietyForString:(NSString *)string;
+- (VSWineColorType)colorForGrapeVariety:(NSString *)grapeVariety;
 
 @end

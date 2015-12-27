@@ -351,25 +351,22 @@
     NSString *year = self.editBottleDataSource.year;
     NSString *name = self.editBottleDataSource.name;
     UIImage *image = self.editBottleDataSource.image;
+    NSArray *tags = self.editBottleDataSource.tags;
     
     if (self.bottleID) {
-        [self.bottleDataSource updateBottleWithImage:image name:name year:year grapeVariety:grapeVariety
-                                            vineyard:vineyard bottleID:self.bottleID];
+        [self.bottleDataSource updateBottleWithBottleID:self.bottleID image:image name:name year:year
+                                           grapeVariety:grapeVariety vineyard:vineyard tags:tags];
     } else {
-        self.bottleID = [self.bottleDataSource insertBottleWithImage:image name:name year:year grapeVariety:grapeVariety vineyard:vineyard];
+        self.bottleID = [self.bottleDataSource insertBottleWithImage:image name:name year:year
+                                                        grapeVariety:grapeVariety vineyard:vineyard tags:tags];
     }
     
-    for (UIGestureRecognizer *recognizer in self.tableView.gestureRecognizers) {
-        if (self.editBottleDelegate.tapRecognizer) {
-            [self.tableView removeGestureRecognizer:self.editBottleDelegate.tapRecognizer];
-        }
-        if (self.dismissKeyboardTapGesutreRecognizer) {
-            [self.tableView removeGestureRecognizer:self.dismissKeyboardTapGesutreRecognizer];
-        }
+    if (self.editBottleDelegate.tapRecognizer) {
+        [self.tableView removeGestureRecognizer:self.editBottleDelegate.tapRecognizer];
     }
-    
-//    [self.tableView removeGestureRecognizer:self.dismissKeyboardTapGesutreRecognizer];
-//    self.dismissKeyboardTapGesutreRecognizer = nil;
+    if (self.dismissKeyboardTapGesutreRecognizer) {
+        [self.tableView removeGestureRecognizer:self.dismissKeyboardTapGesutreRecognizer];
+    }
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -460,12 +457,14 @@
     NSString *vineyard = self.editBottleDataSource.vineyard;
     NSString *year = self.editBottleDataSource.year;
     NSString *name = self.editBottleDataSource.name;
+    NSArray *tags = self.editBottleDataSource.tags;
     
     if (self.bottleID) {
-        [self.bottleDataSource updateBottleWithImage:croppedImage name:name year:year grapeVariety:grapeVariety
-                                            vineyard:vineyard bottleID:self.bottleID];
+        [self.bottleDataSource updateBottleWithBottleID:self.bottleID image:croppedImage name:name year:year
+                                                                          grapeVariety:grapeVariety vineyard:vineyard tags:tags];
     } else {
-        self.bottleID = [self.bottleDataSource insertBottleWithImage:croppedImage name:name year:year grapeVariety:grapeVariety vineyard:vineyard];
+        self.bottleID = [self.bottleDataSource insertBottleWithImage:croppedImage name:name year:year
+                                                        grapeVariety:grapeVariety vineyard:vineyard tags:tags];
         self.editBottleDataSource.bottleID = self.bottleID;
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
