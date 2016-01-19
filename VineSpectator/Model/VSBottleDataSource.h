@@ -16,12 +16,12 @@
 
 // Mutators
 - (NSString *)insertBottleWithImage:(UIImage *)image name:(NSString *)name year:(NSString *)year grapeVariety:(NSString *)grapeVariety
-                           vineyard:(NSString *)vineyard tags:(NSArray *)tags;
+                           vineyard:(NSString *)vineyard;
 - (void)updateBottleWithBottleID:(NSString *)bottleID image:(UIImage *)image name:(NSString *)name year:(NSString *)year
-                    grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard tags:(NSArray *)tags;
+                    grapeVariety:(NSString *)grapeVariety vineyard:(NSString *)vineyard;
 
 // Accessors
-- (void)fetchBottlesWithCompletion:(void (^)())completion;
+- (void)fetchBottlesForUser:(PFUser *)user withCompletion:(void (^)())completion;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)saveBottleImage:(UIImage *)image withUUID:(NSString *)UUID;
 

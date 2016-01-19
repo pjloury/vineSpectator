@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIColor+VineSpectator.h"
 #import "VSViewController.h"
+#import <ParseUI/ParseUI.h>
 
 //define this constant if you want to use Masonry without the 'mas_' prefix
 #define MAS_SHORTHAND

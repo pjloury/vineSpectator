@@ -58,7 +58,7 @@ CGFloat padding = 10.0f;
         make.top.equalTo(self.top).offset(15);
         make.left.equalTo(self.left).offset(18);
         make.width.equalTo(@200);
-        make.height.equalTo(@18);
+        make.height.equalTo(@22);
     }];
     
     [self.detailTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {

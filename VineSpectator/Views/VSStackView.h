@@ -8,12 +8,28 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol VSStackViewDataSourcing;
-@protocol VSStackViewDelegating;
+@class VSStackView;
 
-@interface VSStackView : UIStackView
+@protocol VSStackViewDataSource
 
-@property (nonatomic, weak, nullable) id <VSStackViewDataSourcing> dataSource;
-@property (nonatomic, weak, nullable) id <VSStackViewDelegating> delegate;
+- (NSInteger)numberOfViewsInStack;
+- (UIView *_Nonnull)viewForIndex:(NSInteger)index;
+
+@end
+
+@protocol VSStackViewDelegate
+
+- (void)stackView:(VSStackView *_Nonnull)stackView didSelectViewAtIndex:(NSInteger)index;
+// When the user taps the filter, it should tell the table controller that a
+
+@end
+
+
+@interface VSStackView : UIView
+
+- (void)reloadData;
+
+@property (nonatomic, weak, nullable) id <VSStackViewDataSource> dataSource;
+@property (nonatomic, weak, nullable) id <VSStackViewDelegate> delegate;
 
 @end

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "38555B6C909DC9DFC91934A5"
+               BlueprintIdentifier = "F61162C2389B33C7ED014AEA"
                BuildableName = "libPods-TRAutocompleteView.a"
                BlueprintName = "Pods-TRAutocompleteView"
                ReferencedContainer = "container:Pods.xcodeproj">

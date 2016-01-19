@@ -7,16 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class VSStackViewDelegate;
-
-@protocol VSFilterSelectionDelegate
-
-- (void)stackViewDelegate:(VSStackViewDelegate *)delegate didSelectFilter:(NSString *)filter;
-
-@end
-
 
 @interface VSTableViewController : VSViewController
-
 
 @end

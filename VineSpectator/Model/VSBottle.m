@@ -55,7 +55,7 @@
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        return [fileManager fileExistsAtPath:getImagePath];
+        return [fileManager fileExistsAtPath:getImagePath] || self.cloudImage;
 //    }
 }
 
@@ -65,7 +65,9 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:getImagePath];
-    NSLog(getImagePath);
+    if (!image) {
+        image = [UIImage imageWithData:[self.cloudImage getData]];
+    }
     return image;
 }
 

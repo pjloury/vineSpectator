@@ -8,17 +8,12 @@
 
 #import "VSTableViewController.h"
 #import "VSDetailViewController.h"
+#import "VSFilterStackViewController.h"
 #import "VSBottleDataSource.h"
-
-#import "VSStackViewDelegate.h"
-#import "VSStackViewDataSource.h"
-
-#import "Masonry.h"
 
 @interface VSTableViewController () <UITableViewDelegate, VSFilterSelectionDelegate>
 
 // save VSShortcutViewController for last!
-
 // Might not need a stack view controller!
 
 @property VSDetailViewController *detailViewController;
@@ -26,11 +21,9 @@
 
 @property UIButton *addBottleButton;
 @property VSBottleDataSource *bottleDataSource;
-@property UIView *stackView;
-@property UITableView *tableView;
 
-@property VSStackViewDelegate *stackViewDelegate;
-@property VSStackViewDataSource *stackViewDataSource;
+@property UITableView *tableView;
+@property VSFilterStackViewController *filterViewController;
 
 @end
 
@@ -38,19 +31,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.stackView = [[UIStackView alloc] initWithFrame:CGRectZero];
+    [[PFUser currentUser] setObject:@[@"Tahoe", @"San Jose", @"Yummy", @"DSF", @"DSFEFE", @"SEfefsf"] forKey:@"tags"];
+    [[PFUser currentUser] saveInBackground];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor offWhiteColor];
     self.tableView.showsVerticalScrollIndicator = NO;
+    self.tableView.bounces = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
     self.bottleDataSource = [[VSBottleDataSource alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self.bottleDataSource;
+    
+    VSFilterStackViewController *filterVc = [[VSFilterStackViewController alloc] init];
+    filterVc.delegate = self;
+    [self addChildViewController:filterVc];
     
     self.addBottleButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.addBottleButton addTarget:self action:@selector(didPressNewBottle:) forControlEvents:UIControlEventTouchUpInside];
@@ -60,6 +57,12 @@
     [self.addBottleButton setTitleColor:[UIColor highlightedPateColor] forState:UIControlStateHighlighted];
     self.addBottleButton.backgroundColor = [UIColor wineColor];
     [self.view addSubview:self.addBottleButton];
+    [self.view addSubview:filterVc.view];
+    
+    [filterVc.view mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.top.right.equalTo(self.view);
+        make.height.equalTo(@50);
+    }];
     
     [self.addBottleButton mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.bottom.right.equalTo(self.view);
@@ -67,14 +70,26 @@
     }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.left.top.right.equalTo(self.view);
+        make.top.equalTo(filterVc.view.bottom);
+        make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.addBottleButton.mas_top);
     }];
     
-    [self.bottleDataSource fetchBottlesWithCompletion:^{
-        //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
-        [self.tableView reloadData];
-    }];
+    if (![PFUser currentUser]) {
+        [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+            [user saveInBackground];
+            [self.bottleDataSource fetchBottlesForUser:user withCompletion:^{
+                //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
+                [self.tableView reloadData];
+            }];
+        }];
+    }
+    else {
+        [self.bottleDataSource fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
+            //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
+            [self.tableView reloadData];
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -82,30 +97,6 @@
     [self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:YES];
     [self.tableView reloadData]; // get the edits made in the detail VC
 }
-
-//- (void)didPressNewBottle:(id)sender
-//{
-//    self.detailViewController = [[VSDetailViewController alloc] initWithBottleDataSource:self.bottleDataSource bottleID:nil];
-//    self.detailViewController.editMode = YES;
-//    //self.detailViewController = [[VSAddBottleViewController alloc] initWithBottleDataSource:self.bottleDataSource bottleID:nil];
-//    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.detailViewController];
-//    self.detailNavigationController = nc;
-//    nc.navigationBar.translucent = NO;
-//    
-//    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-//    ipc.navigationBar.translucent = NO;
-//    
-//    ipc.delegate = self.detailViewController;
-//    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
-//        ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
-//    }
-//    else {
-//        ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//    }
-//
-//    [self presentViewController:nc animated:NO completion:nil];
-//    [nc presentViewController:ipc animated:YES completion:nil];
-//}
 
 - (void)didPressNewBottle:(id)sender
 {
@@ -116,6 +107,14 @@
     self.detailNavigationController = nc;
     
     [self presentViewController:nc animated:YES completion:nil];
+}
+
+# pragma VSFilterSelectionDelegate
+
+- (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
+{
+    [self.bottleDataSource generateDataModelForFilter:tag dirty:YES];
+    [self.tableView reloadData];
 }
 
 # pragma mark UITableViewDelegate
@@ -172,14 +171,6 @@
     NSString *bottleID = [self.bottleDataSource bottleIDForRowAtIndexPath:indexPath];
     VSDetailViewController *vc = [[VSDetailViewController alloc] initWithBottleDataSource:self.bottleDataSource bottleID:bottleID];
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-# pragma mark - VSFilterSelectionDelegate
-
-- (void)stackViewDelegate:(VSStackViewDelegate *)delegate didSelectFilter:(NSString *)filter
-{
-    [self.bottleDataSource generateDataModelForFilter:filter dirty:YES];
-    [self.tableView reloadData];
 }
 
 @end

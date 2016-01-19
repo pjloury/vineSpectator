@@ -22,6 +22,8 @@
 // T3: Tap on the next field and it will jump to complete the word
 // Mock up some bottles!
 
+// P1: After you add a Bottle, you should be able to see it in your list!
+
 // No intuitive way to dismiss number keyboard
 // Add drank feature to tableview
 // Rely on cache, then hit the network
@@ -49,7 +51,6 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [PFUser enableAutomaticUser];
     [Parse enableLocalDatastore];
@@ -61,33 +62,42 @@
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-//    [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
-//        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//        
-//        VSTableViewController *tv = [[VSTableViewController alloc] init];
-//        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:tv];
-//        
-//        self.window.rootViewController = nc;
-//        [self.window makeKeyAndVisible];
-//    }];
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    /*
+    if (![PFUser currentUser]) {
+        PFLogInViewController *loginController = [[PFLogInViewController alloc] init];
+        loginController.fields = (PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton |
+        PFLogInFieldsPasswordForgotten);
+        loginController.view.backgroundColor = [UIColor offWhiteColor];
+        
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:loginController];
+        nc.navigationBar.translucent = NO;
+        [[UINavigationBar appearance] setBarTintColor:[UIColor wineColor]];
+        loginController.logInView.logInButton.backgroundColor = [UIColor wineColor];
+        [loginController.logInView.logInButton setBackgroundImage:nil
+                                                          forState:UIControlStateNormal];
+        [loginController.logInView.signUpButton setBackgroundImage:nil
+                                                              forState:UIControlStateNormal];
+        loginController.logInView.logInButton.backgroundColor = [UIColor wineColor];
+        loginController.logInView.signUpButton.backgroundColor = [UIColor oliveInkColor];
+        
+        self.window.rootViewController = nc;
+    }
+    else {
+        VSTableViewController *tv = [[VSTableViewController alloc] init];
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:tv];
+        [[UINavigationBar appearance] setBarTintColor:[UIColor wineColor]];
+        self.window.rootViewController = nc;
+    }
+    */
+
     VSTableViewController *tv = [[VSTableViewController alloc] init];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:tv];
-    
     [[UINavigationBar appearance] setBarTintColor:[UIColor wineColor]];
-    
-   // [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-   //                                                        [UIColor pateColor], NSForegroundColorAttributeName,
-   //                                                        [UIFont fontWithName:@"Didot-Bold" size:24.0], NSFontAttributeName, nil]];
-   // nc.title = @"Vine Spectator";
-    
-    //NSMutableAttributedString *vineSpectatorString = [[NSMutableAttributedString alloc] initWithString:@"Vine " attributes:@{@"NSFontAttributeName":vineFont, @"NSForegroundColorAttributeName":[UIColor pateColor], @"NSParagraphStyleAttributeName":paragraphStyle}];
-    
     self.window.rootViewController = nc;
-    [self.window makeKeyAndVisible];
     
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -112,7 +122,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
-    [self saveContext];
 }
 
 #pragma mark - Core Data stack

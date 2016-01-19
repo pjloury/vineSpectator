@@ -6,15 +6,24 @@
 //  Copyright © 2015 PJ Loury. All rights reserved.
 //
 
-#import "VSDetailViewController.h"
-#import "VSGrapeVarietyDataSource.h"
 #import "VSEditBottleDataSource.h"
+
+// Models
+#import "VSGrapeVarietyDataSource.h"
 #import "VSBottleDataSource.h"
 #import "VSBottle.h"
-#import "VSPromptLabel.h"
-#import "VSTextField.h"
+#import "VSTagsDataSource.h"
 
-@interface VSEditBottleDataSource ()<UITextFieldDelegate, UITextViewDelegate>
+// Views
+#import "VSPromptLabel.h"
+#import "VSTagCollectionViewCell.h"
+#import "VSTextField.h"
+#import "KTCenterFlowLayout.h"
+
+// Controllers
+#import "VSDetailViewController.h"
+
+@interface VSEditBottleDataSource ()<UITextFieldDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property VSBottleDataSource *bottleDataSource;
 
@@ -31,7 +40,7 @@
 @property (nonatomic) VSTextField *nameTextField;
 
 @property (nonatomic) VSPromptLabel *tagsPromptLabel;
-@property (nonatomic) UITextView *tagsTextView;
+@property (nonatomic) UICollectionView *tagsCollectionView;
 
 @end
 
@@ -43,8 +52,8 @@
     if (self) {
         _bottleDataSource = bottleDataSource;
         _bottleID = bottleID;
+        _tagsDataSource = [[VSTagsDataSource alloc] initWithBottleDataSource:bottleDataSource bottleID:bottleID];
     }
-    
     return self;
 }
 
@@ -61,7 +70,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Edit bottle might actually want 3 rows.
     return 1;
 }
 
@@ -76,7 +84,6 @@
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
     switch (indexPath.section) {
         case 0: {
-            //TODO: Refactor into a table!!
             self.grapePromptLabel = [[VSPromptLabel alloc] initWithString:@"Grape:"];
             [cell addSubview:self.grapePromptLabel];
             self.grapeTextField = [[VSTextField alloc] initWithString:bottle.grapeVarietyName];
@@ -184,47 +191,72 @@
                 [self.imageButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
                 self.imageButton.backgroundColor = [UIColor warmTanColor];
             }
-//
-//            self.descriptionTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-//            self.descriptionTextView.text = @"Loren Ipsum dolor";
-//            self.descriptionTextView.font = [UIFont fontWithName:@"Baskerville" size:20.0];
-//            self.descriptionTextView.textColor = [UIColor oliveInkColor];
-//            [cell addSubview:self.descriptionTextView];
-//            [self.descriptionTextView mas_makeConstraints:^(MASConstraintMaker *make){
-//                if (bottle.hasImage) {
-//                    make.top.equalTo(self.imageView.top).offset(20);
-//                }
-//                else {
-//                    make.top.equalTo(cell.top).offset(30);
-//                }
-//                make.left.equalTo(cell.left).offset(30);
-//                make.centerX.equalTo(cell.centerX);
-//                [self.descriptionTextView sizeToFit];
-//            }];
+/*
+            self.descriptionTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+            self.descriptionTextView.text = @"Loren Ipsum dolor";
+            self.descriptionTextView.font = [UIFont fontWithName:@"Baskerville" size:20.0];
+            self.descriptionTextView.textColor = [UIColor oliveInkColor];
+            [cell addSubview:self.descriptionTextView];
+            [self.descriptionTextView mas_makeConstraints:^(MASConstraintMaker *make){
+                if (bottle.hasImage) {
+                    make.top.equalTo(self.imageView.top).offset(20);
+                }
+                else {
+                    make.top.equalTo(cell.top).offset(30);
+                }
+                make.left.equalTo(cell.left).offset(30);
+                make.centerX.equalTo(cell.centerX);
+                [self.descriptionTextView sizeToFit];
+            }];
+ */
             break;
         }
         case 2: {
-            self.tagsPromptLabel = [[VSPromptLabel alloc] initWithString:@"Tags"];
-            [cell addSubview:self.tagsPromptLabel];
+            KTCenterFlowLayout *layout = [KTCenterFlowLayout new];
+            layout.minimumInteritemSpacing = 10.f;
+            layout.minimumLineSpacing = 10.f;
             
-            self.tagsTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-            self.tagsTextView.font = [UIFont fontWithName:@"Baskerville-Bold" size:18.0];
-            self.tagsTextView.textAlignment = NSTextAlignmentLeft;
-            self.tagsTextView.textColor = [UIColor oliveInkColor];
-            self.tagsTextView.backgroundColor = [UIColor lightSalmonColor];
-            self.tagsTextView.delegate = self;
-            [cell addSubview:self.tagsTextView];
-
-            [self.tagsPromptLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.top.equalTo(cell.top).offset(20);
-                make.left.equalTo(cell.left).offset(20);
+            VSPromptLabel *tagsLabel = [[VSPromptLabel alloc] initWithString:@"Tags"];
+            [cell addSubview:tagsLabel];
+            
+            UIView *spacer1 = [[UIView alloc] initWithFrame:CGRectZero];
+            UIView *spacer2 = [[UIView alloc] initWithFrame:CGRectZero];
+            [cell addSubview:spacer1];
+            [cell addSubview:spacer2];
+            
+            self.tagsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+            self.tagsCollectionView.allowsMultipleSelection = YES;
+            self.tagsCollectionView.backgroundColor = [UIColor clearColor];
+            self.tagsCollectionView.dataSource = self.tagsDataSource;
+            
+            self.tagsCollectionView.delegate = self;
+            [self.tagsCollectionView registerClass:[VSTagCollectionViewCell class] forCellWithReuseIdentifier:@"TagCell"];
+            [cell addSubview:self.tagsCollectionView];
+            
+            [spacer1 mas_makeConstraints:^(MASConstraintMaker *make){
+                make.width.equalTo(@25);
+                make.left.equalTo(tagsLabel.right);
+                make.height.equalTo(cell.height);
+                make.top.equalTo(cell.top);
             }];
             
-            [self.tagsTextView mas_makeConstraints:^(MASConstraintMaker *make){
-                make.top.equalTo(self.tagsPromptLabel.top).offset(-10);
-                make.centerX.equalTo(cell.centerX);
-                make.height.equalTo(@50);
-                make.left.equalTo(self.tagsPromptLabel.right).offset(20);
+            [spacer2 mas_makeConstraints:^(MASConstraintMaker *make){
+                make.width.equalTo(spacer1);
+                make.right.equalTo(cell.right);
+                make.height.equalTo(cell.height);
+                make.top.equalTo(cell.top);
+            }];
+            
+            [tagsLabel mas_makeConstraints:^(MASConstraintMaker *make){
+                make.left.equalTo(cell.left).offset(15);
+                make.top.equalTo(self.tagsCollectionView.top).offset(-5);
+            }];
+            
+            [self.tagsCollectionView mas_makeConstraints:^(MASConstraintMaker *make){
+                make.left.equalTo(spacer1.right);
+                make.right.equalTo(spacer2.left);
+                make.top.equalTo(cell.top).offset(20);
+                make.bottom.equalTo(cell.bottom).offset(-20);
             }];
             break;
         }
@@ -232,9 +264,32 @@
         default:
             break;
     }
-    
-    
     return cell;
+}
+
+# pragma mark - UICollectionVewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *tag = [self.tagsDataSource textForIndexPath:indexPath];
+    [self.tagsDataSource addTag:tag];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *tag = [self.tagsDataSource textForIndexPath:indexPath];
+    [self.tagsDataSource removeTag:tag];
+}
+
+# pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *text = [self.tagsDataSource textForIndexPath:indexPath];
+    CGSize size = [text sizeWithAttributes:@{@"NSFontAttributeName": [UIFont fontWithName:@"YuMin-Medium" size:15.0]}];
+    size.height += 10;
+    size.width += 30;
+    return size;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -283,9 +338,9 @@
     return [self.imageButton imageForState:UIControlStateNormal];
 }
 
-- (NSArray *)tags {
-    NSString *trimmedString = [self.tagsTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    return [trimmedString componentsSeparatedByString:@","];
-}
+//- (NSArray *)tags {
+//    NSString *trimmedString = [self.tagsTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//    return [trimmedString componentsSeparatedByString:@","];
+//}
 
 @end

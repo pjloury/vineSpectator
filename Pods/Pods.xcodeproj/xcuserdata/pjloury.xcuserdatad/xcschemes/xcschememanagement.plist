@@ -19,12 +19,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-KTCenterFlowLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-Parse.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-ParseUI.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -42,37 +52,47 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2D94990AD214E16449ADEE5F</key>
+		<key>3CDEC4301ACCCBB1EFAA7B65</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>38555B6C909DC9DFC91934A5</key>
+		<key>5F9E51A9786E612CAE6F9778</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5F0AAB8D89030D0351D36FA6</key>
+		<key>8B98A3AD4676232D4AB7C9E2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>76AA2A67E37AC9D5781D7091</key>
+		<key>9D4933256591353057D828B8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C6D74139D50F6E33B8A39A88</key>
+		<key>A0770C5E020EC64EF4060779</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ED9E48FC2B0FEA2384A05568</key>
+		<key>A637DFFFCACBD5AC33FBBF22</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FD146EAB20186CB3BE0BC367</key>
+		<key>B26378B88E6B12EB15CC2974</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C61CB9E5A0934BE529E40578</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F61162C2389B33C7ED014AEA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

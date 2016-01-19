@@ -10,6 +10,7 @@
 
 @class VSBottleDataSource;
 @class VSBotle;
+@class VSTagsDataSource;
 
 @protocol VSImageSelectionDelegate;
 
@@ -18,13 +19,14 @@
 @property UIButton *imageButton;
 
 @property (nonatomic) NSString *bottleID;
+@property (nonatomic) VSTagsDataSource *tagsDataSource;
 
 @property (nonatomic) NSString *grapeVariety;
 @property (nonatomic) NSString *vineyard;
 @property (nonatomic) NSString *year;
 @property (nonatomic) NSString *name;
 @property (nonatomic) UIImage *image;
-@property (nonatomic) NSArray *tags;
+//@property (nonatomic) NSArray *tags;
 
 @property (nonatomic, weak) id<VSImageSelectionDelegate> imageSelectionDelegate;
 

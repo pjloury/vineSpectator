@@ -9,33 +9,44 @@
 #import "VSDetailViewController.h"
 #import "VSTableViewCell.h"
 #import "VSSectionView.h"
+#import "VSTableView.h"
+#import "VSPromptLabel.h"
 #import "VSEditBottleDelegate.h"
 #import "VSEditBottleDataSource.h"
+#import "VSTagCollectionViewCell.h"
+#import "VSTagsDataSource.h"
 
-@interface VSDetailViewController () <UITableViewDataSource, UITableViewDelegate, VSImageSelectionDelegate>
-@property UITableView *tableView;
-@property UIButton *doneButton;
+#import "KTCenterFlowLayout.h"
 
+@interface VSDetailViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, VSImageSelectionDelegate>
+
+// Views
+@property (nonatomic) VSTableView *tableView;
 @property (nonatomic) UIImageView *imageView;
 @property (nonatomic) UITextView *descriptionTextView;
 
 @property (nonatomic) UILabel *tagsPromptLabel;
-@property (nonatomic) UITextView *tagsTextView;
+@property (nonatomic) UICollectionView *tagsCollectionView;
+@property (nonatomic) VSTagsDataSource *tagsDataSource;
 
 @property (nonatomic) UILabel *ratingPromptLabel;
 @property (nonatomic) UIView *ratingView;
 
 @property (nonatomic) UIButton *drunkButton;
 @property (nonatomic) UIButton *editButton;
+@property (nonatomic) UIButton *doneButton;
 
+// Edit Mode
 @property VSEditBottleDataSource *editBottleDataSource;
 @property VSEditBottleDelegate *editBottleDelegate;
 
+// Models
 @property VSBottleDataSource *bottleDataSource;
 @property NSString *bottleID;
 
 @property UITapGestureRecognizer *dismissKeyboardTapGesutreRecognizer;
 
+// State
 @property BOOL createMode;
 
 @end
@@ -48,21 +59,23 @@
     if (self) {
         _bottleDataSource = bottleDataSource;
         _bottleID = bottleID;
+        _tagsDataSource = [[VSTagsDataSource alloc] initWithBottleDataSource:bottleDataSource bottleID:bottleID];
     }
-    
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    
     self.navigationItem.hidesBackButton = YES;
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
+    self.tableView = [[VSTableView alloc] initWithFrame:CGRectZero];
+    self.tableView.canCancelContentTouches = YES;
     self.tableView.backgroundColor = [UIColor offWhiteColor];
     self.tableView.allowsSelection = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    self.tableView.bounces = NO;
     [self.view addSubview:self.tableView];
     
     self.doneButton = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -94,18 +107,45 @@
 - (void)setupUI
 {
     if (self.editMode) {
+        // New bottle
         [self setupEditMode:nil];
         self.createMode = YES;
     }
     else {
+        // Existing bottle
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
-        [self.tableView reloadData];
         [self.doneButton setTitle:@"Done" forState:UIControlStateNormal];
     }
 }
 
+# pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *tag = [self.tagsDataSource textForIndexPath:indexPath];
+    [self.tagsDataSource addTag:tag];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *tag = [self.tagsDataSource textForIndexPath:indexPath];
+    [self.tagsDataSource removeTag:tag];
+}
+
+# pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *text = [self.tagsDataSource textForIndexPath:indexPath];
+    CGSize size = [text sizeWithAttributes:@{@"NSFontAttributeName": [UIFont fontWithName:@"YuMin-Medium" size:15.0]}];
+    size.height += 10;
+    size.width += 30;
+    return size;
+}
+
 # pragma mark - UITableViewDelegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
@@ -115,9 +155,6 @@
                 case 0: // contains the image and description
                 default: {
                     CGFloat height = 500;
-//                    if (!bottle.hasImage) {
-//                        height -= 300;
-//                    }
                     if (!bottle.bottleDescription) {
                         height -=100;
                     }
@@ -173,38 +210,59 @@
             UILabel *grapeVarietyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             grapeVarietyLabel.text = bottle.grapeVarietyName;
             grapeVarietyLabel.textColor = [UIColor oliveInkColor];
-            grapeVarietyLabel.font = [UIFont fontWithName:@"STKaiti-SC-Regular" size:23.0];
+            grapeVarietyLabel.font = [UIFont fontWithName:@"STKaiti-SC-Regular" size:20.0];
             [grapeVarietyLabel sizeToFit];
             [sectionView addSubview:grapeVarietyLabel];
+            
+            UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+            nameLabel.text = bottle.name;
+            nameLabel.textColor = [UIColor oliveInkColor];
+            nameLabel.textAlignment = NSTextAlignmentRight;
+            nameLabel.font = [UIFont fontWithName:@"STKaiti-SC-Regular" size:20.0];
+            [nameLabel sizeToFit];
+            [sectionView addSubview:nameLabel];
             
             UILabel *yearLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             NSInteger year = bottle.year;
             if (year > 0)  yearLabel.text = @(bottle.year).stringValue;
+            yearLabel.textAlignment = NSTextAlignmentRight;
             yearLabel.textColor = [UIColor oliveInkColor];
             yearLabel.font = [UIFont fontWithName:@"Avenir-Book" size:18.0];
             [yearLabel sizeToFit];
             [sectionView addSubview:yearLabel];
             
             [vineyardLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                if (year > 0) {
                     make.left.equalTo(sectionView).offset(10);
                     make.top.equalTo(sectionView).offset(8);
-                }
-                else {
-                    make.left.equalTo(sectionView).offset(10);
-                    make.centerY.equalTo(sectionView.centerY);
+            }];
+            
+            [yearLabel mas_makeConstraints:^(MASConstraintMaker *make){
+                make.right.equalTo(sectionView.right).offset(-20);
+                if (vineyardLabel.text.length > 0) {
+                    make.centerY.equalTo(vineyardLabel.centerY);
+                } else {
+                    make.top.equalTo(sectionView.top).offset(8);
                 }
             }];
             
             [grapeVarietyLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.top.equalTo(vineyardLabel.top);
-                make.left.equalTo(vineyardLabel.right).offset(10);
+                make.left.equalTo(sectionView.left).offset(10);
+                if (vineyardLabel.text.length > 0) {
+                    make.top.equalTo(vineyardLabel.bottom).offset(-3);
+                } else {
+                    make.bottom.equalTo(sectionView.bottom).offset(-5);
+                }
             }];
             
-            [yearLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.top.equalTo(vineyardLabel.bottom);
-                make.left.equalTo(vineyardLabel.left);
+            [nameLabel mas_makeConstraints:^(MASConstraintMaker *make){
+                make.right.equalTo(sectionView.right).offset(-20);
+                if (vineyardLabel.text.length > 0) {
+                    make.top.equalTo(vineyardLabel.bottom).offset(-3);
+                } else {
+                    make.bottom.equalTo(sectionView.bottom).offset(-5);
+                }
             }];
+            
             break;
         }
         case 1:
@@ -307,8 +365,56 @@
             }];
             break;
         }
-        case 1:
+        case 1: {
+            KTCenterFlowLayout *layout = [KTCenterFlowLayout new];
+            layout.minimumInteritemSpacing = 10.f;
+            layout.minimumLineSpacing = 10.f;
+            
+            VSPromptLabel *tagsLabel = [[VSPromptLabel alloc] initWithString:@"Tags"];
+            [cell addSubview:tagsLabel];
+            
+            UIView *spacer1 = [[UIView alloc] initWithFrame:CGRectZero];
+            UIView *spacer2 = [[UIView alloc] initWithFrame:CGRectZero];
+            [cell addSubview:spacer1];
+            [cell addSubview:spacer2];
+            
+            self.tagsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+            self.tagsCollectionView.allowsMultipleSelection = YES;
+            self.tagsCollectionView.backgroundColor = [UIColor clearColor];
+            self.tagsCollectionView.dataSource = self.tagsDataSource;
+
+            self.tagsCollectionView.delegate = self;
+            [self.tagsCollectionView registerClass:[VSTagCollectionViewCell class] forCellWithReuseIdentifier:@"TagCell"];
+            [cell addSubview:self.tagsCollectionView];
+
+            [spacer1 mas_makeConstraints:^(MASConstraintMaker *make){
+                make.width.equalTo(@25);
+                make.left.equalTo(tagsLabel.right);
+                make.height.equalTo(cell.height);
+                make.top.equalTo(cell.top);
+            }];
+            
+            [spacer2 mas_makeConstraints:^(MASConstraintMaker *make){
+                make.width.equalTo(spacer1);
+                make.right.equalTo(cell.right);
+                make.height.equalTo(cell.height);
+                make.top.equalTo(cell.top);
+            }];
+            
+            [tagsLabel mas_makeConstraints:^(MASConstraintMaker *make){
+                make.left.equalTo(cell.left).offset(15);
+                make.top.equalTo(self.tagsCollectionView.top).offset(-5);
+            }];
+                        
+            [self.tagsCollectionView mas_makeConstraints:^(MASConstraintMaker *make){
+                make.left.equalTo(spacer1.right);
+                make.right.equalTo(spacer2.left);
+                make.top.equalTo(cell.top).offset(20);
+                make.bottom.equalTo(cell.bottom).offset(-20);
+            }];
+
             break;
+        }
     }
     return cell;
 }
@@ -318,20 +424,17 @@
 - (void)didPressDone:(id)sender
 {
     if (self.editMode) { //pressed "save"
+        [self.editBottleDataSource.tagsDataSource saveTags];
         self.editMode = NO;
         [self setupViewMode];
     }
     else {
+        [self.tagsDataSource saveTags];
         if (self.createMode) {
-            if (self.bottleID) {
-                
-            }
-            else {
-                
-            }
+            // Done Creating, slide down
             [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        else {
+        } else {
+            // Done with Detail, slide right
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
@@ -341,6 +444,7 @@
 - (void)didPressEditBottle:(id)sender
 {
     self.editMode = YES;
+    [self.tagsDataSource saveTags];
     [self setupEditMode:sender];
 }
 
@@ -351,14 +455,15 @@
     NSString *year = self.editBottleDataSource.year;
     NSString *name = self.editBottleDataSource.name;
     UIImage *image = self.editBottleDataSource.image;
-    NSArray *tags = self.editBottleDataSource.tags;
+    
+    //NSArray *tags = self.editBottleDataSource.tags;
     
     if (self.bottleID) {
         [self.bottleDataSource updateBottleWithBottleID:self.bottleID image:image name:name year:year
-                                           grapeVariety:grapeVariety vineyard:vineyard tags:tags];
+                                           grapeVariety:grapeVariety vineyard:vineyard];
     } else {
         self.bottleID = [self.bottleDataSource insertBottleWithImage:image name:name year:year
-                                                        grapeVariety:grapeVariety vineyard:vineyard tags:tags];
+                                                        grapeVariety:grapeVariety vineyard:vineyard];
     }
     
     if (self.editBottleDelegate.tapRecognizer) {
@@ -457,14 +562,14 @@
     NSString *vineyard = self.editBottleDataSource.vineyard;
     NSString *year = self.editBottleDataSource.year;
     NSString *name = self.editBottleDataSource.name;
-    NSArray *tags = self.editBottleDataSource.tags;
+//    NSArray *tags = self.editBottleDataSource.tags;
     
     if (self.bottleID) {
         [self.bottleDataSource updateBottleWithBottleID:self.bottleID image:croppedImage name:name year:year
-                                                                          grapeVariety:grapeVariety vineyard:vineyard tags:tags];
+                                                                          grapeVariety:grapeVariety vineyard:vineyard ];
     } else {
         self.bottleID = [self.bottleDataSource insertBottleWithImage:croppedImage name:name year:year
-                                                        grapeVariety:grapeVariety vineyard:vineyard tags:tags];
+                                                        grapeVariety:grapeVariety vineyard:vineyard];
         self.editBottleDataSource.bottleID = self.bottleID;
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
