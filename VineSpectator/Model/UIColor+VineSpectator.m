@@ -21,6 +21,7 @@ alpha:1.0]
 }
 
 + (UIColor *)roseColor {
+ //F5E9E9
     return UIColorFromRGB(0xEFDADA);
 }
 

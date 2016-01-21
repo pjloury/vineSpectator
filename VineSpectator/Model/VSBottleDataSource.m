@@ -237,6 +237,11 @@
     }
 }
 
+- (void)regenerateDataModel
+{
+    [self generateDataModelForFilter:self.previousFilter dirty:YES];
+}
+
 - (NSArray *)bottlesArrayDictionaryArrayForFilter:(NSString *)filter
 {
     NSMutableArray *arrayDictionaryArray = [NSMutableArray array];
@@ -256,8 +261,6 @@
         // TODO: if Tag is Equal to a grape variety in bottlesDictionary (ie one of the keys), then return just that Grape Variety
         for (NSString *key in filteredDictionary.allKeys)
         {
-            // will get a key for "cab sav"
-            // we're going to remove the cab
             NSMutableArray *bottlesForGrapeVariety = [filteredDictionary objectForKey:key];
             NSMutableArray *filteredBottlesForGrapeVariety = [bottlesForGrapeVariety mutableCopy];
             for (VSBottle *bottle in bottlesForGrapeVariety) {

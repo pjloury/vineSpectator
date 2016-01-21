@@ -13,6 +13,7 @@
 
 // Generators
 - (void)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
+- (void)regenerateDataModel;
 
 // Mutators
 - (NSString *)insertBottleWithImage:(UIImage *)image name:(NSString *)name year:(NSString *)year grapeVariety:(NSString *)grapeVariety

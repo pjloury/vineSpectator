@@ -7,6 +7,7 @@
 //
 
 #import "VSStackView.h"
+#import "VSFilterView.h"
 
 @interface VSStackView ()
 
@@ -18,20 +19,22 @@
 
 - (void)reloadData
 {
+    self.userInteractionEnabled = YES;
     NSMutableArray *views = [NSMutableArray array];
     for (int i = 0; i < [self.dataSource numberOfViewsInStack]; i++) {
         
         UIView *view = [self.dataSource viewForIndex:i];
         view.tag = i;
+        view.userInteractionEnabled = YES;
         UITapGestureRecognizer *tapRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagViewWasTapped:)];
         [view addGestureRecognizer:tapRec];
-        [views addObject:[self.dataSource viewForIndex:i]];
+        [views addObject:view];
     }
     self.stackView = [[UIStackView alloc ] initWithArrangedSubviews:views];
     self.stackView.alignment = UIStackViewAlignmentCenter;
     self.stackView.axis = UILayoutConstraintAxisHorizontal;
     self.stackView.distribution = UIStackViewDistributionFillProportionally;
-    self.stackView.spacing = 30.0f;
+    self.stackView.spacing = 25.0f;
     [self addSubview:self.stackView];
     
     [self.stackView mas_makeConstraints:^(MASConstraintMaker *make){
@@ -40,10 +43,17 @@
     }];
 }
 
-- (void)tagViewWasTapped:(id)sender
+- (void)tagViewWasTapped:(UIGestureRecognizer *)sender
 {
-    UIView *view = (UIView *)sender;
-    [self.delegate stackView:self didSelectViewAtIndex:view.tag];
+    UIButton *button = (UIButton *)sender.view;
+    button.selected = !button.selected;
+    if (button.selected) {
+        button.backgroundColor = [UIColor roseColor];
+        [self.delegate stackView:self didSelectViewAtIndex:sender.view.tag];
+    } else {
+        button.backgroundColor = [UIColor lightSalmonColor];
+        [self.delegate stackView:self didDeselectViewAtIndex:sender.view.tag];
+    }
 }
 
 - (CGSize)intrinsicContentSize

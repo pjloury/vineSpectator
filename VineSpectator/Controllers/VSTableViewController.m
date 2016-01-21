@@ -37,7 +37,6 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor offWhiteColor];
     self.tableView.showsVerticalScrollIndicator = NO;
-    self.tableView.bounces = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
@@ -94,7 +93,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:YES];
+    [self.bottleDataSource regenerateDataModel];
     [self.tableView reloadData]; // get the edits made in the detail VC
 }
 
@@ -114,6 +113,12 @@
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
 {
     [self.bottleDataSource generateDataModelForFilter:tag dirty:YES];
+    [self.tableView reloadData];
+}
+
+- (void)filterStackViewController:(VSFilterStackViewController *)viewController didDeselectTag:(NSString *)tag
+{
+    [self.bottleDataSource generateDataModelForFilter:@"None" dirty:YES];
     [self.tableView reloadData];
 }
 

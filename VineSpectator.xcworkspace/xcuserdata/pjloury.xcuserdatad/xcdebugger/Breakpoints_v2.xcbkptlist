@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VineSpectator/Model/VSTagsDataSource.m"
-            timestampString = "474863371.865869"
+            timestampString = "474882506.876089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "-collectionView:numberOfItemsInSection:"
             landmarkType = "5">
          </BreakpointContent>
@@ -84,7 +84,7 @@
                   moduleName = "VineSpectator"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pjloury/Xcode/VineSpectator/VineSpectator/Model/VSEditBottleDataSource.m"
-                  timestampString = "474880179.307528"
+                  timestampString = "474884047.279575"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "255"
@@ -99,7 +99,7 @@
                   moduleName = "VineSpectator"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pjloury/Xcode/VineSpectator/VineSpectator/Model/VSEditBottleDataSource.m"
-                  timestampString = "474880179.30777"
+                  timestampString = "474884047.279683"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "255"
@@ -164,11 +164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VineSpectator/Model/VSTagsDataSource.m"
-            timestampString = "474863371.865869"
+            timestampString = "474882506.876089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "-saveTags"
             landmarkType = "5">
          </BreakpointContent>
@@ -180,11 +180,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VineSpectator/Model/VSTagsDataSource.m"
-            timestampString = "474863371.865869"
+            timestampString = "474882506.876089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "-addTag:"
             landmarkType = "5">
          </BreakpointContent>
@@ -228,11 +228,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VineSpectator/Model/VSTagsDataSource.m"
-            timestampString = "474880080.811857"
+            timestampString = "474882506.876089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -244,11 +244,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VineSpectator/Model/VSBottleDataSource.m"
-            timestampString = "474861152.351084"
+            timestampString = "475047634.268615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
+            startingLineNumber = "332"
+            endingLineNumber = "332"
             landmarkName = "-updateBottleWithBottleID:image:name:year:grapeVariety:vineyard:"
             landmarkType = "5">
          </BreakpointContent>
@@ -260,11 +260,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VineSpectator/Controllers/VSTableViewController.m"
-            timestampString = "474880076.109133"
+            timestampString = "475048278.531288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "-filterStackViewController:didSelectTag:"
             landmarkType = "5">
          </BreakpointContent>
@@ -275,13 +275,109 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VineSpectator/Views/VSStackView.m"
-            timestampString = "474880179.184726"
+            filePath = "VineSpectator/Model/VSBottleDataSource.m"
+            timestampString = "475047634.268615"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "-tagViewWasTapped:"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
+            landmarkName = "-bottlesArrayDictionaryArrayForFilter:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VineSpectator/Model/VSBottleDataSource.m"
+            timestampString = "475047634.268615"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "-bottlesArrayDictionaryArrayForFilter:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[VSBottleDataSource bottlesArrayDictionaryArrayForFilter:]"
+                  moduleName = "VineSpectator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pjloury/Xcode/VineSpectator/VineSpectator/Model/VSBottleDataSource.m"
+                  timestampString = "474884047.283243"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "1105">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[VSBottleDataSource bottlesArrayDictionaryArrayForFilter:]"
+                  moduleName = "VineSpectator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pjloury/Xcode/VineSpectator/VineSpectator/Model/VSBottleDataSource.m"
+                  timestampString = "474884047.283346"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "257"
+                  endingLineNumber = "257"
+                  offsetFromSymbolStart = "1113">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VineSpectator/Views/VSFilterView.m"
+            timestampString = "474882506.876089"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "-setSelected:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VineSpectator/Model/VSTagsDataSource.m"
+            timestampString = "474883907.652496"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "-viewForIndex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VineSpectator/Model/VSTagsDataSource.m"
+            timestampString = "474883907.652496"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "-viewForIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

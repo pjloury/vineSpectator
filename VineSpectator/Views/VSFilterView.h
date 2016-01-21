@@ -10,4 +10,6 @@
 
 @interface VSFilterView : UIView
 
+@property (nonatomic) BOOL selected;
+
 @end

@@ -8,7 +8,12 @@
 
 #import "VSFilterView.h"
 
+@interface VSFilterView ()
+
+@end
+
 @implementation VSFilterView
+
 
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -17,5 +22,14 @@
     // Drawing code
 }
 */
+
+- (void)setSelected:(BOOL)selected {
+    _selected = selected;
+    if (selected) {
+        self.backgroundColor = [UIColor roseColor];
+    } else {
+        self.backgroundColor = [UIColor lightSalmonColor];
+    }
+}
 
 @end

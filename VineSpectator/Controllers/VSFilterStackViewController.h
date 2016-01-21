@@ -13,6 +13,7 @@
 @protocol VSFilterSelectionDelegate
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag;
+- (void)filterStackViewController:(VSFilterStackViewController *)viewController didDeselectTag:(NSString *)tag;
 
 @end
 

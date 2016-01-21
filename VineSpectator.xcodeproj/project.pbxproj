@@ -29,7 +29,6 @@
 		600882691C4C558000ADB8BA /* VSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 600882681C4C558000ADB8BA /* VSTableView.m */; };
 		601E50351C068D6700FEBA6E /* VSShortcutDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50341C068D6700FEBA6E /* VSShortcutDataSource.m */; };
 		601E50381C068D7C00FEBA6E /* VSShortcutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50371C068D7C00FEBA6E /* VSShortcutView.m */; };
-		601E503B1C068DAF00FEBA6E /* VSShortcutStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E503A1C068DAF00FEBA6E /* VSShortcutStackView.m */; };
 		601E50571C08E33300FEBA6E /* VSGrapeVariety.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50561C08E33300FEBA6E /* VSGrapeVariety.m */; };
 		601E505A1C08E82F00FEBA6E /* VSGrapeVarietyDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 601E50591C08E82F00FEBA6E /* VSGrapeVarietyDataSource.m */; };
 		602635651C029E7F00002300 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635641C029E7F00002300 /* main.m */; };
@@ -42,9 +41,9 @@
 		602635971C02DD6500002300 /* VSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635961C02DD6500002300 /* VSTableViewCell.m */; };
 		6026359D1C02DDA700002300 /* VSBottle.m in Sources */ = {isa = PBXBuildFile; fileRef = 6026359B1C02DDA700002300 /* VSBottle.m */; };
 		602635AC1C0431DB00002300 /* VSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 602635AB1C0431DB00002300 /* VSDetailViewController.m */; };
+		6094BEA91C50A8C8005B39E6 /* VSStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6094BEA81C50A8C8005B39E6 /* VSStackView.m */; };
 		60A29ABF1C2F3F3A00FD92FC /* VSTagsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29ABE1C2F3F3A00FD92FC /* VSTagsDataSource.m */; };
 		60A29AC21C2F449C00FD92FC /* VSFilterStackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29AC11C2F449C00FD92FC /* VSFilterStackViewController.m */; };
-		60A29AC51C2F44CD00FD92FC /* VSStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29AC41C2F44CD00FD92FC /* VSStackView.m */; };
 		60A29ACE1C2F458100FD92FC /* VSFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29ACD1C2F458100FD92FC /* VSFilterView.m */; };
 		C0E0E3FD7C014ACC8B72F652 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A6E73F781570B865DEE9F4 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -99,8 +98,6 @@
 		601E50341C068D6700FEBA6E /* VSShortcutDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSShortcutDataSource.m; path = VineSpectator/Model/VSShortcutDataSource.m; sourceTree = "<group>"; };
 		601E50361C068D7C00FEBA6E /* VSShortcutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSShortcutView.h; path = VineSpectator/Views/VSShortcutView.h; sourceTree = "<group>"; };
 		601E50371C068D7C00FEBA6E /* VSShortcutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSShortcutView.m; path = VineSpectator/Views/VSShortcutView.m; sourceTree = "<group>"; };
-		601E50391C068DAF00FEBA6E /* VSShortcutStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSShortcutStackView.h; path = VineSpectator/Views/VSShortcutStackView.h; sourceTree = "<group>"; };
-		601E503A1C068DAF00FEBA6E /* VSShortcutStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSShortcutStackView.m; path = VineSpectator/Views/VSShortcutStackView.m; sourceTree = "<group>"; };
 		601E50551C08E33300FEBA6E /* VSGrapeVariety.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSGrapeVariety.h; path = VineSpectator/Model/VSGrapeVariety.h; sourceTree = "<group>"; };
 		601E50561C08E33300FEBA6E /* VSGrapeVariety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSGrapeVariety.m; path = VineSpectator/Model/VSGrapeVariety.m; sourceTree = "<group>"; };
 		601E50581C08E82F00FEBA6E /* VSGrapeVarietyDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSGrapeVarietyDataSource.h; path = VineSpectator/Model/VSGrapeVarietyDataSource.h; sourceTree = "<group>"; };
@@ -126,12 +123,14 @@
 		602635A01C02EE7400002300 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		602635AA1C0431DB00002300 /* VSDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSDetailViewController.h; path = Controllers/VSDetailViewController.h; sourceTree = "<group>"; };
 		602635AB1C0431DB00002300 /* VSDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSDetailViewController.m; path = Controllers/VSDetailViewController.m; sourceTree = "<group>"; };
+		6094BEA51C4E2788005B39E6 /* VSScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VSScrollView.h; path = VineSpectator/Views/VSScrollView.h; sourceTree = "<group>"; };
+		6094BEA61C4E2788005B39E6 /* VSScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = VSScrollView.m; path = VineSpectator/Views/VSScrollView.m; sourceTree = "<group>"; };
+		6094BEA71C50A8C8005B39E6 /* VSStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSStackView.h; path = VineSpectator/Views/VSStackView.h; sourceTree = "<group>"; };
+		6094BEA81C50A8C8005B39E6 /* VSStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSStackView.m; path = VineSpectator/Views/VSStackView.m; sourceTree = "<group>"; };
 		60A29ABD1C2F3F3A00FD92FC /* VSTagsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSTagsDataSource.h; path = VineSpectator/Model/VSTagsDataSource.h; sourceTree = "<group>"; };
 		60A29ABE1C2F3F3A00FD92FC /* VSTagsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSTagsDataSource.m; path = VineSpectator/Model/VSTagsDataSource.m; sourceTree = "<group>"; };
 		60A29AC01C2F449C00FD92FC /* VSFilterStackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSFilterStackViewController.h; path = VineSpectator/Controllers/VSFilterStackViewController.h; sourceTree = "<group>"; };
 		60A29AC11C2F449C00FD92FC /* VSFilterStackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSFilterStackViewController.m; path = VineSpectator/Controllers/VSFilterStackViewController.m; sourceTree = "<group>"; };
-		60A29AC31C2F44CD00FD92FC /* VSStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSStackView.h; path = VineSpectator/Views/VSStackView.h; sourceTree = "<group>"; };
-		60A29AC41C2F44CD00FD92FC /* VSStackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSStackView.m; path = VineSpectator/Views/VSStackView.m; sourceTree = "<group>"; };
 		60A29ACC1C2F458100FD92FC /* VSFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSFilterView.h; path = VineSpectator/Views/VSFilterView.h; sourceTree = "<group>"; };
 		60A29ACD1C2F458100FD92FC /* VSFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSFilterView.m; path = VineSpectator/Views/VSFilterView.m; sourceTree = "<group>"; };
 		71A6E73F781570B865DEE9F4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,10 +184,6 @@
 				600882621C4A190D00ADB8BA /* LaunchScreen.storyboard */,
 				60A29AC01C2F449C00FD92FC /* VSFilterStackViewController.h */,
 				60A29AC11C2F449C00FD92FC /* VSFilterStackViewController.m */,
-				60A29ACC1C2F458100FD92FC /* VSFilterView.h */,
-				60A29ACD1C2F458100FD92FC /* VSFilterView.m */,
-				60A29AC31C2F44CD00FD92FC /* VSStackView.h */,
-				60A29AC41C2F44CD00FD92FC /* VSStackView.m */,
 				56A06F2A304752774A08DFEF /* Frameworks */,
 				B341B980C7AFCF35E21081EB /* Pods */,
 				602635611C029E7F00002300 /* Products */,
@@ -291,20 +286,24 @@
 		6026359F1C02DDCE00002300 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				600882671C4C558000ADB8BA /* VSTableView.h */,
-				600882681C4C558000ADB8BA /* VSTableView.m */,
-				60081C381C2CD84A00C01784 /* VSTextField.h */,
-				60081C391C2CD84A00C01784 /* VSTextField.m */,
-				60081C2C1C2BC0FC00C01784 /* VSSectionView.h */,
-				60081C2D1C2BC0FC00C01784 /* VSSectionView.m */,
+				60A29ACC1C2F458100FD92FC /* VSFilterView.h */,
+				60A29ACD1C2F458100FD92FC /* VSFilterView.m */,
 				60081C351C2CD81C00C01784 /* VSPromptLabel.h */,
 				60081C361C2CD81C00C01784 /* VSPromptLabel.m */,
+				6094BEA51C4E2788005B39E6 /* VSScrollView.h */,
+				6094BEA61C4E2788005B39E6 /* VSScrollView.m */,
+				60081C2C1C2BC0FC00C01784 /* VSSectionView.h */,
+				60081C2D1C2BC0FC00C01784 /* VSSectionView.m */,
 				601E50361C068D7C00FEBA6E /* VSShortcutView.h */,
 				601E50371C068D7C00FEBA6E /* VSShortcutView.m */,
-				601E50391C068DAF00FEBA6E /* VSShortcutStackView.h */,
-				601E503A1C068DAF00FEBA6E /* VSShortcutStackView.m */,
+				6094BEA71C50A8C8005B39E6 /* VSStackView.h */,
+				6094BEA81C50A8C8005B39E6 /* VSStackView.m */,
+				600882671C4C558000ADB8BA /* VSTableView.h */,
+				600882681C4C558000ADB8BA /* VSTableView.m */,
 				602635951C02DD6500002300 /* VSTableViewCell.h */,
 				602635961C02DD6500002300 /* VSTableViewCell.m */,
+				60081C381C2CD84A00C01784 /* VSTextField.h */,
+				60081C391C2CD84A00C01784 /* VSTextField.m */,
 			);
 			name = Views;
 			path = ..;
@@ -471,7 +470,6 @@
 				60A29AC21C2F449C00FD92FC /* VSFilterStackViewController.m in Sources */,
 				60081C2B1C2BB07200C01784 /* VSViewController.m in Sources */,
 				602635911C02DB2000002300 /* VSBottleDataSource.m in Sources */,
-				601E503B1C068DAF00FEBA6E /* VSShortcutStackView.m in Sources */,
 				60081C151C28E45200C01784 /* UIColor+VineSpectator.m in Sources */,
 				60081C341C2CD0D400C01784 /* VSEditBottleDelegate.m in Sources */,
 				60081C3A1C2CD84A00C01784 /* VSTextField.m in Sources */,
@@ -484,7 +482,7 @@
 				60081C371C2CD81C00C01784 /* VSPromptLabel.m in Sources */,
 				60081C0C1C16BAA300C01784 /* HTAutocompleteManager.m in Sources */,
 				600882661C4C353100ADB8BA /* VSTagCollectionViewCell.m in Sources */,
-				60A29AC51C2F44CD00FD92FC /* VSStackView.m in Sources */,
+				6094BEA91C50A8C8005B39E6 /* VSStackView.m in Sources */,
 				602635AC1C0431DB00002300 /* VSDetailViewController.m in Sources */,
 				602635651C029E7F00002300 /* main.m in Sources */,
 				600882691C4C558000ADB8BA /* VSTableView.m in Sources */,

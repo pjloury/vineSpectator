@@ -8,6 +8,7 @@
 
 #import "VSTagsDataSource.h"
 #import "VSTagCollectionViewCell.h"
+#import "VSFilterView.h"
 
 // I want this to be the only class that can access all of the bottles
 
@@ -133,39 +134,46 @@
     return [self allTags].count;
 }
 
-- (UIView *)viewForIndex:(NSInteger)index
+- (UIButton *)viewForIndex:(NSInteger)index
 {
-    UIView *view;
-    view.backgroundColor = [UIColor lightSalmonColor];
-    
+//    VSFilterView *view;
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,50,85)];
+    button.backgroundColor = [UIColor lightSalmonColor];
     if (index == 0) {
-//        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 73, 50) ];
-//        [view addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]]];
-        return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
+//
+//
+        [button setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+        [button sizeToFit];
+        
+//        return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
     } else if (index == 1) {
-//        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 73, 50) ];
-//        [view addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chrono"]]];
-        return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chrono"]];
+//
+//
+//        return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chrono"]];
+        [button setImage:[UIImage imageNamed:@"chrono"] forState:UIControlStateNormal];
+        [button sizeToFit];
     } else {
-        //view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 90, 50) ];
-        
-        UILabel *tagLabel = [UILabel new];
-        tagLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
-        if (index % 2) {
-            tagLabel.textColor = [UIColor wineColor];
-        } else {
-            tagLabel.textColor = [UIColor goldColor];
-        }
-        [tagLabel sizeToFit];
-//        tagLabel.adjustsFontSizeToFitWidth = YES;
+//        UILabel *tagLabel = [UILabel new];
+//        tagLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+//        if (index % 2) {
+//            tagLabel.textColor = [UIColor wineColor];
+//        } else {
+//            tagLabel.textColor = [UIColor goldColor];
+//        }
+//        [tagLabel sizeToFit];
+
         NSString *text = [self textForIndex:index-2];
-        tagLabel.text = text;
-        return tagLabel;
-        //[view addSubview:tagLabel];
+//        tagLabel.text = text;
         
-//        [tagLabel mas_makeConstraints:^(MASConstraintMaker *make){
-//            make.center.equalTo(view);
-//        }];
+        button.titleLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+        [button setTitleColor:[UIColor wineColor] forState:UIControlStateSelected];
+        [button setTitleColor:[UIColor goldColor] forState:UIControlStateNormal];
+
+        [button setTitle:text forState:UIControlStateNormal];
+        [button.titleLabel sizeToFit];
+        [button sizeToFit];
+//        return tagLabel;
+        return button;
     }
     
     //    [tagLabel sizeToFit];
@@ -175,7 +183,7 @@
     //    size.height += 10;
     //    size.width += 30;
     //    return size;
-    return view;
+    return button;
 }
 
 @end

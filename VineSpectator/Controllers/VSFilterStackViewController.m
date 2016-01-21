@@ -9,11 +9,12 @@
 #import "VSFilterStackViewController.h"
 #import "VSStackView.h"
 #import "VSTagsDataSource.h"
+#import "VSScrollView.h"
 
 @interface VSFilterStackViewController () <VSStackViewDelegate>
 
 @property VSStackView *stackView;
-@property UIScrollView *stackScrollView;
+@property VSScrollView *stackScrollView;
 @property VSTagsDataSource *tagsDataSource;
 
 @end
@@ -35,11 +36,13 @@
     [self.view addSubview:self.stackScrollView];
     
     self.stackView = [[VSStackView alloc] initWithFrame:CGRectMake(0,0,650,50)];
+    self.stackScrollView.canCancelContentTouches = YES;
     self.stackScrollView.showsHorizontalScrollIndicator = NO;
     //self.stackView.frame = CGRectMake(0,0,self.stackView.intrinsicContentSize.width,self.stackView.intrinsicContentSize.height);
     self.stackView.delegate = self;
     self.stackView.dataSource = self.tagsDataSource;
     [self.stackScrollView addSubview:self.stackView];
+    self.stackScrollView.userInteractionEnabled = YES;
     
     [self.stackView reloadData];
     
@@ -58,6 +61,12 @@
 }
 
 # pragma mark - VSStackViewDelegate
+- (void)stackView:(VSStackView *)stackView didDeselectViewAtIndex:(NSInteger)index
+{
+    NSString *tag = [self.tagsDataSource textForStackIndex:index];
+    [self.delegate filterStackViewController:self didDeselectTag:tag];
+}
+
 
 - (void)stackView:(VSStackView *)stackView didSelectViewAtIndex:(NSInteger)index
 {
