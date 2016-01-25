@@ -20,6 +20,7 @@
 @dynamic bottleDescription;
 @dynamic cloudImage;
 @dynamic color;
+@dynamic dateDrank;
 @dynamic drank;
 @dynamic grapeVariety;
 @dynamic grapeVarietyName;

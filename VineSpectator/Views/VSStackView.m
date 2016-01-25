@@ -33,13 +33,12 @@
     self.stackView = [[UIStackView alloc ] initWithArrangedSubviews:views];
     self.stackView.alignment = UIStackViewAlignmentCenter;
     self.stackView.axis = UILayoutConstraintAxisHorizontal;
-    self.stackView.distribution = UIStackViewDistributionFillProportionally;
-    self.stackView.spacing = 25.0f;
+    self.stackView.distribution = UIStackViewDistributionEqualSpacing;
+    self.stackView.spacing = 0.0f;
     [self addSubview:self.stackView];
     
     [self.stackView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.bottom.right.equalTo(self);
-        make.left.equalTo(self).offset(20);
+        make.top.left.bottom.right.equalTo(self);
     }];
 }
 
@@ -48,11 +47,23 @@
     UIButton *button = (UIButton *)sender.view;
     button.selected = !button.selected;
     if (button.selected) {
+        [self unSelectAllButtonsExcept:button.tag];
         button.backgroundColor = [UIColor roseColor];
         [self.delegate stackView:self didSelectViewAtIndex:sender.view.tag];
     } else {
         button.backgroundColor = [UIColor lightSalmonColor];
         [self.delegate stackView:self didDeselectViewAtIndex:sender.view.tag];
+    }
+}
+
+- (void)unSelectAllButtonsExcept:(NSInteger)tag
+{
+    for (NSInteger i = 0; i < self.dataSource.numberOfViewsInStack; i++) {
+        UIButton *button = (UIButton *)self.stackView.arrangedSubviews[i];
+        if (button.tag != tag) {
+            button.backgroundColor = [UIColor lightSalmonColor];
+            button.selected = NO;
+        }
     }
 }
 

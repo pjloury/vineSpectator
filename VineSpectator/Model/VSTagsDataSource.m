@@ -136,53 +136,36 @@
 
 - (UIButton *)viewForIndex:(NSInteger)index
 {
-//    VSFilterView *view;
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,50,85)];
     button.backgroundColor = [UIColor lightSalmonColor];
     if (index == 0) {
-//
-//
         [button setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
         [button sizeToFit];
-        
-//        return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search"]];
     } else if (index == 1) {
-//
-//
-//        return [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"chrono"]];
         [button setImage:[UIImage imageNamed:@"chrono"] forState:UIControlStateNormal];
         [button sizeToFit];
     } else {
-//        UILabel *tagLabel = [UILabel new];
-//        tagLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
-//        if (index % 2) {
-//            tagLabel.textColor = [UIColor wineColor];
-//        } else {
-//            tagLabel.textColor = [UIColor goldColor];
-//        }
-//        [tagLabel sizeToFit];
 
         NSString *text = [self textForIndex:index-2];
-//        tagLabel.text = text;
         
         button.titleLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
         [button setTitleColor:[UIColor wineColor] forState:UIControlStateSelected];
         [button setTitleColor:[UIColor goldColor] forState:UIControlStateNormal];
 
         [button setTitle:text forState:UIControlStateNormal];
+        button.titleLabel.textAlignment = NSTextAlignmentCenter;
         [button.titleLabel sizeToFit];
         [button sizeToFit];
-//        return tagLabel;
-        return button;
+
     }
+
+    NSInteger width = button.frame.size.width;
     
-    //    [tagLabel sizeToFit];
-    //     CGSize size = [text sizeWithAttributes:@{@"NSFontAttributeName": [UIFont fontWithName:@"Athelas-Regular" size:20]}];
-    //    NSString *text = [self.tagsDataSource textForIndexPath:indexPath];
-    //    CGSize size = [text sizeWithAttributes:@{@"NSFontAttributeName": [UIFont fontWithName:@"YuMin-Medium" size:15.0]}];
-    //    size.height += 10;
-    //    size.width += 30;
-    //    return size;
+    [button mas_makeConstraints:^(MASConstraintMaker *make){
+        make.width.equalTo(width + 20);
+        make.height.equalTo(50);
+    }];
+    
     return button;
 }
 

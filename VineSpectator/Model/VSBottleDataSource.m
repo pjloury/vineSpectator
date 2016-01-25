@@ -16,9 +16,15 @@
 @interface VSBottleDataSource ()
 
 @property NSMutableArray *bottles;
+// The master set of GrapeVariety: Bottles
 @property NSMutableDictionary *bottlesDictionary;
 @property NSArray *filteredArrayDictionaryArray;
+@property NSArray *chronoArrayDictionaryArray;
 @property NSString *previousFilter;
+
+//
+@property NSMutableArray *filteredBottles;
+//
 
 // the "sections" will be the
 
@@ -70,7 +76,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // the fADA is missing the cab!
     NSDictionary *bottlesDictionary = self.filteredArrayDictionaryArray[section];
     NSArray *arrayContainingArray = [bottlesDictionary allValues];
     NSArray *bottlesForSection = arrayContainingArray.firstObject;
@@ -203,6 +208,8 @@
         self.bottles = [objects mutableCopy];
         [PFObject pinAllInBackground:objects];
         self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles]; // this is ALL the bottles
+        self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
+        
         self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilter:@"Unopened"];
         if (completion) {
             completion();
@@ -228,6 +235,51 @@
     }
     return bottlesDict;
 }
+
+- (NSArray *)transformBottlesArrayToChronoArrayDictionaryArray:(NSArray *)bottles
+{
+    NSMutableArray *chrono = [NSMutableArray array];
+    for (VSBottle *bottle in bottles) {
+        // for this bottle's year, does a dictionary exist?
+        [self array:chrono addBottle:bottle];
+    }
+    
+    // Sort the array of variety dictionaries by variety
+    return [chrono sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSString *yearA = [(NSDictionary *)a allKeys].firstObject; //  { "Malbec": [ b1, b2, b3  ] }
+        NSString *yearB = [(NSDictionary *)b allKeys].firstObject;
+        return [@(yearA.intValue) compare:@(yearB.intValue)];
+    }];
+    return chrono;
+}
+
+
+// Creates a /adds to a new dictionary: array
+- (void)array:(NSMutableArray *)array addBottle:(VSBottle *)bottle
+{
+    NSString *key = [NSString stringWithFormat: @"%ld", (long)bottle.year];
+    BOOL foundYear = NO;
+    for (NSMutableDictionary *dict in array) {
+        if ([dict.allKeys.firstObject isEqualToString:key]) {
+            NSMutableArray *bottleArray = [dict objectForKey:key];
+            [bottleArray addObject:bottle];
+            foundYear = YES;
+            
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"vineyardName" ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            [bottleArray sortUsingDescriptors:sortDescriptors];
+            break;
+        }
+    }
+    if (foundYear == NO) {
+        NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
+        NSMutableArray *newBottleArray = [NSMutableArray array];
+        [newBottleArray addObject:bottle];
+        [mDict setObject:newBottleArray forKey:key];
+        [array addObject:mDict];
+    }
+}
+
 
 - (void)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
 {
@@ -255,6 +307,12 @@
             NSArray *sortedBottlesForGrapeVariety = [bottlesForGrapeVariety sortedArrayUsingDescriptors:sortDescriptors];
             [arrayDictionaryArray addObject:@{key:sortedBottlesForGrapeVariety}];
         }
+    }
+    else if  ([filter isEqualToString:@"chrono"]) {
+        return self.chronoArrayDictionaryArray;
+    }
+    else if  ([filter isEqualToString:@"drank"]) {
+        
     }
     else {
         // ie for tag "red", filter out all that aren't red

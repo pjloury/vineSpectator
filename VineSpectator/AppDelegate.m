@@ -16,8 +16,14 @@
 // the user should be cached
 // rely on the local cache, THEN attempt to fetch from the network.
 
+// 1: Implement Login
+// 2: Implement "No Bottles"
+// 3: Implement "Edit Custom Tags". Red and White should always be present
+// 4: Move Chrono Sort to the Nav Bar (as a sort toggle, not a filter)
+// 5: Remove Search
+// BONUS: If Grape Variety matches a known Grape variety, auto populate the "Red/White" field
+
 // How to add images to the camera roll
-// T1: by default should take a picture
 // T2: Welcome back, david
 // T3: Tap on the next field and it will jump to complete the word
 // Mock up some bottles!

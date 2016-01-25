@@ -49,15 +49,6 @@
     self.stackScrollView.contentSize = self.stackView.intrinsicContentSize;
     self.stackScrollView.alwaysBounceHorizontal = YES;
     self.stackScrollView.scrollEnabled = YES;
-    
-    //    UIView *foo = [[UIView alloc] initWithFrame:CGRectMake(0,0,500,500)];
-    //    foo.backgroundColor = [UIColor orangeColor];
-    //    [self.stackScrollView addSubview:foo];
-    
-    // size the stackview to FIT all its views
-//    [self.stackView mas_makeConstraints:^(MASConstraintMaker *make){
-//        make.top.bottom.equalTo(self.stackScrollView);
-//    }];
 }
 
 # pragma mark - VSStackViewDelegate

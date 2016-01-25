@@ -32,6 +32,7 @@ typedef NS_ENUM(NSInteger, VSWineColorType) {
 
 @property NSString *bottleDescription;
 @property PFFile *cloudImage;
+@property NSDate *dateDrank;
 @property BOOL drank;
 @property VSGrapeVariety *grapeVariety;
 @property VSWineColorType color;

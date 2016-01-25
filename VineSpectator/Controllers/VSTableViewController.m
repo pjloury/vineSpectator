@@ -11,7 +11,7 @@
 #import "VSFilterStackViewController.h"
 #import "VSBottleDataSource.h"
 
-@interface VSTableViewController () <UITableViewDelegate, VSFilterSelectionDelegate>
+@interface VSTableViewController () <UITableViewDelegate, VSFilterSelectionDelegate, UIScrollViewDelegate>
 
 // save VSShortcutViewController for last!
 // Might not need a stack view controller!
@@ -108,17 +108,33 @@
     [self presentViewController:nc animated:YES completion:nil];
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y<=0) {
+        scrollView.contentOffset = CGPointZero;
+    }
+}
+
 # pragma VSFilterSelectionDelegate
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
 {
     [self.bottleDataSource generateDataModelForFilter:tag dirty:YES];
     [self.tableView reloadData];
+    
+    
+//    NSRange range = NSMakeRange(0, [self.tableView.dataSource numberOfSectionsInTableView:self.tableView]);
+//    NSIndexSet *sections = [NSIndexSet indexSetWithIndexesInRange:range];
+//    [self.tableView reloadSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didDeselectTag:(NSString *)tag
 {
     [self.bottleDataSource generateDataModelForFilter:@"None" dirty:YES];
+//    NSRange range = NSMakeRange(0, [self.tableView.dataSource numberOfSectionsInTableView:self.tableView]);
+//    NSIndexSet *sections = [NSIndexSet indexSetWithIndexesInRange:range];
+//    [self.tableView reloadSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
+    
     [self.tableView reloadData];
 }
 
