@@ -17,8 +17,6 @@
 @property VSBottleDataSource *bottleDataSource;
 @property (nonatomic) NSString *bottleID;
 @property (nonatomic) NSMutableArray *localTags;
-@property (nonatomic) NSMutableArray *userTags;
-
 @end
 
 @implementation VSTagsDataSource
@@ -56,7 +54,7 @@
 {
     _userTags = [userTags mutableCopy];
     [[PFUser currentUser] setObject:userTags forKey:@"tags"];
-    [[PFUser currentUser] saveInBackground];
+    [[PFUser currentUser] save];
 }
 
 - (NSMutableArray *)allTags
@@ -67,15 +65,16 @@
     return array;
 }
 
+// UI Test: Add a Tag, tag a bottle, delete the tag, edit the bottle, put the tag back..
 # pragma mark - Public Methods
-- (void)removeTag:(NSString *)tag
-{
-    [self.localTags removeObject:tag];
-}
-
 - (void)addTag:(NSString *)tag
 {
     [self.localTags addObject:tag];
+}
+
+- (void)removeTag:(NSString *)tag
+{
+    [self.localTags removeObject:tag];
 }
 
 - (void)saveTags
@@ -85,11 +84,9 @@
     [bottle save];
 }
 
-# pragma mark - UICollectionViewDataSource
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (NSString *)textForIndexPath:(NSIndexPath *)indexPath
 {
-    return self.userTags.count;
+    return self.userTags[indexPath.row];
 }
 
 - (NSString *)textForStackIndex:(NSInteger)stackIndex
@@ -104,39 +101,22 @@
     }
 }
 
+# pragma mark - private
 - (NSString *)textForIndex:(NSInteger)index
 {
     return self.userTags[index];
 }
 
-- (NSString *)textForIndexPath:(NSIndexPath *)indexPath
-{
-    return self.userTags[indexPath.row];
-}
-
-// The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    VSTagCollectionViewCell *cell = (VSTagCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TagCell" forIndexPath:indexPath];
-    NSString *tag = self.userTags[indexPath.row];
-    cell.tag = tag;
-    if ([self.localTags containsObject:tag]) {
-        [cell setSelected:YES];
-        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-    }
-    return cell;
-}
 
 # pragma mark - VSStackViewDataSource
-
 - (NSInteger)numberOfViewsInStack
 {
-    return [self allTags].count;
+    return [self allTags].count + 1;
 }
 
 - (UIButton *)viewForIndex:(NSInteger)index
 {
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,50,85)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,50,50)];
     button.backgroundColor = [UIColor lightSalmonColor];
     if (index == 0) {
         [button setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
@@ -144,22 +124,26 @@
     } else if (index == 1) {
         [button setImage:[UIImage imageNamed:@"chrono"] forState:UIControlStateNormal];
         [button sizeToFit];
-    } else {
-
-        NSString *text = [self textForIndex:index-2];
-        
-        button.titleLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+    }
+    else {
+        NSString *text;
+        if (index == self.numberOfViewsInStack - 1) {
+            text = @"+";
+            button.titleLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:40];
+        } else {
+            text = [self textForIndex:index-2];
+            button.titleLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+        }
         [button setTitleColor:[UIColor wineColor] forState:UIControlStateSelected];
         [button setTitleColor:[UIColor goldColor] forState:UIControlStateNormal];
-
         [button setTitle:text forState:UIControlStateNormal];
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
         [button.titleLabel sizeToFit];
         [button sizeToFit];
-
     }
 
     NSInteger width = button.frame.size.width;
+    button.adjustsImageWhenHighlighted = NO;
     
     [button mas_makeConstraints:^(MASConstraintMaker *make){
         make.width.equalTo(width + 20);
@@ -167,6 +151,29 @@
     }];
     
     return button;
+}
+
+# pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
+    return bottle.tags.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    VSTagCollectionViewCell *cell = (VSTagCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TagCell" forIndexPath:indexPath];
+    
+    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
+    
+    NSString *tag = bottle.tags[indexPath.row];
+    cell.tag = tag;
+    if ([self.localTags containsObject:tag]) {
+        [cell setSelected:YES];
+        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    }
+    return cell;
 }
 
 @end

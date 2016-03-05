@@ -212,6 +212,10 @@
             grapeVarietyLabel.textColor = [UIColor oliveInkColor];
             grapeVarietyLabel.font = [UIFont fontWithName:@"STKaiti-SC-Regular" size:20.0];
             [grapeVarietyLabel sizeToFit];
+            grapeVarietyLabel.numberOfLines = 1;
+            grapeVarietyLabel.adjustsFontSizeToFitWidth = YES;
+            grapeVarietyLabel.minimumScaleFactor = 0.75;
+            [grapeVarietyLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
             [sectionView addSubview:grapeVarietyLabel];
             
             UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -219,7 +223,11 @@
             nameLabel.textColor = [UIColor oliveInkColor];
             nameLabel.textAlignment = NSTextAlignmentRight;
             nameLabel.font = [UIFont fontWithName:@"STKaiti-SC-Regular" size:20.0];
-            [nameLabel sizeToFit];
+            nameLabel.adjustsFontSizeToFitWidth = YES;
+            nameLabel.minimumScaleFactor = 0.75;
+            nameLabel.numberOfLines = 1;
+            [nameLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+            //[nameLabel sizeToFit];
             [sectionView addSubview:nameLabel];
             
             UILabel *yearLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -256,6 +264,7 @@
             
             [nameLabel mas_makeConstraints:^(MASConstraintMaker *make){
                 make.right.equalTo(sectionView.right).offset(-20);
+                make.left.equalTo(grapeVarietyLabel.right).offset(10);
                 if (vineyardLabel.text.length > 0) {
                     make.top.equalTo(vineyardLabel.bottom).offset(-3);
                 } else {

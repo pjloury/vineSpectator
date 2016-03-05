@@ -21,7 +21,6 @@
 
 - (void)stackView:(VSStackView *_Nonnull)stackView didSelectViewAtIndex:(NSInteger)index;
 - (void)stackView:(VSStackView *_Nonnull)stackView didDeselectViewAtIndex:(NSInteger)index;
-// When the user taps the filter, it should tell the table controller that a
 
 @end
 

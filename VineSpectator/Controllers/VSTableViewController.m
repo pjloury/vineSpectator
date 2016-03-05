@@ -9,6 +9,7 @@
 #import "VSTableViewController.h"
 #import "VSDetailViewController.h"
 #import "VSFilterStackViewController.h"
+#import "VSTagsViewController.h"
 #import "VSBottleDataSource.h"
 
 @interface VSTableViewController () <UITableViewDelegate, VSFilterSelectionDelegate, UIScrollViewDelegate>
@@ -116,6 +117,12 @@
 }
 
 # pragma VSFilterSelectionDelegate
+- (void)didPressViewAllTags:(id)sender
+{
+    VSTagsViewController *tagsVC = [[VSTagsViewController alloc] init];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:tagsVC];
+    [self presentViewController:nc animated:YES completion:nil];
+}
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
 {

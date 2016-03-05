@@ -15,14 +15,14 @@
 - (instancetype)initWithBottleDataSource:(VSBottleDataSource *)bottleDataSource;
 - (instancetype)initWithBottleDataSource:(VSBottleDataSource *)bottleDataSource bottleID:(NSString *)bottleID;
 
-- (NSString *)textForStackIndex:(NSInteger)stackIndex;
-- (NSString *)textForIndexPath:(NSIndexPath *)indexPath;
-@property (readonly, nonatomic) NSMutableArray *userTags;
-@property (readonly, nonatomic) NSMutableArray *allTags;
+@property (nonatomic) NSArray *userTags;
+@property (readonly, nonatomic) NSArray *allTags;
 
-
-- (void)removeTag:(NSString *)tag;
 - (void)addTag:(NSString *)tag;
+- (void)removeTag:(NSString *)tag;
 - (void)saveTags;
+- (NSString *)textForIndexPath:(NSIndexPath *)indexPath;
+- (NSString *)textForStackIndex:(NSInteger)stackIndex;
+
 
 @end

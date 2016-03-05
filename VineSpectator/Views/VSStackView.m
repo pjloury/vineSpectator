@@ -21,6 +21,7 @@
 {
     self.userInteractionEnabled = YES;
     NSMutableArray *views = [NSMutableArray array];
+    [self.stackView removeFromSuperview];
     for (int i = 0; i < [self.dataSource numberOfViewsInStack]; i++) {
         
         UIView *view = [self.dataSource viewForIndex:i];
@@ -33,7 +34,7 @@
     self.stackView = [[UIStackView alloc ] initWithArrangedSubviews:views];
     self.stackView.alignment = UIStackViewAlignmentCenter;
     self.stackView.axis = UILayoutConstraintAxisHorizontal;
-    self.stackView.distribution = UIStackViewDistributionEqualSpacing;
+    //self.stackView.distribution = UIStackViewDistributionEqualSpacing;
     self.stackView.spacing = 0.0f;
     [self addSubview:self.stackView];
     
@@ -45,14 +46,18 @@
 - (void)tagViewWasTapped:(UIGestureRecognizer *)sender
 {
     UIButton *button = (UIButton *)sender.view;
-    button.selected = !button.selected;
-    if (button.selected) {
-        [self unSelectAllButtonsExcept:button.tag];
-        button.backgroundColor = [UIColor roseColor];
-        [self.delegate stackView:self didSelectViewAtIndex:sender.view.tag];
+    if (button.tag != self.dataSource.numberOfViewsInStack-1) {
+        button.selected = !button.selected;
+        if (button.selected) {
+            [self unSelectAllButtonsExcept:button.tag];
+            button.backgroundColor = [UIColor roseColor];
+            [self.delegate stackView:self didSelectViewAtIndex:sender.view.tag];
+        } else {
+            button.backgroundColor = [UIColor lightSalmonColor];
+            [self.delegate stackView:self didDeselectViewAtIndex:sender.view.tag];
+        }
     } else {
-        button.backgroundColor = [UIColor lightSalmonColor];
-        [self.delegate stackView:self didDeselectViewAtIndex:sender.view.tag];
+        [self.delegate stackView:self didSelectViewAtIndex:sender.view.tag];
     }
 }
 
@@ -69,8 +74,12 @@
 
 - (CGSize)intrinsicContentSize
 {
-    return CGSizeMake( ([self.dataSource numberOfViewsInStack]-2) * 90 + 2 * 73, 50);
+    NSInteger totalWidth;
+    for (NSInteger i = 0; i < self.dataSource.numberOfViewsInStack; i++) {
+        UIButton *button = (UIButton *)self.stackView.arrangedSubviews[i];
+        totalWidth += button.frame.size.width;
+    }
+    return CGSizeMake(totalWidth+200, 50);
 }
-
 
 @end

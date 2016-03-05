@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, VSWineColorType) {
 @property (nonatomic) BOOL hasImage;
 @property NSString *name;
 @property PFUser *owner;
-@property NSArray *tags;
+@property (nonatomic) NSArray *tags;
 @property VSVineyard *vineyard;
 @property NSString *vineyardName;
 @property NSInteger year;

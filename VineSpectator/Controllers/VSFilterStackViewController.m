@@ -30,54 +30,62 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor lightSalmonColor];
-    self.stackScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,50)];
-    [self.view addSubview:self.stackScrollView];
+    self.stackScrollView = [[VSScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,50)];
     
-    self.stackView = [[VSStackView alloc] initWithFrame:CGRectMake(0,0,650,50)];
+    [self.view addSubview:self.stackScrollView];
     self.stackScrollView.canCancelContentTouches = YES;
     self.stackScrollView.showsHorizontalScrollIndicator = NO;
-    //self.stackView.frame = CGRectMake(0,0,self.stackView.intrinsicContentSize.width,self.stackView.intrinsicContentSize.height);
+    
+    self.stackView = [[VSStackView alloc] init];
     self.stackView.delegate = self;
     self.stackView.dataSource = self.tagsDataSource;
+    
     [self.stackScrollView addSubview:self.stackView];
+    [self.stackView mas_makeConstraints:^(MASConstraintMaker *make){
+        //make.left.equalTo(self.stackScrollView.left);
+        make.top.equalTo(self.stackScrollView.top);
+        make.height.equalTo(self.stackScrollView.height);
+    }];
+    
+    self.stackScrollView.contentOffset = CGPointZero;
+    
+    //self.stackView.frame.origin = self.stackScrollView.frame.origin;
+    //self.stackView.frame = CGRectMake(0,0,self.stackView.intrinsicContentSize.width,self.stackView.intrinsicContentSize.height);
     self.stackScrollView.userInteractionEnabled = YES;
     
     [self.stackView reloadData];
+//    [self.stackView sizeToFit];
     
     self.stackScrollView.contentSize = self.stackView.intrinsicContentSize;
     self.stackScrollView.alwaysBounceHorizontal = YES;
     self.stackScrollView.scrollEnabled = YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.stackView reloadData];
+    self.stackScrollView.contentSize = self.stackView.intrinsicContentSize;
+}
+
 # pragma mark - VSStackViewDelegate
 - (void)stackView:(VSStackView *)stackView didDeselectViewAtIndex:(NSInteger)index
 {
-    NSString *tag = [self.tagsDataSource textForStackIndex:index];
-    [self.delegate filterStackViewController:self didDeselectTag:tag];
+    if (index != self.tagsDataSource.allTags.count) {
+        NSString *tag = [self.tagsDataSource textForStackIndex:index];
+        [self.delegate filterStackViewController:self didDeselectTag:tag];
+    }
 }
-
 
 - (void)stackView:(VSStackView *)stackView didSelectViewAtIndex:(NSInteger)index
 {
-    NSString *tag = [self.tagsDataSource textForStackIndex:index];
-    [self.delegate filterStackViewController:self didSelectTag:tag];
+    if (index == self.tagsDataSource.allTags.count) {
+        [self.delegate didPressViewAllTags:self];
+    } else {
+        NSString *tag = [self.tagsDataSource textForStackIndex:index];
+        [self.delegate filterStackViewController:self didSelectTag:tag];
+    }
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

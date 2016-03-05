@@ -32,6 +32,8 @@
 @dynamic vineyardName;
 @dynamic year;
 
+@synthesize tags;
+
 + (void)load {
     [VSBottle registerSubclass];
 }
@@ -70,6 +72,18 @@
         image = [UIImage imageWithData:[self.cloudImage getData]];
     }
     return image;
+}
+
+- (NSArray *)tags
+{
+    NSArray *possibleTags = [[PFUser currentUser] objectForKey:@"tags"];
+    NSMutableArray *actualTags = [NSMutableArray array];
+    for (NSString *tag in tags){
+        if ([possibleTags containsObject:tag]) {
+            [actualTags addObject:tag];
+        }
+    }
+    return actualTags;
 }
 
 - (BOOL)containsTag:(NSString *)tag
