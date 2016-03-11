@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "VSBottle.h"
+#import "VSFilterStackViewController.h"
 
 @interface VSBottleDataSource: NSObject <UITableViewDataSource>
 
 // Generators
-- (void)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
+//- (BOOL)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
+- (BOOL)generateDataModelForFilterType:(VSFilterType)type tag:(NSString *)tag dirty:(BOOL)dirty;
 - (void)regenerateDataModel;
 
 // Mutators

@@ -8,6 +8,7 @@
 
 #import "VSBottle.h"
 #import <Parse/PFObject+Subclass.h>
+#import "VSGrapeVarietyDataSource.h"
 
 @interface VSBottle ()
 
@@ -19,7 +20,7 @@
 
 @dynamic bottleDescription;
 @dynamic cloudImage;
-@dynamic color;
+//@dynamic color;
 @dynamic dateDrank;
 @dynamic drank;
 @dynamic grapeVariety;
@@ -27,11 +28,12 @@
 @dynamic hasImage;
 @dynamic name;
 @dynamic owner;
-@dynamic tags;
+//@dynamic tags;
 @dynamic vineyard;
 @dynamic vineyardName;
 @dynamic year;
 
+@synthesize color;
 @synthesize tags;
 
 + (void)load {
@@ -44,7 +46,15 @@
 
 - (VSWineColorType)color
 {
-    return self.grapeVariety.color;
+    // if there's a grapeVariety string, then
+    // return self.grapeVariety.color;
+    if (color) {
+        return color;
+    } else if ([[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:self.grapeVarietyName]) {
+        return [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:self.grapeVarietyName];
+    } else {
+        return VSWineColorTypeUnspecified;
+    }
 }
 
 - (BOOL)hasImage {
@@ -84,6 +94,18 @@
         }
     }
     return actualTags;
+}
+
+- (BOOL)containsText:(NSString *)text
+{
+    if ([text isEqualToString:@"PJLOURY"]) {
+        return YES;
+    }
+    BOOL inVineyard = [self.vineyardName containsString:text];
+    BOOL inYear = [@(self.year).stringValue containsString:text];
+    BOOL inName = [self.name containsString:text];
+    BOOL inGrapeVariety = [self.grapeVarietyName containsString:text];
+    return inVineyard || inYear || inName || inGrapeVariety || [self containsTag:text];
 }
 
 - (BOOL)containsTag:(NSString *)tag

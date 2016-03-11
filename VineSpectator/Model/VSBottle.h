@@ -35,16 +35,17 @@ typedef NS_ENUM(NSInteger, VSWineColorType) {
 @property NSDate *dateDrank;
 @property BOOL drank;
 @property VSGrapeVariety *grapeVariety;
-@property VSWineColorType color;
+@property (nonatomic, readwrite) VSWineColorType color;
 @property NSString *grapeVarietyName;
 @property (nonatomic) BOOL hasImage;
 @property NSString *name;
 @property PFUser *owner;
-@property (nonatomic) NSArray *tags;
+@property (nonatomic, readwrite) NSArray *tags;
 @property VSVineyard *vineyard;
 @property NSString *vineyardName;
 @property NSInteger year;
 
+- (BOOL)containsText:(NSString *)text;
 - (BOOL)containsTag:(NSString *)tag;
 - (UIImage *)image;
 

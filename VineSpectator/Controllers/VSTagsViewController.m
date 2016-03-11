@@ -15,6 +15,7 @@
 @property (nonatomic) VSTagsDataSource *dataSource;
 @property (nonatomic) VSTextView *textView;
 @property (nonatomic) UILabel *instructionsLabel;
+@property (nonatomic) UITapGestureRecognizer *dismissKeyboardTapGestureRecognizer;
 
 @end
 
@@ -27,6 +28,9 @@
         _dataSource = [[VSTagsDataSource alloc] init];
         _instructionsLabel = [[UILabel alloc] init];
         _textView = [[VSTextView alloc] init];
+        _dismissKeyboardTapGestureRecognizer = [[UITapGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(dismissKeyboard)];
     }
     return self;
 }
@@ -34,19 +38,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.view addGestureRecognizer:self.dismissKeyboardTapGestureRecognizer];
+    
     [self.view addSubview:self.instructionsLabel];
     [self.instructionsLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.centerX.equalTo(self.view.centerX);
-        make.left.equalTo(self.view.left).offset(50);
+        make.left.equalTo(self.view.left).offset(30);
         make.top.equalTo(self.view.top).offset(40);
     }];
     
     [self.view addSubview:self.textView];
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make){
         make.centerX.equalTo(self.view.centerX);
-        make.left.equalTo(self.view.left).offset(50);
+        make.left.equalTo(self.view.left).offset(30);
         make.top.equalTo(self.instructionsLabel.bottom).offset(20);
-        make.bottom.equalTo(self.view.bottom).offset(-200);
+        make.bottom.equalTo(self.view.bottom).offset(-250);
     }];
     
     UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissView:)];
@@ -62,7 +68,7 @@
     paragraphStyle.maximumLineHeight = 40.0f;
     paragraphStyle.minimumLineHeight = 10.0f;
     
-    NSString *string = [[self.dataSource.userTags valueForKey:@"description"] componentsJoinedByString:@",\n"];
+    NSString *string = [[self.dataSource.userTags valueForKey:@"description"] componentsJoinedByString:@",   "];
     NSDictionary *attributes = @{
                                  NSForegroundColorAttributeName : [UIColor redInkColor],
                                  NSFontAttributeName : [UIFont fontWithName:@"Athelas-Regular" size:20],
@@ -77,11 +83,16 @@
     self.instructionsLabel.text = @"Add tags to organize your Wine Collection:";
     [self.instructionsLabel sizeToFit];
 
-    }
+}
+
+- (void)dismissKeyboard
+{
+    [self.textView endEditing:YES];
+}
 
 - (void)dismissView:(id)sender
 {
-    self.dataSource.userTags = [self.textView.text componentsSeparatedByString:@",\n"];
+    self.dataSource.userTags = [[self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByString:@","];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

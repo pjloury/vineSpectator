@@ -11,9 +11,8 @@
 #import "VSTagsDataSource.h"
 #import "VSScrollView.h"
 
-@interface VSFilterStackViewController () <VSStackViewDelegate>
+@interface VSFilterStackViewController () <VSStackViewDelegate, UITextFieldDelegate>
 
-@property VSStackView *stackView;
 @property VSScrollView *stackScrollView;
 @property VSTagsDataSource *tagsDataSource;
 
@@ -38,24 +37,20 @@
     self.stackScrollView.showsHorizontalScrollIndicator = NO;
     
     self.stackView = [[VSStackView alloc] init];
+    self.stackView.searchField.delegate = self;
     self.stackView.delegate = self;
     self.stackView.dataSource = self.tagsDataSource;
     
     [self.stackScrollView addSubview:self.stackView];
     [self.stackView mas_makeConstraints:^(MASConstraintMaker *make){
-        //make.left.equalTo(self.stackScrollView.left);
         make.top.equalTo(self.stackScrollView.top);
         make.height.equalTo(self.stackScrollView.height);
     }];
     
     self.stackScrollView.contentOffset = CGPointZero;
-    
-    //self.stackView.frame.origin = self.stackScrollView.frame.origin;
-    //self.stackView.frame = CGRectMake(0,0,self.stackView.intrinsicContentSize.width,self.stackView.intrinsicContentSize.height);
     self.stackScrollView.userInteractionEnabled = YES;
     
     [self.stackView reloadData];
-//    [self.stackView sizeToFit];
     
     self.stackScrollView.contentSize = self.stackView.intrinsicContentSize;
     self.stackScrollView.alwaysBounceHorizontal = YES;
@@ -72,7 +67,12 @@
 # pragma mark - VSStackViewDelegate
 - (void)stackView:(VSStackView *)stackView didDeselectViewAtIndex:(NSInteger)index
 {
-    if (index != self.tagsDataSource.allTags.count) {
+    NSString *tag = [self.tagsDataSource textForStackIndex:index];
+    if ([tag isEqualToString:@"Search"]) {
+        self.stackScrollView.contentOffset = CGPointZero;
+        [self.stackView dismissSearchField];
+    }
+    else if (![tag isEqualToString:@"Edit"]) {
         NSString *tag = [self.tagsDataSource textForStackIndex:index];
         [self.delegate filterStackViewController:self didDeselectTag:tag];
     }
@@ -80,12 +80,46 @@
 
 - (void)stackView:(VSStackView *)stackView didSelectViewAtIndex:(NSInteger)index
 {
-    if (index == self.tagsDataSource.allTags.count) {
-        [self.delegate didPressViewAllTags:self];
-    } else {
-        NSString *tag = [self.tagsDataSource textForStackIndex:index];
-        [self.delegate filterStackViewController:self didSelectTag:tag];
+    NSInteger totalTags = self.tagsDataSource.allTags.count;
+    switch (index) {
+        case VSFilterTypeSearch:
+            [self.stackView revealSearchField];
+            break;
+        case VSFilterTypeChrono:
+            [self.stackView dismissSearchField];
+            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeChrono];
+            break;
+        case VSFilterTypeDrank:
+            [self.stackView dismissSearchField];
+            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeDrank];
+            break;
+        case VSFilterTypeRed:
+            [self.stackView dismissSearchField];
+            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeDrank];
+            break;
+        case VSFilterTypeWhite:
+            [self.stackView dismissSearchField];
+            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeDrank];
+            break;
+        default:
+            if (index == totalTags -1) {
+                [self.stackView dismissSearchField];
+                [self.delegate didPressViewAllTags:self];
+            } else {
+                [self.stackView dismissSearchField];
+                 NSString *tag = [self.tagsDataSource textForStackIndex:index];
+                [self.delegate filterStackViewController:self didSelectTag:tag];
+            }
+            break;
     }
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self.delegate filterStackViewController:self didReceiveSearchText:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    return YES;
 }
 
 @end

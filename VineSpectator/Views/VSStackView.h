@@ -14,6 +14,7 @@
 
 - (NSInteger)numberOfViewsInStack;
 - (UIView *_Nonnull)viewForIndex:(NSInteger)index;
+- (NSString *_Nullable)textForStackIndex:(NSInteger)stackIndex;
 
 @end
 
@@ -27,7 +28,10 @@
 
 @interface VSStackView : UIView
 
+@property (nonatomic) UITextField *searchField;
 - (void)reloadData;
+- (void)revealSearchField;
+- (void)dismissSearchField;
 
 @property (nonatomic, weak, nullable) id <VSStackViewDataSource> dataSource;
 @property (nonatomic, weak, nullable) id <VSStackViewDelegate> delegate;

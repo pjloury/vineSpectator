@@ -41,7 +41,6 @@
     } else {
         _localTags = bottleTags;
     }
-    
     return self;
 }
 
@@ -60,7 +59,7 @@
 - (NSMutableArray *)allTags
 {
     NSMutableArray *array = [NSMutableArray array];
-    [array addObjectsFromArray:@[@"Search", @"Chrono"]];
+    [array addObjectsFromArray:@[@"search", @"chrono", @"drank", @"red", @"white"]];
     [array addObjectsFromArray:self.userTags];
     return array;
 }
@@ -91,14 +90,7 @@
 
 - (NSString *)textForStackIndex:(NSInteger)stackIndex
 {
-    switch (stackIndex) {
-        case 0:
-            return @"search";
-        case 1:
-            return @"chrono";
-        default:
-            return [self textForIndex:stackIndex-2];
-    }
+    return [self.allTags[stackIndex] capitalizedString];
 }
 
 # pragma mark - private
@@ -111,37 +103,57 @@
 # pragma mark - VSStackViewDataSource
 - (NSInteger)numberOfViewsInStack
 {
-    return [self allTags].count + 1;
+    return [self allTags].count;
 }
 
 - (UIButton *)viewForIndex:(NSInteger)index
 {
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,50,50)];
     button.backgroundColor = [UIColor lightSalmonColor];
+    button.imageView.contentMode = UIViewContentModeScaleAspectFit;
     if (index == 0) {
-        [button setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+        UIImage *image = [UIImage imageNamed:@"search"];
+        UIImage *tintImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [button setImage:tintImage forState:UIControlStateNormal];
+        button.tintColor = [UIColor goldColor];
         [button sizeToFit];
     } else if (index == 1) {
-        [button setImage:[UIImage imageNamed:@"chrono"] forState:UIControlStateNormal];
+        UIImage *image = [UIImage imageNamed:@"chrono"];
+        UIImage *tintImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [button setImage:tintImage forState:UIControlStateNormal];
+        button.tintColor = [UIColor goldColor];
+        [button sizeToFit];
+    } else if (index == 2) {
+        UIImage *image = [UIImage imageNamed:@"smallerBottle"];
+        UIImage *tintImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [button setImage:tintImage forState:UIControlStateNormal];
+        button.tintColor = [UIColor goldColor];
         [button sizeToFit];
     }
     else {
         NSString *text;
+        // If the last object
         if (index == self.numberOfViewsInStack - 1) {
             text = @"+";
             button.titleLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:40];
         } else {
-            text = [self textForIndex:index-2];
+            // text for index 2
+            text = [self textForStackIndex:index];//[self textForIndeIndex:index-2];
             button.titleLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
         }
+        
         [button setTitleColor:[UIColor wineColor] forState:UIControlStateSelected];
         [button setTitleColor:[UIColor goldColor] forState:UIControlStateNormal];
         [button setTitle:text forState:UIControlStateNormal];
         button.titleLabel.textAlignment = NSTextAlignmentCenter;
         [button.titleLabel sizeToFit];
         [button sizeToFit];
+        
+        if ([text isEqualToString:@"Red"]) {
+            [button setTitleColor:[UIColor redInkColor] forState:UIControlStateNormal];
+        }
     }
-
+    
     NSInteger width = button.frame.size.width;
     button.adjustsImageWhenHighlighted = NO;
     
@@ -158,20 +170,23 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
-    return bottle.tags.count;
+//    return bottle.tags.count;
+    return self.userTags.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     VSTagCollectionViewCell *cell = (VSTagCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"TagCell" forIndexPath:indexPath];
     
-    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
-    
-    NSString *tag = bottle.tags[indexPath.row];
+    NSString *tag = self.userTags[indexPath.row];
     cell.tag = tag;
-    if ([self.localTags containsObject:tag]) {
-        [cell setSelected:YES];
-        [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    
+    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
+    if (bottle.tags.count > 0) {
+        if ([self.localTags containsObject:tag]) {
+            [cell setSelected:YES];
+            [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        }
     }
     return cell;
 }

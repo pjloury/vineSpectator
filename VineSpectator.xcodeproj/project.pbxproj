@@ -188,8 +188,6 @@
 		602635571C029E7F00002300 = {
 			isa = PBXGroup;
 			children = (
-				6037AB861C8A41F300E5B7FE /* VSTextView.h */,
-				6037AB871C8A41F400E5B7FE /* VSTextView.m */,
 				600882621C4A190D00ADB8BA /* LaunchScreen.storyboard */,
 				56A06F2A304752774A08DFEF /* Frameworks */,
 				B341B980C7AFCF35E21081EB /* Pods */,
@@ -297,6 +295,8 @@
 		6026359F1C02DDCE00002300 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6037AB861C8A41F300E5B7FE /* VSTextView.h */,
+				6037AB871C8A41F400E5B7FE /* VSTextView.m */,
 				60A29ACC1C2F458100FD92FC /* VSFilterView.h */,
 				60A29ACD1C2F458100FD92FC /* VSFilterView.m */,
 				60081C351C2CD81C00C01784 /* VSPromptLabel.h */,

@@ -21,6 +21,7 @@
 @property NSArray *filteredArrayDictionaryArray;
 @property NSArray *chronoArrayDictionaryArray;
 @property NSString *previousFilter;
+@property VSFilterType previousType;
 
 //
 @property NSMutableArray *filteredBottles;
@@ -71,63 +72,76 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.filteredArrayDictionaryArray.count;
+    if (self.bottles.count == 0) {
+        return 1;
+    } else {
+        return self.filteredArrayDictionaryArray.count;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSDictionary *bottlesDictionary = self.filteredArrayDictionaryArray[section];
-    NSArray *arrayContainingArray = [bottlesDictionary allValues];
-    NSArray *bottlesForSection = arrayContainingArray.firstObject;
-    return  bottlesForSection.count;
+    if (self.bottles.count == 0) {
+        return 1;
+    } else {
+        NSDictionary *bottlesDictionary = self.filteredArrayDictionaryArray[section];
+        NSArray *arrayContainingArray = [bottlesDictionary allValues];
+        NSArray *bottlesForSection = arrayContainingArray.firstObject;
+        return  bottlesForSection.count;
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSDictionary *bottlesForGrapeVariety = self.filteredArrayDictionaryArray[section];
-    return bottlesForGrapeVariety.allKeys.firstObject;
+    NSString *string;
+    if (self.filteredArrayDictionaryArray.count > 0) {
+        NSDictionary *bottlesForGrapeVariety = self.filteredArrayDictionaryArray[section];
+        string = bottlesForGrapeVariety.allKeys.firstObject;
+    }
+    return string;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    
     VSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
     if (cell == nil) {
         cell = [[VSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    
-    NSDictionary *bottlesDictionaryForGrapeVariety = self.filteredArrayDictionaryArray[indexPath.section];
-    NSArray *bottlesForGrapeVariety = [bottlesDictionaryForGrapeVariety allValues].firstObject; // there is only 1 value. an array. Give me that array.
-    VSBottle *bottle = [bottlesForGrapeVariety objectAtIndex:indexPath.row];
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = bottle.vineyardName;
-    cell.detailTextLabel.text = bottle.name;
-    cell.yearLabel.text = @(bottle.year).stringValue; //@"2007";
-    if (bottle.name) {
-        cell.detailTextLabel.hidden = NO;
+    if (self.bottles.count == 0) {
+        //cell.textLabel.text = bottle.vineyardName;
+        cell.detailTextLabel.text = @"Press below to get started.";
+    } else {
+        NSDictionary *bottlesDictionaryForGrapeVariety = self.filteredArrayDictionaryArray[indexPath.section];
+        NSArray *bottlesForGrapeVariety = [bottlesDictionaryForGrapeVariety allValues].firstObject; // there is only 1 value. an array. Give me that array.
+        VSBottle *bottle = [bottlesForGrapeVariety objectAtIndex:indexPath.row];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = bottle.vineyardName;
+        cell.detailTextLabel.text = bottle.name;
+        cell.yearLabel.text = @(bottle.year).stringValue; //@"2007";
+        if (bottle.name) {
+            cell.detailTextLabel.hidden = NO;
+        }
+        else {
+            cell.detailTextLabel.hidden = YES;
+        }
+        
+        if (bottle.image) {
+            cell.imageView.image = bottle.image;
+            cell.imageView.hidden = NO;
+        }
+        else {
+            cell.imageView.hidden = YES;
+        }
+        
+    //    [cell.bottomBorder mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.left.equalTo(cell.left);
+    //        make.right.equalTo(cell.right);
+    //        make.top.equalTo(cell.bottom);
+    //        make.height.equalTo(@(1.0));
+    //    }];
     }
-    else {
-        cell.detailTextLabel.hidden = YES;
-    }
-    
-    if (bottle.image) {
-        cell.imageView.image = bottle.image;
-        cell.imageView.hidden = NO;
-    }
-    else {
-        cell.imageView.hidden = YES;
-    }
-    
-//    [cell.bottomBorder mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(cell.left);
-//        make.right.equalTo(cell.right);
-//        make.top.equalTo(cell.bottom);
-//        make.height.equalTo(@(1.0));
-//    }];
-    
     return cell;
 }
 
@@ -153,7 +167,7 @@
     [bottle deleteInBackground];
     [self.bottles removeObject:bottle];
     self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
-    [self generateDataModelForFilter:self.previousFilter dirty:YES];
+    [self regenerateDataModel];
 }
 
 
@@ -185,10 +199,14 @@
 - (NSString *)bottleIDForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //TODO: parse with section logic
-    NSMutableDictionary *section = self.filteredArrayDictionaryArray[indexPath.section];
-    NSArray *rows = section.allValues.firstObject;
-    VSBottle *selectedBottle = rows[indexPath.row];
-    return selectedBottle.objectId;
+    if (self.filteredArrayDictionaryArray.count > 0) {
+        NSMutableDictionary *section = self.filteredArrayDictionaryArray[indexPath.section];
+        NSArray *rows = section.allValues.firstObject;
+        VSBottle *selectedBottle = rows[indexPath.row];
+        return selectedBottle.objectId;
+    } else {
+        return nil;
+    }
 }
 
 # pragma mark - Generators
@@ -197,10 +215,10 @@
     // find out the list of tags
     PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
     
-//    NSString *userID = @"";
-//    user = [PFQuery getUserObjectWithId:userID];
-//    [query whereKey:@"owner" equalTo:user];
-    
+    // MANAGE LOGIN FLOW FOR USER. Capture Email and Password!
+    //    NSString *userID = @"";
+    //    user = [PFQuery getUserObjectWithId:userID];
+    //    [query whereKey:@"owner" equalTo:user];
     [query whereKeyDoesNotExist:@"owner"];
     
     //[query fromLocalDatastore];
@@ -210,7 +228,7 @@
         self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles]; // this is ALL the bottles
         self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
         
-        self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilter:@"Unopened"];
+        self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:VSFilterTypeAll tag:nil];
         if (completion) {
             completion();
         }
@@ -253,7 +271,6 @@
     return chrono;
 }
 
-
 // Creates a /adds to a new dictionary: array
 - (void)array:(NSMutableArray *)array addBottle:(VSBottle *)bottle
 {
@@ -280,61 +297,77 @@
     }
 }
 
-
-- (void)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
+- (BOOL)generateDataModelForFilterType:(VSFilterType)type tag:(NSString *)tag dirty:(BOOL)dirty;
 {
-    if (![filter isEqualToString:self.previousFilter] || dirty) {
-        self.previousFilter = filter; // TODO: Don't need this one again
-        self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilter:filter];
+    if (![tag isEqualToString:self.previousFilter] || dirty || type != self.previousType) {
+        self.previousType = type;
+        if (!tag) tag = @"";
+        self.previousFilter = tag; // TODO: Don't need this one again
+        self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:type tag:tag];
+        return self.filteredArrayDictionaryArray.count > 0;
+    } else {
+        return NO;
     }
 }
 
 - (void)regenerateDataModel
 {
-    [self generateDataModelForFilter:self.previousFilter dirty:YES];
+    [self generateDataModelForFilterType:self.previousType tag:self.previousFilter dirty:YES];
 }
 
-- (NSArray *)bottlesArrayDictionaryArrayForFilter:(NSString *)filter
+- (NSArray *)bottlesArrayDictionaryArrayForFilterType:(VSFilterType)type
+                                                  tag:(NSString *)tag
 {
     NSMutableArray *arrayDictionaryArray = [NSMutableArray array];
-    NSMutableDictionary *filteredDictionary = [self.bottlesDictionary mutableCopy]; //starts from the bas dictionary
-    
-    if ([filter isEqualToString:@"None"]) {
-        for (NSString *key in filteredDictionary.allKeys) { // cycle through the varieties
-            NSMutableArray *bottlesForGrapeVariety = [filteredDictionary objectForKey:key];
+    NSMutableDictionary *filteredDictionary = [self.bottlesDictionary mutableCopy];
+    for (NSString *key in filteredDictionary.allKeys)
+    {
+        NSMutableArray *bottlesForGrapeVariety = [filteredDictionary objectForKey:key];
+        NSMutableArray *filteredBottlesForGrapeVariety = [bottlesForGrapeVariety mutableCopy];
+        for (VSBottle *bottle in bottlesForGrapeVariety) {
+            // TODO: by calling containsTag instead OPTIMIZE
+            switch (type) {
+                case VSFilterTypeAll:
+                    break;
+                case VSFilterTypeSearch:
+                    if (![bottle containsText:tag]) {
+                        [filteredBottlesForGrapeVariety removeObject:bottle];
+                    }
+                    break;
+                case VSFilterTypeChrono:
+                    return self.chronoArrayDictionaryArray;
+                    break;
+                case VSFilterTypeDrank:
+                    if (!bottle.drank) {
+                        [filteredBottlesForGrapeVariety removeObject:bottle];
+                    }
+                    break;
+                case VSFilterTypeRed:
+                    if (bottle.color != VSWineColorTypeRed) {
+                        [filteredBottlesForGrapeVariety removeObject:bottle];
+                    }
+                    break;
+                case VSFilterTypeWhite:
+                    if (bottle.color != VSWineColorTypeWhite) {
+                        [filteredBottlesForGrapeVariety removeObject:bottle];
+                    }
+                    break;
+                case VSFilterTypeTag:
+                    if (![bottle containsTag:tag]) {
+                        [filteredBottlesForGrapeVariety removeObject:bottle];
+                    }
+                    break;
+            }
+        }
+        if (filteredBottlesForGrapeVariety.count != 0) {
             NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"vineyardName" ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            NSArray *sortedBottlesForGrapeVariety = [bottlesForGrapeVariety sortedArrayUsingDescriptors:sortDescriptors];
+            NSArray *sortedBottlesForGrapeVariety = [filteredBottlesForGrapeVariety sortedArrayUsingDescriptors:sortDescriptors];
             [arrayDictionaryArray addObject:@{key:sortedBottlesForGrapeVariety}];
         }
     }
-    else if  ([filter isEqualToString:@"chrono"]) {
-        return self.chronoArrayDictionaryArray;
-    }
-    else if  ([filter isEqualToString:@"drank"]) {
-        
-    }
-    else {
-        // ie for tag "red", filter out all that aren't red
-        // TODO: if Tag is Equal to a grape variety in bottlesDictionary (ie one of the keys), then return just that Grape Variety
-        for (NSString *key in filteredDictionary.allKeys)
-        {
-            NSMutableArray *bottlesForGrapeVariety = [filteredDictionary objectForKey:key];
-            NSMutableArray *filteredBottlesForGrapeVariety = [bottlesForGrapeVariety mutableCopy];
-            for (VSBottle *bottle in bottlesForGrapeVariety) {
-                if (![bottle containsTag:filter]) {
-                    [filteredBottlesForGrapeVariety removeObject:bottle]; // make sure that this is removeable!
-                } // the cab is getting removed when it shouldn't !!!!
-            }
-            if (filteredBottlesForGrapeVariety.count != 0) {
-                NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"vineyardName" ascending:YES];
-                NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-                NSArray *sortedBottlesForGrapeVariety = [filteredBottlesForGrapeVariety sortedArrayUsingDescriptors:sortDescriptors];
-                [arrayDictionaryArray addObject:@{key:sortedBottlesForGrapeVariety}];
-            }
-        }
-    }
-    self.previousFilter = filter;
+    
+    self.previousFilter = tag;
     
     // Sort the array of variety dictionaries by variety
     return [arrayDictionaryArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {

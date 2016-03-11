@@ -62,7 +62,6 @@
    completionForPrefix:(NSString*)prefix
             ignoreCase:(BOOL)ignoreCase
 {
-
     static dispatch_once_t colorOnceToken;
     static NSArray *colorAutocompleteArray;
     dispatch_once(&colorOnceToken, ^
@@ -104,5 +103,10 @@
     return @"";
 }
 
+- (VSWineColorType)colorForGrapeVariety:(NSString *)grapeVariety
+{
+    VSGrapeVariety *variety = [self grapeVarietyForString:grapeVariety];
+    return variety.color;
+}
 
 @end

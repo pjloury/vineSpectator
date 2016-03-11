@@ -22,6 +22,7 @@
 
 @property UIButton *addBottleButton;
 @property VSBottleDataSource *bottleDataSource;
+@property UILabel *errorMessageLabel;
 
 @property UITableView *tableView;
 @property VSFilterStackViewController *filterViewController;
@@ -45,9 +46,9 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self.bottleDataSource;
     
-    VSFilterStackViewController *filterVc = [[VSFilterStackViewController alloc] init];
-    filterVc.delegate = self;
-    [self addChildViewController:filterVc];
+    self.filterViewController = [[VSFilterStackViewController alloc] init];
+    self.filterViewController.delegate = self;
+    [self addChildViewController:self.filterViewController];
     
     self.addBottleButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.addBottleButton addTarget:self action:@selector(didPressNewBottle:) forControlEvents:UIControlEventTouchUpInside];
@@ -57,9 +58,24 @@
     [self.addBottleButton setTitleColor:[UIColor highlightedPateColor] forState:UIControlStateHighlighted];
     self.addBottleButton.backgroundColor = [UIColor wineColor];
     [self.view addSubview:self.addBottleButton];
-    [self.view addSubview:filterVc.view];
+    [self.view addSubview:self.filterViewController.view];
+
+    self.view.backgroundColor = [UIColor parchmentColor];
+    self.errorMessageLabel = [UILabel new];
+    self.errorMessageLabel.text = @"No Results Found.";
+    self.errorMessageLabel.backgroundColor = [UIColor clearColor];
+    self.errorMessageLabel.textColor = [UIColor goldColor];
+    self.errorMessageLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+    [self.view addSubview:self.errorMessageLabel];
+    self.errorMessageLabel.hidden = YES;
+    [self.errorMessageLabel mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.equalTo(self.view.left).offset(20);
+        make.centerX.equalTo(self.view.centerX);
+        make.top.equalTo(self.filterViewController.view.bottom).offset(20);
+        make.height.equalTo(@25);
+    }];
     
-    [filterVc.view mas_makeConstraints:^(MASConstraintMaker *make){
+    [self.filterViewController.view mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.top.right.equalTo(self.view);
         make.height.equalTo(@50);
     }];
@@ -70,7 +86,7 @@
     }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(filterVc.view.bottom);
+        make.top.equalTo(self.filterViewController.view.bottom);
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.addBottleButton.mas_top);
     }];
@@ -80,6 +96,8 @@
             [user saveInBackground];
             [self.bottleDataSource fetchBottlesForUser:user withCompletion:^{
                 //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
+                self.errorMessageLabel.hidden = YES;
+                self.tableView.hidden = NO;
                 [self.tableView reloadData];
             }];
         }];
@@ -87,6 +105,8 @@
     else {
         [self.bottleDataSource fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
             //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
+            self.errorMessageLabel.hidden = YES;
+            self.tableView.hidden = NO;
             [self.tableView reloadData];
         }];
     }
@@ -95,6 +115,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.bottleDataSource regenerateDataModel];
+    self.errorMessageLabel.hidden = YES;
+    self.tableView.hidden = NO;
     [self.tableView reloadData]; // get the edits made in the detail VC
 }
 
@@ -124,28 +146,48 @@
     [self presentViewController:nc animated:YES completion:nil];
 }
 
+- (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectFilter:(VSFilterType)type
+{
+    [self.bottleDataSource generateDataModelForFilterType:type tag:nil dirty:YES];
+    self.errorMessageLabel.hidden = YES;
+    self.tableView.hidden = NO;
+    [self.tableView reloadData];
+}
+
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
 {
-    [self.bottleDataSource generateDataModelForFilter:tag dirty:YES];
+    [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeTag tag:tag dirty:YES];
+    self.errorMessageLabel.hidden = YES;
+    self.tableView.hidden = NO;
     [self.tableView reloadData];
-    
-    
-//    NSRange range = NSMakeRange(0, [self.tableView.dataSource numberOfSectionsInTableView:self.tableView]);
-//    NSIndexSet *sections = [NSIndexSet indexSetWithIndexesInRange:range];
-//    [self.tableView reloadSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didDeselectTag:(NSString *)tag
 {
-    [self.bottleDataSource generateDataModelForFilter:@"None" dirty:YES];
-//    NSRange range = NSMakeRange(0, [self.tableView.dataSource numberOfSectionsInTableView:self.tableView]);
-//    NSIndexSet *sections = [NSIndexSet indexSetWithIndexesInRange:range];
-//    [self.tableView reloadSections:sections withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+    [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeAll tag:nil dirty:YES];
+    self.errorMessageLabel.hidden = YES;
+    self.tableView.hidden = NO;
     [self.tableView reloadData];
 }
 
+- (void)filterStackViewController:(VSFilterStackViewController *) viewController didReceiveSearchText:(NSString *)text
+{
+    BOOL reload = [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeSearch tag:text dirty:YES];
+    if (reload) {
+        self.errorMessageLabel.hidden = YES;
+        self.tableView.hidden = NO;
+        [self.tableView reloadData];
+    } else {
+        self.errorMessageLabel.hidden = NO;
+        self.tableView.hidden = YES;
+    }
+}
+
 # pragma mark UITableViewDelegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.filterViewController.stackView.searchField resignFirstResponder];
+}
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -175,12 +217,15 @@
 {
     NSString *bottleID = [self.bottleDataSource bottleIDForRowAtIndexPath:indexPath];
     VSBottle *bottle = [self.bottleDataSource bottleForID:bottleID];
-    
-    if (!bottle.hasImage) {
-        return 80.0f;
-    }
-    else {
-        return 385.0f;
+    if (bottle) {
+        if (!bottle.hasImage) {
+            return 80.0f;
+        }
+        else {
+            return 385.0f;
+        }
+    } else {
+        return self.tableView.frame.size.height;
     }
 }
 

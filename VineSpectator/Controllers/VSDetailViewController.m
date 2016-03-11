@@ -335,8 +335,8 @@
             [self.imageView mas_makeConstraints:^(MASConstraintMaker *make){
                 make.top.equalTo(cell.top).offset(20);
                 make.centerX.equalTo(cell.centerX);
-                make.height.equalTo(@330);
-                make.width.equalTo(self.imageView.height);
+                make.left.equalTo(cell.left).offset(10);
+                make.height.equalTo(self.imageView.width);
             }];
             self.imageView.layer.borderColor = [UIColor brownInkColor].CGColor;
             self.imageView.layer.borderWidth = 5.0;
