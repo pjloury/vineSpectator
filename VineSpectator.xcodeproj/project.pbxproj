@@ -15,7 +15,6 @@
 		60081C1C1C2A374800C01784 /* Yu Mincho Demibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */; };
 		60081C1E1C2A376E00C01784 /* LucidaGrande.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */; };
 		60081C201C2A377D00C01784 /* Athelas.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1F1C2A377D00C01784 /* Athelas.ttc */; };
-		60081C221C2A37BF00C01784 /* Kaiti.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C211C2A37BF00C01784 /* Kaiti.ttc */; };
 		60081C251C2A37F900C01784 /* Yu Mincho Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */; };
 		60081C271C2A382400C01784 /* Baskerville.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C261C2A382400C01784 /* Baskerville.ttc */; };
 		60081C2B1C2BB07200C01784 /* VSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C2A1C2BB07200C01784 /* VSViewController.m */; };
@@ -76,7 +75,6 @@
 		60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yu Mincho Demibold.otf"; sourceTree = "<group>"; };
 		60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = LucidaGrande.ttc; sourceTree = "<group>"; };
 		60081C1F1C2A377D00C01784 /* Athelas.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Athelas.ttc; sourceTree = "<group>"; };
-		60081C211C2A37BF00C01784 /* Kaiti.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Kaiti.ttc; sourceTree = "<group>"; };
 		60081C231C2A37DB00C01784 /* Avenir.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Avenir.ttc; sourceTree = "<group>"; };
 		60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yu Mincho Medium.otf"; sourceTree = "<group>"; };
 		60081C261C2A382400C01784 /* Baskerville.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baskerville.ttc; sourceTree = "<group>"; };
@@ -177,7 +175,6 @@
 				60081C231C2A37DB00C01784 /* Avenir.ttc */,
 				60081C261C2A382400C01784 /* Baskerville.ttc */,
 				60081C181C28EC1400C01784 /* Bauer-Bodoni.ttf */,
-				60081C211C2A37BF00C01784 /* Kaiti.ttc */,
 				60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */,
 				60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */,
 				60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */,
@@ -413,7 +410,6 @@
 			files = (
 				60081C251C2A37F900C01784 /* Yu Mincho Medium.otf in Resources */,
 				60081C201C2A377D00C01784 /* Athelas.ttc in Resources */,
-				60081C221C2A37BF00C01784 /* Kaiti.ttc in Resources */,
 				600882631C4A190D00ADB8BA /* LaunchScreen.storyboard in Resources */,
 				602635761C029E7F00002300 /* LaunchScreen.storyboard in Resources */,
 				60081C1E1C2A376E00C01784 /* LucidaGrande.ttc in Resources */,

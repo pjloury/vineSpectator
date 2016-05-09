@@ -84,14 +84,39 @@
         make.center.equalTo(self.view);
     }];
     
+    
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didPressActionButton:)];
-    actionButton.tintColor = [UIColor goldColor];
+    actionButton.tintColor = [UIColor pateColor];
     self.navigationItem.rightBarButtonItem = actionButton;
 
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didPressLogoutButton:)];
-    logoutButton.tintColor = [UIColor goldColor];
-    self.navigationItem.leftBarButtonItem = logoutButton;
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,25,25)];
+    [button setTintColor:[UIColor pateColor]];
+    //button.titleLabel.font = [UIFont fontWithName:@"YuMin-Demibold" size:18.0];
+    [button addTarget:self action:@selector(didPressLogoutButton:) forControlEvents:UIControlEventTouchUpInside];
+    //[button setTitle:@"Logout" forState:UIControlStateNormal];
+    //[button.titleLabel setTextColor:[UIColor pateColor]];
+    //[button.titleLabel sizeToFit];
+    UIImage *image = [UIImage imageNamed:@"logout"];
+    [button setBackgroundImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+
+
+    //UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStylePlain target:self action:@selector(didPressLogoutButton:)];
     
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    /*
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didPressLogoutButton:)];
+    UIFont *logoutFont= [UIFont fontWithName:@"YuMin-Demibold" size:16.0];
+    NSDictionary *logoutAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                     [UIColor pateColor], NSForegroundColorAttributeName,
+                                     logoutFont, NSFontAttributeName,nil];
+    [logoutButton setTitleTextAttributes:logoutAttributes forState:UIControlStateNormal];
+     */
+    
+    self.navigationItem.leftBarButtonItem = logoutButton;
+ 
+    logoutButton.tintColor = [UIColor pateColor];
+ 
+    self.navigationItem.leftBarButtonItem = logoutButton;
     
     [self.filterViewController.view mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.top.right.equalTo(self.view);
@@ -174,8 +199,11 @@
     UIAlertAction *act = [UIAlertAction actionWithTitle:@"Log out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
         [self logOut];
     }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Nevermind" style:UIAlertActionStyleCancel handler:nil];
+    
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Log out?" message:@"Are you sure? We'll miss you!" preferredStyle:UIAlertControllerStyleActionSheet];
     [ac addAction:act];
+    [ac addAction:cancel];
     [self presentViewController:ac animated:YES completion:nil];
 }
 

@@ -104,12 +104,24 @@
     [self.tableView reloadData];
 }
 
+- (void)close
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)setupUI
 {
     if (self.editMode) {
         // New bottle
         [self setupEditMode:nil];
         self.createMode = YES;
+        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(close)];
+        UIFont *closeFont= [UIFont fontWithName:@"YuMin-Demibold" size:18.0];
+        NSDictionary *closeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [UIColor pateColor], NSForegroundColorAttributeName,
+                                        closeFont, NSFontAttributeName,nil];
+        [closeButton setTitleTextAttributes:closeAttributes forState:UIControlStateNormal];
+        self.navigationItem.leftBarButtonItem = closeButton;
     }
     else {
         // Existing bottle
