@@ -10,6 +10,6 @@
 
 @interface VSViewController : UIViewController
 
-
++ (UIView *)vineSpectatorView;
 
 @end

@@ -11,6 +11,7 @@
 #import "VSFilterStackViewController.h"
 #import "VSTagsViewController.h"
 #import "VSBottleDataSource.h"
+#import "AppDelegate.h"
 
 @interface VSTableViewController () <UITableViewDelegate, VSFilterSelectionDelegate, UIScrollViewDelegate>
 
@@ -23,6 +24,7 @@
 @property UIButton *addBottleButton;
 @property VSBottleDataSource *bottleDataSource;
 @property UILabel *errorMessageLabel;
+@property UIActivityIndicatorView *activityIndicator;
 
 @property UITableView *tableView;
 @property VSFilterStackViewController *filterViewController;
@@ -75,6 +77,22 @@
         make.height.equalTo(@25);
     }];
     
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityIndicator.hidden = YES;
+    [self.view addSubview:self.activityIndicator];
+    [self.activityIndicator mas_makeConstraints:^(MASConstraintMaker *make){
+        make.center.equalTo(self.view);
+    }];
+    
+    UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didPressActionButton:)];
+    actionButton.tintColor = [UIColor goldColor];
+    self.navigationItem.rightBarButtonItem = actionButton;
+
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didPressLogoutButton:)];
+    logoutButton.tintColor = [UIColor goldColor];
+    self.navigationItem.leftBarButtonItem = logoutButton;
+    
+    
     [self.filterViewController.view mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.top.right.equalTo(self.view);
         make.height.equalTo(@50);
@@ -97,15 +115,20 @@
             [self.bottleDataSource fetchBottlesForUser:user withCompletion:^{
                 //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
                 self.errorMessageLabel.hidden = YES;
+                self.activityIndicator.hidden = YES;
+                [self.activityIndicator stopAnimating];
                 self.tableView.hidden = NO;
                 [self.tableView reloadData];
             }];
         }];
     }
     else {
+        NSLog([PFUser currentUser].username);
         [self.bottleDataSource fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
             //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
             self.errorMessageLabel.hidden = YES;
+            self.activityIndicator.hidden = YES;
+            [self.activityIndicator stopAnimating];
             self.tableView.hidden = NO;
             [self.tableView reloadData];
         }];
@@ -115,9 +138,45 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.bottleDataSource regenerateDataModel];
+    
+    self.activityIndicator.hidden = NO;
+    [self.activityIndicator stopAnimating];
     self.errorMessageLabel.hidden = YES;
     self.tableView.hidden = NO;
     [self.tableView reloadData]; // get the edits made in the detail VC
+}
+
+// Use share
+- (void)didPressActionButton:(id)sender
+{
+    NSString *highScore = @"Mange your wine collection from your phone- download Vine Spectator to get started!";
+    NSString *urlString = [[PFConfig currentConfig] objectForKey:@"appURL"];
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSMutableArray *items = [NSMutableArray array];
+    [items addObject:highScore];
+    if (url) [items addObject:url];
+    
+    UIActivityViewController *controller = [[UIActivityViewController alloc]initWithActivityItems:items applicationActivities:nil];
+    NSArray *excludedActivities = @[
+                                    UIActivityTypePostToWeibo,
+                                    UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
+                                    UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,
+                                    UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
+                                    UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
+    controller.excludedActivityTypes = excludedActivities;
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
+// Use sidways share button
+- (void)didPressLogoutButton:(id)sender
+{
+    UIAlertAction *act = [UIAlertAction actionWithTitle:@"Log out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
+        [self logOut];
+    }];
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Log out?" message:@"Are you sure? We'll miss you!" preferredStyle:UIAlertControllerStyleActionSheet];
+    [ac addAction:act];
+    [self presentViewController:ac animated:YES completion:nil];
 }
 
 - (void)didPressNewBottle:(id)sender
@@ -138,6 +197,14 @@
     }
 }
 
+- (void)logOut
+{
+    [PFUser logOut];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate showLoginViewController];
+// pop to some sort of login View Controller    [self ]
+}
+
 # pragma VSFilterSelectionDelegate
 - (void)didPressViewAllTags:(id)sender
 {
@@ -150,6 +217,8 @@
 {
     [self.bottleDataSource generateDataModelForFilterType:type tag:nil dirty:YES];
     self.errorMessageLabel.hidden = YES;
+    self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
     self.tableView.hidden = NO;
     [self.tableView reloadData];
 }
@@ -158,6 +227,8 @@
 {
     [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeTag tag:tag dirty:YES];
     self.errorMessageLabel.hidden = YES;
+    self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
     self.tableView.hidden = NO;
     [self.tableView reloadData];
 }
@@ -166,6 +237,8 @@
 {
     [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeAll tag:nil dirty:YES];
     self.errorMessageLabel.hidden = YES;
+    self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
     self.tableView.hidden = NO;
     [self.tableView reloadData];
 }
@@ -175,10 +248,14 @@
     BOOL reload = [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeSearch tag:text dirty:YES];
     if (reload) {
         self.errorMessageLabel.hidden = YES;
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator stopAnimating];
         self.tableView.hidden = NO;
         [self.tableView reloadData];
     } else {
         self.errorMessageLabel.hidden = NO;
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator startAnimating];
         self.tableView.hidden = YES;
     }
 }

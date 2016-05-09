@@ -18,7 +18,13 @@
     [super viewDidLoad];
     self.navigationController.navigationBar.translucent = NO;
     [[UINavigationBar appearance] setTintColor:[UIColor pateColor]];
-    UILabel *vineSpectator = [[UILabel alloc] initWithFrame:CGRectMake(0,0,250.0,CGRectGetHeight(self.navigationController.navigationBar.frame))];
+    self.navigationItem.titleView = [[self class] vineSpectatorView];
+}
+
++ (UIView *)vineSpectatorView
+{
+    UILabel *vineSpectator = [[UILabel alloc] initWithFrame:CGRectMake(0,0,250.0,50)];
+    //    UILabel *vineSpectator = [[UILabel alloc] initWithFrame:CGRectMake(0,0,250.0,CGRectGetHeight(self.navigationController.navigationBar.frame))];
     
     UIFont *vineFont = [UIFont fontWithName:@"Didot-Bold" size:24.0];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init] ;
@@ -38,7 +44,7 @@
     [vineSpectatorString appendAttributedString:spectatorString];
     
     vineSpectator.attributedText = vineSpectatorString;
-    self.navigationItem.titleView = vineSpectator;
+    return vineSpectator;
 }
 
 @end
