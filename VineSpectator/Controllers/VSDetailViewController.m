@@ -202,7 +202,7 @@
             sectionView = [[VSSectionView alloc] initWithTableView:self.tableView title:@"" height:70.0];
             UILabel *vineyardLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             vineyardLabel.textColor = [UIColor redInkColor];
-            vineyardLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:23.0];
+            vineyardLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
             vineyardLabel.text = bottle.vineyardName;
             [vineyardLabel sizeToFit];
             [sectionView addSubview:vineyardLabel];
@@ -210,7 +210,7 @@
             UILabel *grapeVarietyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             grapeVarietyLabel.text = bottle.grapeVarietyName;
             grapeVarietyLabel.textColor = [UIColor oliveInkColor];
-            grapeVarietyLabel.font = [UIFont fontWithName:@"STKaiti-SC-Regular" size:20.0];
+            grapeVarietyLabel.font = [UIFont fontWithName:@"Palatino-Regular" size:15.0];
             [grapeVarietyLabel sizeToFit];
             grapeVarietyLabel.numberOfLines = 1;
             grapeVarietyLabel.adjustsFontSizeToFitWidth = YES;
@@ -222,7 +222,7 @@
             nameLabel.text = bottle.name;
             nameLabel.textColor = [UIColor oliveInkColor];
             nameLabel.textAlignment = NSTextAlignmentRight;
-            nameLabel.font = [UIFont fontWithName:@"STKaiti-SC-Regular" size:20.0];
+            nameLabel.font = [UIFont fontWithName:@"Palatino-Regular" size:15.0];
             nameLabel.adjustsFontSizeToFitWidth = YES;
             nameLabel.minimumScaleFactor = 0.75;
             nameLabel.numberOfLines = 1;
@@ -282,7 +282,7 @@
             UIButton *drunkButton = [[UIButton alloc] initWithFrame:sectionView.frame];
             [drunkButton setTitle:@"Mark as Drunk" forState:UIControlStateNormal];
             [drunkButton setTitle:@"Drank!" forState:UIControlStateSelected];
-            drunkButton.titleLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:24.0];
+            drunkButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
             drunkButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             [drunkButton setTitleColor:[UIColor redInkColor] forState:UIControlStateNormal];
             [drunkButton setTitleColor:[UIColor redInkColor] forState:UIControlStateSelected];
@@ -296,7 +296,7 @@
             sectionView = [[VSSectionView alloc] initWithTableView:self.tableView title:@"" height:50.0];
             UIButton *editBottleButton = [[UIButton alloc] initWithFrame:sectionView.frame];
             [editBottleButton setTitle:@"Edit Bottle" forState:UIControlStateNormal];
-            editBottleButton.titleLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:24.0];
+            editBottleButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
             editBottleButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             [editBottleButton setTitleColor:[UIColor redInkColor] forState:UIControlStateNormal];
             [editBottleButton setTitleColor:[UIColor highlightedRedInkColor] forState:UIControlStateHighlighted];
@@ -346,7 +346,7 @@
             else {
                 UIButton *addPhotoButton = [[UIButton alloc] init];
                 [addPhotoButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
-                addPhotoButton.titleLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:20.0];
+                addPhotoButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
                 [addPhotoButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
                 addPhotoButton.backgroundColor = [UIColor warmTanColor];
                 [self.imageView addSubview:addPhotoButton];

@@ -85,29 +85,6 @@
             NSString *title = self.bottleID ? @"Edit Bottle" : @"New Bottle";
             sectionView = [[VSSectionView alloc] initWithTableView:self.tableView title:title height:50.0];
             sectionView.label.font = [UIFont fontWithName:@"Athelas-Bold" size:22.0];
-            
-//            UILabel *vineyardLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//            vineyardLabel.textColor = [UIColor redInkColor];
-//            vineyardLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:23.0];
-//            vineyardLabel.text = bottle.vineyardName;
-//            [vineyardLabel sizeToFit];
-//            [sectionView addSubview:vineyardLabel];
-//            
-//            UILabel *grapeVarietyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//            grapeVarietyLabel.text = bottle.grapeVarietyName;
-//            grapeVarietyLabel.textColor = [UIColor oliveInkColor];
-//            grapeVarietyLabel.font = [UIFont fontWithName:@"STKaiti-SC-Regular" size:23.0];
-//            [grapeVarietyLabel sizeToFit];
-//            [sectionView addSubview:grapeVarietyLabel];
-            
-//            [vineyardLabel mas_makeConstraints:^(MASConstraintMaker *make){
-//                make.left.top.equalTo(sectionView).offset(10);
-//            }];
-//            
-//            [grapeVarietyLabel mas_makeConstraints:^(MASConstraintMaker *make){
-//                make.top.equalTo(vineyardLabel.top);
-//                make.left.equalTo(vineyardLabel.right).offset(5);
-//            }];
             break;
         }
         case 1:
@@ -120,7 +97,7 @@
             sectionView = [[VSSectionView alloc] initWithTableView:self.tableView title:@"" height:50.0];
             UILabel *drunkSwitchPrompt = [[UILabel alloc] initWithFrame:sectionView.frame];
             drunkSwitchPrompt.text = @"Drank Bottle";
-            drunkSwitchPrompt.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:24.0];
+            drunkSwitchPrompt.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
             drunkSwitchPrompt.textAlignment = NSTextAlignmentLeft;
             drunkSwitchPrompt.textColor = [UIColor redInkColor];
             [drunkSwitchPrompt sizeToFit];
@@ -152,7 +129,7 @@
             sectionView = [[VSSectionView alloc] initWithTableView:self.tableView title:@"" height:50.0];
             UIButton *discardBottleButton = [[UIButton alloc] initWithFrame:sectionView.frame];
             [discardBottleButton setTitle:@"Discard Bottle" forState:UIControlStateNormal];
-            discardBottleButton.titleLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:24.0];
+            discardBottleButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
             discardBottleButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             [discardBottleButton setTitleColor:[UIColor redInkColor] forState:UIControlStateNormal];
             [discardBottleButton setTitleColor:[UIColor highlightedRedInkColor] forState:UIControlStateHighlighted];

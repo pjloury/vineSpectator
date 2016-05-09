@@ -187,7 +187,7 @@
             }
             else {
                 [self.imageButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
-                self.imageButton.titleLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:20.0];
+                self.imageButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
                 [self.imageButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
                 self.imageButton.backgroundColor = [UIColor warmTanColor];
             }

@@ -13,7 +13,7 @@
 - (instancetype)initWithString:(NSString *)string
 {
     self = [super initWithFrame:CGRectZero];
-    self.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:23.0];
+    self.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
     self.textColor = [UIColor redInkColor];
     self.text = string;
     [self sizeToFit];

@@ -56,7 +56,7 @@
 // Avenir-Book
 // Baskerville (do not specify regular!)
 // BodoniSvtyTwoITCTT-Book
-// STKaiti-SC-Regular
+// Palatino-Regular
 // LucidaGrande
 // YuMin-Demibold
 // YuMin-Medium
@@ -115,7 +115,7 @@
     
     UILabel *welcomeLabel = [UILabel new];
     welcomeLabel.text = @"Start your collection today.";
-    welcomeLabel.font = [UIFont fontWithName:@"STKaiti-SC-Bold" size:30.0];
+    welcomeLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:20.0];
     welcomeLabel.textColor = [UIColor wineColor];
     [loginController.view addSubview:welcomeLabel];
     [welcomeLabel sizeToFit];
