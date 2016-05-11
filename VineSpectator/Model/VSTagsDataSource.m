@@ -182,7 +182,7 @@
     cell.tag = tag;
     
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
-    if (bottle.tags.count > 0) {
+    if (bottle.computedTags.count > 0) {
         if ([self.localTags containsObject:tag]) {
             [cell setSelected:YES];
             [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];

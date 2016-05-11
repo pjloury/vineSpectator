@@ -67,6 +67,7 @@
 {
     self = [super init];
     [VSGrapeVarietyDataSource sharedInstance];
+    self.showImages = NO;
     return self;
 }
 
@@ -127,7 +128,7 @@
             cell.detailTextLabel.hidden = YES;
         }
         
-        if (bottle.image) {
+        if (bottle.image && self.showImages) {
             cell.imageView.image = bottle.image;
             cell.imageView.hidden = NO;
         }
@@ -219,12 +220,20 @@
     //    NSString *userID = @"";
     //    user = [PFQuery getUserObjectWithId:userID];
     //    [query whereKey:@"owner" equalTo:user];
-    [query whereKeyDoesNotExist:@"owner"];
+    //[query whereKeyDoesNotExist:@"owner"];
     
     //[query fromLocalDatastore];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         self.bottles = [objects mutableCopy];
-        [PFObject pinAllInBackground:objects];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSError *error = nil;
+//            BOOL result = [PFObject pinAll:objects error:&error];
+//            if (error) {
+//                NSLog(@"error: %@", error);
+//            }
+//            NSLog(@"DUUUUDE");
+//        });
+
         self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles]; // this is ALL the bottles
         self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
         
@@ -343,17 +352,21 @@
                     }
                     break;
                 case VSFilterTypeRed:
-                    if (bottle.color != VSWineColorTypeRed) {
+                    if (bottle.color != VSWineColorTypeRed && [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:bottle.grapeVarietyName] != VSWineColorTypeRed) {
                         [filteredBottlesForGrapeVariety removeObject:bottle];
+                    } else {
+                        NSLog(@"Bro it's red");
                     }
                     break;
                 case VSFilterTypeWhite:
-                    if (bottle.color != VSWineColorTypeWhite) {
+                    if (bottle.color != VSWineColorTypeWhite && [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:bottle.grapeVarietyName] != VSWineColorTypeWhite) {
                         [filteredBottlesForGrapeVariety removeObject:bottle];
+                    } else {
+                        NSLog(@"Bro it's white");
                     }
                     break;
                 case VSFilterTypeTag:
-                    if (![bottle containsTag:tag]) {
+                        if (![bottle containsTag:tag]) {
                         [filteredBottlesForGrapeVariety removeObject:bottle];
                     }
                     break;
@@ -489,5 +502,13 @@
     NSAssert(YES, @"Requested ID not amongst bottles");
     return nil;
 }
+
+//
+//- (VSBottle *)bottleForID:(NSString *)bottleID latest:(BOOL)latest
+//{
+//    [self fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
+//        
+//    }];
+//}
 
 @end

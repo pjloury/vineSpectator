@@ -12,6 +12,8 @@
 
 @interface VSBottleDataSource: NSObject <UITableViewDataSource>
 
+@property BOOL showImages;
+
 // Generators
 //- (BOOL)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
 - (BOOL)generateDataModelForFilterType:(VSFilterType)type tag:(NSString *)tag dirty:(BOOL)dirty;

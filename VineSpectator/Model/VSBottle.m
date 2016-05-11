@@ -20,7 +20,7 @@
 
 @dynamic bottleDescription;
 @dynamic cloudImage;
-//@dynamic color;
+
 @dynamic dateDrank;
 @dynamic drank;
 @dynamic grapeVariety;
@@ -28,13 +28,14 @@
 @dynamic hasImage;
 @dynamic name;
 @dynamic owner;
-//@dynamic tags;
+@dynamic tags;
 @dynamic vineyard;
 @dynamic vineyardName;
 @dynamic year;
 
-@synthesize color;
-@synthesize tags;
+@dynamic color;
+//@synthesize color;
+//@synthesize tags;
 
 + (void)load {
     [VSBottle registerSubclass];
@@ -44,10 +45,9 @@
     return @"Bottle";
 }
 
-- (VSWineColorType)color
+/*
+- (VSWineColorType)computedColor
 {
-    // if there's a grapeVariety string, then
-    // return self.grapeVariety.color;
     if (color) {
         return color;
     } else if ([[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:self.grapeVarietyName]) {
@@ -56,12 +56,9 @@
         return VSWineColorTypeUnspecified;
     }
 }
+*/
 
 - (BOOL)hasImage {
-//    if (_hasImage) {
-//        return _hasImage;
-//    }
-//    else {
         NSString *imageName = self.objectId;
         NSLog(@"Looking for %@", imageName);
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
@@ -69,7 +66,6 @@
         NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         return [fileManager fileExistsAtPath:getImagePath] || self.cloudImage;
-//    }
 }
 
 - (UIImage *)image {
@@ -84,11 +80,11 @@
     return image;
 }
 
-- (NSArray *)tags
+- (NSArray *)computedTags
 {
     NSArray *possibleTags = [[PFUser currentUser] objectForKey:@"tags"];
     NSMutableArray *actualTags = [NSMutableArray array];
-    for (NSString *tag in tags){
+    for (NSString *tag in self.tags){
         if ([possibleTags containsObject:tag]) {
             [actualTags addObject:tag];
         }

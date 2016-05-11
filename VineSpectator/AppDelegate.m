@@ -14,38 +14,14 @@
 #import "VSGrapeVariety.h"
 #import "VSVineyard.h"
 
-// the user should be cached
+// Search should update as you type
 // rely on the local cache, THEN attempt to fetch from the network.
-
-// Implement Login. Why? People want their photos no matter what
-// Default Red and White Tags.
-// Decide how to express Grape Color
-// Implement "No Bottles"
-// "Drank" should show up in Detail View Controller
+// NSUserDefaults for Spinner vs No Bottles
 // Tap Top of Nav Bar to Scroll to Top
-// Share and Logout Buttons
-// Footer View 5 Bottles
-
-// 3: Implement "Edit Custom Tags". Red and White should always be present
-// 4: Move Chrono Sort to the Nav Bar (as a sort toggle, not a filter)
-// 5: Remove Search
-// BONUS: If Grape Variety matches a known Grape variety, auto populate the "Red/White" field
-
-// How to add images to the camera roll
-// T2: Welcome back, david
-// T3: Tap on the next field and it will jump to complete the word
-// Mock up some bottles!
-
-// P1: After you add a Bottle, you should be able to see it in your list!
+// Get Rid of YuMin font
+// Collapsing Search Bar should clear all filters
 
 // No intuitive way to dismiss number keyboard
-// Add drank feature to tableview
-// Rely on cache, then hit the network
-// Downsize Kaiti and Yu Mincho fonts
-// Sort Bottles by Date
-// Add Back button back
-// Scrolls to support text views
-// Support 
 
 @interface AppDelegate () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 

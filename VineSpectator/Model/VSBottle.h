@@ -18,11 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, VSWineColorType) {
     VSWineColorTypeUnspecified,
-    VSWineColorTypeRed,
-    VSWineColorTypeWhite,
+    VSWineColorTypeRed, // 1
+    VSWineColorTypeWhite, // 2
     VSWineColorTypeRose,
     VSWineColorTypeSparkling,
-    VSWineColorTypeDessert
+    VSWineColorTypeDessert,
 };
 
 @interface VSBottle : PFObject<PFSubclassing>
@@ -32,22 +32,26 @@ typedef NS_ENUM(NSInteger, VSWineColorType) {
 
 @property NSString *bottleDescription;
 @property PFFile *cloudImage;
+@property NSInteger color;
 @property NSDate *dateDrank;
 @property BOOL drank;
 @property VSGrapeVariety *grapeVariety;
-@property (nonatomic, readwrite) VSWineColorType color;
 @property NSString *grapeVarietyName;
 @property (nonatomic) BOOL hasImage;
 @property NSString *name;
 @property PFUser *owner;
-@property (nonatomic, readwrite) NSArray *tags;
+@property (nonatomic) NSArray *tags;
 @property VSVineyard *vineyard;
 @property NSString *vineyardName;
 @property NSInteger year;
 
+
+- (VSWineColorType)computedColor;
 - (BOOL)containsText:(NSString *)text;
 - (BOOL)containsTag:(NSString *)tag;
 - (UIImage *)image;
+
+- (NSArray *)computedTags;
 
 @end
 

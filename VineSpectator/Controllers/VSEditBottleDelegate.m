@@ -55,7 +55,7 @@
         case 1:
             return 350;
         case 2:
-            return 120; // rating and tags
+            return 170; // rating and tags
         case 4:
         default:
              return 15.0;

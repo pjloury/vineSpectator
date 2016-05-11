@@ -97,7 +97,6 @@
         {
             return [stringFromReference stringByReplacingCharactersInRange:[stringToCompare rangeOfString:stringToLookFor] withString:@""];
         }
-        
     }
     
     return @"";

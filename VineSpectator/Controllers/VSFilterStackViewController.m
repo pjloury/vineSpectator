@@ -95,11 +95,11 @@
             break;
         case VSFilterTypeRed:
             [self.stackView dismissSearchField];
-            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeDrank];
+            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeRed];
             break;
         case VSFilterTypeWhite:
             [self.stackView dismissSearchField];
-            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeDrank];
+            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeWhite];
             break;
         default:
             if (index == totalTags -1) {

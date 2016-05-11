@@ -29,6 +29,8 @@
 @property UITableView *tableView;
 @property VSFilterStackViewController *filterViewController;
 
+@property BOOL dirty;
+
 @end
 
 @implementation VSTableViewController
@@ -163,7 +165,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.bottleDataSource regenerateDataModel];
-    
+ 
     self.activityIndicator.hidden = NO;
     [self.activityIndicator stopAnimating];
     self.errorMessageLabel.hidden = YES;
@@ -323,7 +325,7 @@
     NSString *bottleID = [self.bottleDataSource bottleIDForRowAtIndexPath:indexPath];
     VSBottle *bottle = [self.bottleDataSource bottleForID:bottleID];
     if (bottle) {
-        if (!bottle.hasImage) {
+        if (!bottle.hasImage || !self.bottleDataSource.showImages) {
             return 80.0f;
         }
         else {
