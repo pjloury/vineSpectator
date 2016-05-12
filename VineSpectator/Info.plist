@@ -30,9 +30,10 @@
 		<string>Avenir.ttc</string>
 		<string>Baskerville.ttc</string>
 		<string>Bauer-Bodoni.ttf</string>
-		<string>LucidaGrande.ttc</string>
-		<string>Yu Mincho Demibold.otf</string>
-		<string>Yu Mincho Medium.otf</string>
+		<string>Belfast-Regular.ttf</string>
+		<string>LucidaGrande.ttf</string>
+		<string>MinionPro-Bold.ttf</string>
+		<string>MinionPro-Regular.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

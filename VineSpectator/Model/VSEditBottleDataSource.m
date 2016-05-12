@@ -335,7 +335,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *text = [self.tagsDataSource textForIndexPath:indexPath];
-    CGSize size = [text sizeWithAttributes:@{@"NSFontAttributeName": [UIFont fontWithName:@"YuMin-Medium" size:15.0]}];
+    CGSize size = [text sizeWithAttributes:@{@"NSFontAttributeName": [UIFont fontWithName:@"Belfast-Regular" size:15.0]}];
     size.height += 10;
     size.width += 30;
     return size;

@@ -59,13 +59,13 @@
 */
 
 - (BOOL)hasImage {
-        NSString *imageName = self.objectId;
-        NSLog(@"Looking for %@", imageName);
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        return [fileManager fileExistsAtPath:getImagePath] || self.cloudImage;
+    NSString *imageName = self.objectId;
+    //NSLog(@"Looking for %@", imageName);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    return [fileManager fileExistsAtPath:getImagePath] || self.cloudImage;
 }
 
 - (UIImage *)image {

@@ -68,6 +68,7 @@
     self = [super init];
     [VSGrapeVarietyDataSource sharedInstance];
     self.showImages = NO;
+    self.previousType = VSFilterTypeAll;
     return self;
 }
 
@@ -309,12 +310,21 @@
 - (BOOL)generateDataModelForFilterType:(VSFilterType)type tag:(NSString *)tag dirty:(BOOL)dirty;
 {
     if (![tag isEqualToString:self.previousFilter] || dirty || type != self.previousType) {
+        
+        NSLog(@"VSFilterType: %ld", type);
+        NSLog(@"Tag: %@", tag);
         self.previousType = type;
         if (!tag) tag = @"";
         self.previousFilter = tag; // TODO: Don't need this one again
-        self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:type tag:tag];
+        if ([tag isEqualToString:@""]) {
+            self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:VSFilterTypeAll tag:@""];
+        } else {
+            self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:type tag:tag];
+        }
+        
         return self.filteredArrayDictionaryArray.count > 0;
     } else {
+        NSLog(@"NO, WON'T generate model!!");
         return NO;
     }
 }

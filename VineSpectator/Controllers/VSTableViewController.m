@@ -29,21 +29,21 @@
 @property UITableView *tableView;
 @property VSFilterStackViewController *filterViewController;
 
-@property BOOL dirty;
-
 @end
 
 @implementation VSTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[PFUser currentUser] setObject:@[@"Tahoe", @"San Jose", @"Yummy", @"DSF", @"DSFEFE", @"SEfefsf"] forKey:@"tags"];
-    [[PFUser currentUser] saveInBackground];
+    //[[PFUser currentUser] setObject:@[@"Tahoe", @"San Jose", @"Yummy", @"DSF", @"DSFEFE", @"SEfefsf"] forKey:@"tags"];
+    //[[PFUser currentUser] saveInBackground];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor offWhiteColor];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.scrollsToTop = YES;
+    self.tableView.bounces = YES;
     [self.view addSubview:self.tableView];
     
     self.bottleDataSource = [[VSBottleDataSource alloc] init];
@@ -57,7 +57,7 @@
     self.addBottleButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.addBottleButton addTarget:self action:@selector(didPressNewBottle:) forControlEvents:UIControlEventTouchUpInside];
     [self.addBottleButton setTitle:@"New Bottle" forState:UIControlStateNormal];
-    self.addBottleButton.titleLabel.font = [UIFont fontWithName:@"YuMin-Demibold" size:24.0];
+    self.addBottleButton.titleLabel.font = [UIFont fontWithName:@"MinionPro-Bold" size:24.0];
     [self.addBottleButton setTitleColor:[UIColor pateColor] forState:UIControlStateNormal];
     [self.addBottleButton setTitleColor:[UIColor highlightedPateColor] forState:UIControlStateHighlighted];
     self.addBottleButton.backgroundColor = [UIColor wineColor];
@@ -93,7 +93,6 @@
 
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,25,25)];
     [button setTintColor:[UIColor pateColor]];
-    //button.titleLabel.font = [UIFont fontWithName:@"YuMin-Demibold" size:18.0];
     [button addTarget:self action:@selector(didPressLogoutButton:) forControlEvents:UIControlEventTouchUpInside];
     //[button setTitle:@"Logout" forState:UIControlStateNormal];
     //[button.titleLabel setTextColor:[UIColor pateColor]];
@@ -101,13 +100,12 @@
     UIImage *image = [UIImage imageNamed:@"logout"];
     [button setBackgroundImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
 
-
     //UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStylePlain target:self action:@selector(didPressLogoutButton:)];
     
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     /*
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didPressLogoutButton:)];
-    UIFont *logoutFont= [UIFont fontWithName:@"YuMin-Demibold" size:16.0];
+    UIFont *logoutFont= [UIFont fontWithName:@"MinionPro-Bold" size:16.0];
     NSDictionary *logoutAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                      [UIColor pateColor], NSForegroundColorAttributeName,
                                      logoutFont, NSFontAttributeName,nil];
@@ -119,6 +117,11 @@
     logoutButton.tintColor = [UIColor pateColor];
  
     self.navigationItem.leftBarButtonItem = logoutButton;
+    
+    UITapGestureRecognizer *tapRecognizer = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(didTapNavBar)];
+    [self.navigationController.view addGestureRecognizer:tapRecognizer];
+    
+    //self.navigationItem
     
     [self.filterViewController.view mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.top.right.equalTo(self.view);
@@ -162,6 +165,16 @@
     }
 }
 
+- (void)titleViewTapped
+{
+    NSLog(@"WOW");
+}
+
+- (void)didTapNavBar
+{
+    [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.bottleDataSource regenerateDataModel];
@@ -201,7 +214,7 @@
     UIAlertAction *act = [UIAlertAction actionWithTitle:@"Log out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
         [self logOut];
     }];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Nevermind" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Nevermind" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){}];
     
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Log out?" message:@"Are you sure? We'll miss you!" preferredStyle:UIAlertControllerStyleActionSheet];
     [ac addAction:act];
@@ -284,8 +297,6 @@
         [self.tableView reloadData];
     } else {
         self.errorMessageLabel.hidden = NO;
-        self.activityIndicator.hidden = NO;
-        [self.activityIndicator startAnimating];
         self.tableView.hidden = YES;
     }
 }
@@ -325,11 +336,11 @@
     NSString *bottleID = [self.bottleDataSource bottleIDForRowAtIndexPath:indexPath];
     VSBottle *bottle = [self.bottleDataSource bottleForID:bottleID];
     if (bottle) {
-        if (!bottle.hasImage || !self.bottleDataSource.showImages) {
-            return 80.0f;
+        if (!self.bottleDataSource.showImages) {
+            return 80.0;
         }
         else {
-            return 385.0f;
+            return bottle.hasImage ? 385.0 : 80.0;
         }
     } else {
         return self.tableView.frame.size.height;

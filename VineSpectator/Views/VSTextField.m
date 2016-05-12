@@ -21,7 +21,7 @@
 - (instancetype)initWithString:(NSString *)string
 {
     self = [super initWithFrame:CGRectZero];
-    self.font = [UIFont fontWithName:@"YuMin-Medium" size:20.0];
+    self.font = [UIFont fontWithName:@"Belfast-Regular" size:20.0];
     self.textColor = [UIColor oliveInkColor];
     self.text = string;
     self.adjustsFontSizeToFitWidth = YES;

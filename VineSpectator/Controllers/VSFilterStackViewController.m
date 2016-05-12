@@ -38,6 +38,7 @@
     
     self.stackView = [[VSStackView alloc] init];
     self.stackView.searchField.delegate = self;
+    [self.stackView.searchField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
     self.stackView.delegate = self;
     self.stackView.dataSource = self.tagsDataSource;
     
@@ -108,13 +109,18 @@
             } else {
                 [self.stackView dismissSearchField];
                  NSString *tag = [self.tagsDataSource textForStackIndex:index];
-                [self.delegate filterStackViewController:self didSelectTag:tag];
+                [self.delegate filterStackViewController:self didSelectTag:tag]; // Hook in here to reload all
             }
             break;
     }
 }
 
 #pragma mark - UITextFieldDelegate
+- (void)textChanged:(UITextField *)sender
+{
+    [self.delegate filterStackViewController:self didReceiveSearchText:[sender.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+}
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

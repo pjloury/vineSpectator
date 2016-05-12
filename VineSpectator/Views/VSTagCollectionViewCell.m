@@ -26,7 +26,7 @@
     self.layer.cornerRadius = 5.0f;
     self.layer.borderWidth = 1.0f;
     UILabel *tagLabel = [[UILabel alloc] init];
-    tagLabel.font = [UIFont fontWithName:@"YuMin-Medium" size:15.0];
+    tagLabel.font = [UIFont fontWithName:@"Belfast-Regular" size:15.0];
     tagLabel.textColor = [UIColor redInkColor];
 
     [self addSubview:tagLabel];

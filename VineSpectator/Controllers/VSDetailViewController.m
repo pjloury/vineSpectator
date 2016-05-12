@@ -83,7 +83,7 @@
     
     self.doneButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.doneButton addTarget:self action:@selector(didPressDone:) forControlEvents:UIControlEventTouchUpInside];
-    self.doneButton.titleLabel.font = [UIFont fontWithName:@"YuMin-Demibold" size:24.0];
+    self.doneButton.titleLabel.font = [UIFont fontWithName:@"Athelas-Bold" size:24.0];
     [self.doneButton setTitleColor:[UIColor pateColor] forState:UIControlStateNormal];
     [self.doneButton setTitleColor:[UIColor highlightedPateColor] forState:UIControlStateHighlighted];
     self.doneButton.backgroundColor = [UIColor wineColor];
@@ -119,7 +119,7 @@
         [self setupEditMode:nil];
         self.createMode = YES;
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(close)];
-        UIFont *closeFont= [UIFont fontWithName:@"YuMin-Demibold" size:18.0];
+        UIFont *closeFont= [UIFont fontWithName:@"MinionPro-Bold" size:18.0];
         NSDictionary *closeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [UIColor pateColor], NSForegroundColorAttributeName,
                                         closeFont, NSFontAttributeName,nil];
@@ -153,7 +153,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *text = [self.tagsDataSource textForIndexPath:indexPath];
-    CGSize size = [text sizeWithAttributes:@{@"NSFontAttributeName": [UIFont fontWithName:@"YuMin-Medium" size:15.0]}];
+    CGSize size = [text sizeWithAttributes:@{@"NSFontAttributeName": [UIFont fontWithName:@"Belfast-Regular" size:15.0]}];
     size.height += 10;
     size.width += 30;
     return size;
@@ -217,7 +217,7 @@
             sectionView = [[VSSectionView alloc] initWithTableView:self.tableView title:@"" height:70.0];
             UILabel *vineyardLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             vineyardLabel.textColor = [UIColor redInkColor];
-            vineyardLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
+            vineyardLabel.font = [UIFont fontWithName:@"MinionPro-Bold" size:18.0];
             vineyardLabel.text = bottle.vineyardName;
             [vineyardLabel sizeToFit];
             [sectionView addSubview:vineyardLabel];
@@ -225,7 +225,7 @@
             UILabel *grapeVarietyLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             grapeVarietyLabel.text = bottle.grapeVarietyName;
             grapeVarietyLabel.textColor = [UIColor oliveInkColor];
-            grapeVarietyLabel.font = [UIFont fontWithName:@"Palatino-Regular" size:15.0];
+            grapeVarietyLabel.font = [UIFont fontWithName:@"MinionPro-Regular" size:17.0];
             [grapeVarietyLabel sizeToFit];
             grapeVarietyLabel.numberOfLines = 1;
             grapeVarietyLabel.adjustsFontSizeToFitWidth = YES;
@@ -237,7 +237,7 @@
             nameLabel.text = bottle.name;
             nameLabel.textColor = [UIColor oliveInkColor];
             nameLabel.textAlignment = NSTextAlignmentRight;
-            nameLabel.font = [UIFont fontWithName:@"Palatino-Regular" size:15.0];
+            nameLabel.font = [UIFont fontWithName:@"MinionPro-Regular" size:17.0];
             nameLabel.adjustsFontSizeToFitWidth = YES;
             nameLabel.minimumScaleFactor = 0.75;
             nameLabel.numberOfLines = 1;
@@ -271,7 +271,7 @@
             [grapeVarietyLabel mas_makeConstraints:^(MASConstraintMaker *make){
                 make.left.equalTo(sectionView.left).offset(10);
                 if (vineyardLabel.text.length > 0) {
-                    make.top.equalTo(vineyardLabel.bottom).offset(-3);
+                    make.top.equalTo(vineyardLabel.bottom).offset(5);
                 } else {
                     make.bottom.equalTo(sectionView.bottom).offset(-5);
                 }
@@ -281,7 +281,7 @@
                 make.right.equalTo(sectionView.right).offset(-20);
                 make.left.equalTo(grapeVarietyLabel.right).offset(10);
                 if (vineyardLabel.text.length > 0) {
-                    make.top.equalTo(vineyardLabel.bottom).offset(-3);
+                    make.top.equalTo(vineyardLabel.bottom).offset(5);
                 } else {
                     make.bottom.equalTo(sectionView.bottom).offset(-5);
                 }
@@ -304,7 +304,8 @@
             [drunkButton setTitleColor:[UIColor highlightedRedInkColor] forState:UIControlStateHighlighted];
             [drunkButton addTarget:self action:@selector(didPressMarkAsDrunk:) forControlEvents:UIControlEventTouchUpInside];
             self.drunkButton = drunkButton;
-            [sectionView addSubview:drunkButton];
+            [sectionView addSubview:drunkButton];  
+            drunkButton.selected = bottle.drank;
             break;
         }
         case 3: {

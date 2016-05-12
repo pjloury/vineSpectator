@@ -28,6 +28,7 @@
         _searchField.textColor = [UIColor goldColor];
         _searchField.placeholder = @"Search For Bottle";
         _searchField.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+        _searchField.autocorrectionType = UITextAutocorrectionTypeNo;
         [_searchField mas_makeConstraints:^(MASConstraintMaker *make){
             make.width.equalTo(@150);
             make.height.equalTo(@50);

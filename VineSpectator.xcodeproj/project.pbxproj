@@ -12,10 +12,7 @@
 		60081C121C276B9A00C01784 /* VSVineyardDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C111C276B9A00C01784 /* VSVineyardDataSource.m */; };
 		60081C151C28E45200C01784 /* UIColor+VineSpectator.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C141C28E45200C01784 /* UIColor+VineSpectator.m */; };
 		60081C1A1C29278300C01784 /* Bauer-Bodoni.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60081C181C28EC1400C01784 /* Bauer-Bodoni.ttf */; };
-		60081C1C1C2A374800C01784 /* Yu Mincho Demibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */; };
-		60081C1E1C2A376E00C01784 /* LucidaGrande.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */; };
 		60081C201C2A377D00C01784 /* Athelas.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C1F1C2A377D00C01784 /* Athelas.ttc */; };
-		60081C251C2A37F900C01784 /* Yu Mincho Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */; };
 		60081C271C2A382400C01784 /* Baskerville.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 60081C261C2A382400C01784 /* Baskerville.ttc */; };
 		60081C2B1C2BB07200C01784 /* VSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C2A1C2BB07200C01784 /* VSViewController.m */; };
 		60081C2E1C2BC0FC00C01784 /* VSSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60081C2D1C2BC0FC00C01784 /* VSSectionView.m */; };
@@ -43,6 +40,10 @@
 		6037AB821C8A146700E5B7FE /* VSScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6094BEA61C4E2788005B39E6 /* VSScrollView.m */; };
 		6037AB851C8A29BC00E5B7FE /* VSTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037AB841C8A29BC00E5B7FE /* VSTagsViewController.m */; };
 		6037AB881C8A41F400E5B7FE /* VSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6037AB871C8A41F400E5B7FE /* VSTextView.m */; };
+		604611161CE4449D00661D7B /* Belfast-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 604611151CE4449D00661D7B /* Belfast-Regular.ttf */; };
+		604611181CE4470700661D7B /* MinionPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 604611171CE446EB00661D7B /* MinionPro-Regular.ttf */; };
+		6046111A1CE447D500661D7B /* MinionPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 604611191CE447D500661D7B /* MinionPro-Bold.ttf */; };
+		6046111C1CE45F3500661D7B /* LucidaGrande.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6046111B1CE45F3500661D7B /* LucidaGrande.ttf */; };
 		6094BEA91C50A8C8005B39E6 /* VSStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6094BEA81C50A8C8005B39E6 /* VSStackView.m */; };
 		60A29ABF1C2F3F3A00FD92FC /* VSTagsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29ABE1C2F3F3A00FD92FC /* VSTagsDataSource.m */; };
 		60A29AC21C2F449C00FD92FC /* VSFilterStackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29AC11C2F449C00FD92FC /* VSFilterStackViewController.m */; };
@@ -72,11 +73,8 @@
 		60081C131C28E45200C01784 /* UIColor+VineSpectator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+VineSpectator.h"; path = "VineSpectator/Model/UIColor+VineSpectator.h"; sourceTree = "<group>"; };
 		60081C141C28E45200C01784 /* UIColor+VineSpectator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+VineSpectator.m"; path = "VineSpectator/Model/UIColor+VineSpectator.m"; sourceTree = "<group>"; };
 		60081C181C28EC1400C01784 /* Bauer-Bodoni.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bauer-Bodoni.ttf"; sourceTree = "<group>"; };
-		60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yu Mincho Demibold.otf"; sourceTree = "<group>"; };
-		60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = LucidaGrande.ttc; sourceTree = "<group>"; };
 		60081C1F1C2A377D00C01784 /* Athelas.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Athelas.ttc; sourceTree = "<group>"; };
 		60081C231C2A37DB00C01784 /* Avenir.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Avenir.ttc; sourceTree = "<group>"; };
-		60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Yu Mincho Medium.otf"; sourceTree = "<group>"; };
 		60081C261C2A382400C01784 /* Baskerville.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baskerville.ttc; sourceTree = "<group>"; };
 		60081C291C2BB07200C01784 /* VSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSViewController.h; path = Controllers/VSViewController.h; sourceTree = "<group>"; };
 		60081C2A1C2BB07200C01784 /* VSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSViewController.m; path = Controllers/VSViewController.m; sourceTree = "<group>"; };
@@ -128,6 +126,10 @@
 		6037AB841C8A29BC00E5B7FE /* VSTagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSTagsViewController.m; path = Controllers/VSTagsViewController.m; sourceTree = "<group>"; };
 		6037AB861C8A41F300E5B7FE /* VSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSTextView.h; path = VineSpectator/Views/VSTextView.h; sourceTree = "<group>"; };
 		6037AB871C8A41F400E5B7FE /* VSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSTextView.m; path = VineSpectator/Views/VSTextView.m; sourceTree = "<group>"; };
+		604611151CE4449D00661D7B /* Belfast-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Belfast-Regular.ttf"; sourceTree = "<group>"; };
+		604611171CE446EB00661D7B /* MinionPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinionPro-Regular.ttf"; sourceTree = "<group>"; };
+		604611191CE447D500661D7B /* MinionPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinionPro-Bold.ttf"; sourceTree = "<group>"; };
+		6046111B1CE45F3500661D7B /* LucidaGrande.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LucidaGrande.ttf; sourceTree = "<group>"; };
 		6094BEA51C4E2788005B39E6 /* VSScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VSScrollView.h; path = VineSpectator/Views/VSScrollView.h; sourceTree = "<group>"; };
 		6094BEA61C4E2788005B39E6 /* VSScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = VSScrollView.m; path = VineSpectator/Views/VSScrollView.m; sourceTree = "<group>"; };
 		6094BEA71C50A8C8005B39E6 /* VSStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSStackView.h; path = VineSpectator/Views/VSStackView.h; sourceTree = "<group>"; };
@@ -172,12 +174,13 @@
 			isa = PBXGroup;
 			children = (
 				60081C1F1C2A377D00C01784 /* Athelas.ttc */,
+				604611151CE4449D00661D7B /* Belfast-Regular.ttf */,
 				60081C231C2A37DB00C01784 /* Avenir.ttc */,
 				60081C261C2A382400C01784 /* Baskerville.ttc */,
 				60081C181C28EC1400C01784 /* Bauer-Bodoni.ttf */,
-				60081C1D1C2A376E00C01784 /* LucidaGrande.ttc */,
-				60081C1B1C2A374800C01784 /* Yu Mincho Demibold.otf */,
-				60081C241C2A37F900C01784 /* Yu Mincho Medium.otf */,
+				6046111B1CE45F3500661D7B /* LucidaGrande.ttf */,
+				604611171CE446EB00661D7B /* MinionPro-Regular.ttf */,
+				604611191CE447D500661D7B /* MinionPro-Bold.ttf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -408,15 +411,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60081C251C2A37F900C01784 /* Yu Mincho Medium.otf in Resources */,
+				604611161CE4449D00661D7B /* Belfast-Regular.ttf in Resources */,
 				60081C201C2A377D00C01784 /* Athelas.ttc in Resources */,
 				600882631C4A190D00ADB8BA /* LaunchScreen.storyboard in Resources */,
 				602635761C029E7F00002300 /* LaunchScreen.storyboard in Resources */,
-				60081C1E1C2A376E00C01784 /* LucidaGrande.ttc in Resources */,
-				60081C1C1C2A374800C01784 /* Yu Mincho Demibold.otf in Resources */,
+				6046111A1CE447D500661D7B /* MinionPro-Bold.ttf in Resources */,
 				602635731C029E7F00002300 /* Assets.xcassets in Resources */,
+				6046111C1CE45F3500661D7B /* LucidaGrande.ttf in Resources */,
 				60081C1A1C29278300C01784 /* Bauer-Bodoni.ttf in Resources */,
 				60081C271C2A382400C01784 /* Baskerville.ttc in Resources */,
+				604611181CE4470700661D7B /* MinionPro-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

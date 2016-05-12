@@ -14,11 +14,11 @@
 #import "VSGrapeVariety.h"
 #import "VSVineyard.h"
 
-// Search should update as you type
+// Allow the addition of Black Muscat
 // rely on the local cache, THEN attempt to fetch from the network.
 // NSUserDefaults for Spinner vs No Bottles
 // Tap Top of Nav Bar to Scroll to Top
-// Get Rid of YuMin font
+
 // Collapsing Search Bar should clear all filters
 
 // No intuitive way to dismiss number keyboard
@@ -34,14 +34,19 @@
 // BodoniSvtyTwoITCTT-Book
 // Palatino-Regular
 // LucidaGrande
-// YuMin-Demibold
-// YuMin-Medium
 
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    for (NSString *familyName in [UIFont familyNames]){
+        NSLog(@"Family name: %@", familyName);
+        for (NSString *fontName in [UIFont fontNamesForFamilyName:familyName]) {
+            NSLog(@"--Font name: %@", fontName);
+        }
+    }
+    
     [PFUser enableAutomaticUser];
     [Parse enableLocalDatastore];
    
