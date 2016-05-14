@@ -118,8 +118,8 @@
  
     self.navigationItem.leftBarButtonItem = logoutButton;
     
-    UITapGestureRecognizer *tapRecognizer = [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(didTapNavBar)];
-    [self.navigationController.view addGestureRecognizer:tapRecognizer];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapNavBar)];
+    [self.navigationItem.titleView addGestureRecognizer:tapRecognizer];
     
     //self.navigationItem
     
