@@ -80,7 +80,7 @@
 {
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
     bottle.tags = self.localTags;
-    [bottle save];
+    [bottle saveInBackground];
 }
 
 - (NSString *)textForIndexPath:(NSIndexPath *)indexPath

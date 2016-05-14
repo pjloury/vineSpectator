@@ -188,16 +188,21 @@
             [self.imageButton addTarget:self action:@selector(didPressImageButton:) forControlEvents:UIControlEventTouchUpInside];
             self.imageButton.layer.borderColor = [UIColor brownInkColor].CGColor;
             self.imageButton.layer.borderWidth = 5.0;
-            if (bottle.image) {
-                [self.imageButton setImage:bottle.image forState:UIControlStateNormal];
-            }
-            else {
-                [self.imageButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
-                self.imageButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
-                [self.imageButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
-                self.imageButton.backgroundColor = [UIColor warmTanColor];
-            }
-/*
+            
+            [bottle imageWithCompletion:^(UIImage * _Nonnull image) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (image) {
+                        [self.imageButton setImage:image forState:UIControlStateNormal];
+                    } else {
+                        [self.imageButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
+                        self.imageButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
+                        [self.imageButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
+                        self.imageButton.backgroundColor = [UIColor warmTanColor];
+                    }
+                });
+            }];
+            
+          /*
             self.descriptionTextView = [[UITextView alloc] initWithFrame:CGRectZero];
             self.descriptionTextView.text = @"Loren Ipsum dolor";
             self.descriptionTextView.font = [UIFont fontWithName:@"Baskerville" size:20.0];

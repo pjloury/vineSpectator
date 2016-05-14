@@ -15,6 +15,7 @@
 #import "VSVineyard.h"
 
 // Allow the addition of Black Muscat
+//  Break on warnBlockingOperationOnMainThread()
 // rely on the local cache, THEN attempt to fetch from the network.
 // NSUserDefaults for Spinner vs No Bottles
 // Tap Top of Nav Bar to Scroll to Top

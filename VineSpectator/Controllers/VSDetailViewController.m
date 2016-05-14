@@ -356,21 +356,25 @@
             }];
             self.imageView.layer.borderColor = [UIColor brownInkColor].CGColor;
             self.imageView.layer.borderWidth = 5.0;
-            if (bottle.image) {
-                self.imageView.image = bottle.image;
-            }
-            else {
-                UIButton *addPhotoButton = [[UIButton alloc] init];
-                [addPhotoButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
-                addPhotoButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
-                [addPhotoButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
-                addPhotoButton.backgroundColor = [UIColor warmTanColor];
-                [self.imageView addSubview:addPhotoButton];
-                [addPhotoButton addTarget:self action:@selector(imageButtonWasPressed:) forControlEvents:UIControlEventTouchUpInside];
-                [addPhotoButton mas_makeConstraints:^(MASConstraintMaker *make){
-                    make.edges.equalTo(self.imageView);
-                }];
-            }
+            
+            [bottle imageWithCompletion:^(UIImage * _Nonnull image) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (image) {
+                        self.imageView.image = image;
+                    } else {
+                        UIButton *addPhotoButton = [[UIButton alloc] init];
+                        [addPhotoButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
+                        addPhotoButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
+                        [addPhotoButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
+                        addPhotoButton.backgroundColor = [UIColor warmTanColor];
+                        [self.imageView addSubview:addPhotoButton];
+                        [addPhotoButton addTarget:self action:@selector(imageButtonWasPressed:) forControlEvents:UIControlEventTouchUpInside];
+                        [addPhotoButton mas_makeConstraints:^(MASConstraintMaker *make){
+                            make.edges.equalTo(self.imageView);
+                        }];
+                    }
+                });
+            }];
             
             self.descriptionTextView = [[UITextView alloc] initWithFrame:CGRectZero];
             self.descriptionTextView.text = @"Loren Ipsum dolor";

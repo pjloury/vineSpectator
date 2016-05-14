@@ -129,9 +129,11 @@
             cell.detailTextLabel.hidden = YES;
         }
         
-        if (bottle.image && self.showImages) {
-            cell.imageView.image = bottle.image;
-            cell.imageView.hidden = NO;
+        if (self.showImages) {
+            if (bottle.image) {
+                cell.imageView.image = bottle.image;
+                cell.imageView.hidden = NO;
+            }
         }
         else {
             cell.imageView.hidden = YES;

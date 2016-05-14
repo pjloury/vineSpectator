@@ -80,6 +80,23 @@
     return image;
 }
 
+- (void)imageWithCompletion:(VSImageCompletion)completion
+{
+    NSString *imageName = self.objectId;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
+    UIImage *image = [[UIImage alloc] initWithContentsOfFile:getImagePath];
+    if (!image) {
+        [self.cloudImage getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
+            completion([UIImage imageWithData:data]);
+        }];
+    } else {
+        completion(image);
+    }
+    
+}
+
 - (NSArray *)computedTags
 {
     NSArray *possibleTags = [[PFUser currentUser] objectForKey:@"tags"];
