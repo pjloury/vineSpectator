@@ -72,6 +72,7 @@
     if ([tag isEqualToString:@"Search"]) {
         self.stackScrollView.contentOffset = CGPointZero;
         [self.stackView dismissSearchField];
+        [self.delegate filterStackViewController:self didDeselectTag:tag];
     }
     else if (![tag isEqualToString:@"Edit"]) {
         NSString *tag = [self.tagsDataSource textForStackIndex:index];
@@ -103,7 +104,7 @@
             [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeWhite];
             break;
         default:
-            if (index == totalTags -1) {
+            if (index == totalTags) {
                 [self.stackView dismissSearchField];
                 [self.delegate didPressViewAllTags:self];
             } else {
