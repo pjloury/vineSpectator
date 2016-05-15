@@ -189,9 +189,9 @@
             self.imageButton.layer.borderColor = [UIColor brownInkColor].CGColor;
             self.imageButton.layer.borderWidth = 5.0;
             
-            [bottle imageWithCompletion:^(UIImage * _Nonnull image) {
+            [bottle imageWithCompletion:^(BOOL success, UIImage * image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (image) {
+                    if (image && success) {
                         [self.imageButton setImage:image forState:UIControlStateNormal];
                     } else {
                         [self.imageButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
@@ -326,7 +326,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *tag = [self.tagsDataSource textForIndexPath:indexPath];
-    [self.tagsDataSource addTag:tag];
+    if (tag.length > 0 && [tag stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] > 0) {
+        [self.tagsDataSource addTag:tag];
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

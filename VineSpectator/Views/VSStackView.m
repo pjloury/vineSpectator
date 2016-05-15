@@ -23,7 +23,6 @@
     self = [super init];
     if (self) {
         _searchField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 150, 50)];
-//        _searchField.backgroundColor = [UIColor lightSalmonColor];
         _searchField.backgroundColor = [UIColor roseColor];
         _searchField.textColor = [UIColor goldColor];
         _searchField.placeholder = @"Search For Bottle";
@@ -71,10 +70,12 @@
 - (void)revealSearchField
 {
     [self.stackView insertArrangedSubview:self.searchField atIndex:1];
+    [self.searchField becomeFirstResponder];
 }
 
 - (void)dismissSearchField
 {
+    [self.searchField resignFirstResponder];
     [self.stackView removeArrangedSubview:self.searchField];
     [self.searchField removeFromSuperview];
     [self reloadData];
@@ -115,10 +116,11 @@
 {
     NSInteger totalWidth;
     for (NSInteger i = 0; i < self.dataSource.numberOfViewsInStack; i++) {
+        NSLog(@"%ld",self.dataSource.numberOfViewsInStack);
         UIButton *button = (UIButton *)self.stackView.arrangedSubviews[i];
         totalWidth += button.frame.size.width;
     }
-    return CGSizeMake(totalWidth+500, 50);
+    return CGSizeMake(totalWidth + 300, 50);
 }
 
 @end

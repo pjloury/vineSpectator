@@ -75,7 +75,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (self.bottles.count == 0) {
-        return 1;
+        return 0;
     } else {
         return self.filteredArrayDictionaryArray.count;
     }
@@ -84,7 +84,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (self.bottles.count == 0) {
-        return 1;
+        return 0;
     } else {
         NSDictionary *bottlesDictionary = self.filteredArrayDictionaryArray[section];
         NSArray *arrayContainingArray = [bottlesDictionary allValues];
@@ -110,34 +110,31 @@
     if (cell == nil) {
         cell = [[VSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    if (self.bottles.count == 0) {
-        //cell.textLabel.text = bottle.vineyardName;
-        cell.detailTextLabel.text = @"Press below to get started.";
-    } else {
-        NSDictionary *bottlesDictionaryForGrapeVariety = self.filteredArrayDictionaryArray[indexPath.section];
-        NSArray *bottlesForGrapeVariety = [bottlesDictionaryForGrapeVariety allValues].firstObject; // there is only 1 value. an array. Give me that array.
-        VSBottle *bottle = [bottlesForGrapeVariety objectAtIndex:indexPath.row];
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = bottle.vineyardName;
-        cell.detailTextLabel.text = bottle.name;
-        cell.yearLabel.text = @(bottle.year).stringValue; //@"2007";
-        if (bottle.name) {
-            cell.detailTextLabel.hidden = NO;
+
+    NSDictionary *bottlesDictionaryForGrapeVariety = self.filteredArrayDictionaryArray[indexPath.section];
+    NSArray *bottlesForGrapeVariety = [bottlesDictionaryForGrapeVariety allValues].firstObject; // there is only 1 value. an array. Give me that array.
+    VSBottle *bottle = [bottlesForGrapeVariety objectAtIndex:indexPath.row];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.text = bottle.vineyardName;
+    cell.detailTextLabel.text = bottle.name;
+    cell.yearLabel.text = @(bottle.year).stringValue; //@"2007";
+    if (bottle.name) {
+        cell.detailTextLabel.hidden = NO;
+    }
+    else {
+        cell.detailTextLabel.hidden = YES;
+    }
+    
+    if (self.showImages) {
+        if (bottle.image) {
+            cell.imageView.image = bottle.image;
+            cell.imageView.hidden = NO;
         }
-        else {
-            cell.detailTextLabel.hidden = YES;
-        }
-        
-        if (self.showImages) {
-            if (bottle.image) {
-                cell.imageView.image = bottle.image;
-                cell.imageView.hidden = NO;
-            }
-        }
-        else {
-            cell.imageView.hidden = YES;
-        }
+    }
+    else {
+        cell.imageView.hidden = YES;
+    }
         
     //    [cell.bottomBorder mas_makeConstraints:^(MASConstraintMaker *make) {
     //        make.left.equalTo(cell.left);
@@ -145,7 +142,6 @@
     //        make.top.equalTo(cell.bottom);
     //        make.height.equalTo(@(1.0));
     //    }];
-    }
     return cell;
 }
 
@@ -170,6 +166,9 @@
     VSBottle *bottle = [self bottleForID:bottleID];
     [bottle deleteInBackground];
     [self.bottles removeObject:bottle];
+    if (self.bottles.count == 0) {
+        [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"hasBottles"];
+    }
     self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
     [self regenerateDataModel];
 }
@@ -216,26 +215,18 @@
 # pragma mark - Generators
 - (void)fetchBottlesForUser:(PFUser *)user withCompletion:(void (^)())completion
 {
-    // find out the list of tags
     PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
     
-    // MANAGE LOGIN FLOW FOR USER. Capture Email and Password!
-    //    NSString *userID = @"";
-    //    user = [PFQuery getUserObjectWithId:userID];
-    //    [query whereKey:@"owner" equalTo:user];
-    //[query whereKeyDoesNotExist:@"owner"];
-    
+    //[query whereKey:@"owner" equalTo:[PFUser currentUser]];
     //[query fromLocalDatastore];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         self.bottles = [objects mutableCopy];
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            NSError *error = nil;
-//            BOOL result = [PFObject pinAll:objects error:&error];
-//            if (error) {
-//                NSLog(@"error: %@", error);
-//            }
-//            NSLog(@"DUUUUDE");
-//        });
+        
+        if (self.bottles.count > 0) {
+            [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"hasBottles"];
+        } else {
+            [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"hasBottles"];
+        }
 
         self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles]; // this is ALL the bottles
         self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
@@ -312,15 +303,17 @@
 - (BOOL)generateDataModelForFilterType:(VSFilterType)type tag:(NSString *)tag dirty:(BOOL)dirty;
 {
     if (![tag isEqualToString:self.previousFilter] || dirty || type != self.previousType) {
-        
         NSLog(@"VSFilterType: %ld", type);
         NSLog(@"Tag: %@", tag);
         self.previousType = type;
-        if (!tag) tag = @"";
-        self.previousFilter = tag; // TODO: Don't need this one again
         if ([tag isEqualToString:@""]) {
+            self.previousFilter = @"";
             self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:VSFilterTypeAll tag:@""];
         } else {
+            if (!tag) {
+                tag =  @"";
+                self.previousFilter = tag;
+            }
             self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:type tag:tag];
         }
         
@@ -431,6 +424,9 @@
     if (image) bottle.hasImage = YES;
     [self saveBottleImage:image withUUID:bottle.objectId];
     [self.bottles addObject:bottle];
+    if (self.bottles.count > 0) {
+        [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"hasBottles"];
+    }
     self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
     
     return bottle.objectId;
@@ -514,13 +510,5 @@
     NSAssert(YES, @"Requested ID not amongst bottles");
     return nil;
 }
-
-//
-//- (VSBottle *)bottleForID:(NSString *)bottleID latest:(BOOL)latest
-//{
-//    [self fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
-//        
-//    }];
-//}
 
 @end

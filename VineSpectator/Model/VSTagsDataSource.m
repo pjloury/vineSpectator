@@ -90,7 +90,11 @@
 
 - (NSString *)textForStackIndex:(NSInteger)stackIndex
 {
-    return [self.allTags[stackIndex] capitalizedString];
+    if (stackIndex < self.allTags.count) {
+        return [self.allTags[stackIndex] capitalizedString];
+    } else {
+        return @"+";
+    }
 }
 
 # pragma mark - private
@@ -103,7 +107,7 @@
 # pragma mark - VSStackViewDataSource
 - (NSInteger)numberOfViewsInStack
 {
-    return [self allTags].count;
+    return [self allTags].count + 1; // Add 1 for the + button
 }
 
 - (UIButton *)viewForIndex:(NSInteger)index

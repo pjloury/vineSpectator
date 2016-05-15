@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, VSWineColorType) {
 - (BOOL)containsTag:(NSString *)tag;
 - (UIImage *)image;
 
-typedef void (^VSImageCompletion)(UIImage *image);
+typedef void (^VSImageCompletion)(BOOL success, UIImage *image);
 
 - (void)imageWithCompletion:(VSImageCompletion)completion;
 

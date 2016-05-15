@@ -68,21 +68,24 @@
     paragraphStyle.maximumLineHeight = 40.0f;
     paragraphStyle.minimumLineHeight = 10.0f;
     
-    NSString *string = [[self.dataSource.userTags valueForKey:@"description"] componentsJoinedByString:@",   "];
-    NSDictionary *attributes = @{
+    self.textView.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+    self.textView.textColor = [UIColor redInkColor];
+    
+    if (self.dataSource.userTags.count > 0) {
+        NSString *string = [[self.dataSource.userTags valueForKey:@"description"] componentsJoinedByString:@",   "];
+        NSDictionary *attributes = @{
                                  NSForegroundColorAttributeName : [UIColor redInkColor],
                                  NSFontAttributeName : [UIFont fontWithName:@"Athelas-Regular" size:20],
                                  NSParagraphStyleAttributeName : paragraphStyle,
                                  };
-    
-    self.textView.attributedText = [[NSAttributedString alloc] initWithString:string attributes:attributes];
+        self.textView.attributedText = [[NSAttributedString alloc] initWithString:string attributes:attributes];
+    }
     
     self.instructionsLabel.font = [UIFont fontWithName:@"Athelas-Bold" size:20];
     self.instructionsLabel.numberOfLines = 0;
     self.instructionsLabel.textColor = [UIColor goldColor];
-    self.instructionsLabel.text = @"Add tags to organize your Wine Collection:";
+    self.instructionsLabel.text = @"Add tags separatead by commas to organize your Wine Collection:";
     [self.instructionsLabel sizeToFit];
-
 }
 
 - (void)dismissKeyboard
@@ -92,7 +95,15 @@
 
 - (void)dismissView:(id)sender
 {
-    self.dataSource.userTags = [[self.textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByString:@","];
+    NSString *trimmedString = [self.textView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSArray *tags = [trimmedString componentsSeparatedByString:@","];
+    NSMutableArray *iterTags = [tags mutableCopy];
+    for (NSString *tag in tags) {
+        if (tag.length == 0) {
+            [iterTags removeObject:tag];
+        }
+    }
+    self.dataSource.userTags = iterTags;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

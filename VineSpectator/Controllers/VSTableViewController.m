@@ -24,6 +24,7 @@
 @property UIButton *addBottleButton;
 @property VSBottleDataSource *bottleDataSource;
 @property UILabel *errorMessageLabel;
+@property UILabel *emptyMessageLabel;
 @property UIActivityIndicatorView *activityIndicator;
 
 @property UITableView *tableView;
@@ -35,9 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[[PFUser currentUser] setObject:@[@"Tahoe", @"San Jose", @"Yummy", @"DSF", @"DSFEFE", @"SEfefsf"] forKey:@"tags"];
-    //[[PFUser currentUser] saveInBackground];
-    
+   
     self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor offWhiteColor];
     self.tableView.showsVerticalScrollIndicator = NO;
@@ -65,14 +64,29 @@
     [self.view addSubview:self.filterViewController.view];
 
     self.view.backgroundColor = [UIColor parchmentColor];
+    
     self.errorMessageLabel = [UILabel new];
-    self.errorMessageLabel.text = @"No Results Found.";
     self.errorMessageLabel.backgroundColor = [UIColor clearColor];
     self.errorMessageLabel.textColor = [UIColor goldColor];
     self.errorMessageLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
     [self.view addSubview:self.errorMessageLabel];
     self.errorMessageLabel.hidden = YES;
+    self.errorMessageLabel.text = @"No results found.";
     [self.errorMessageLabel mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.equalTo(self.view.left).offset(20);
+        make.centerX.equalTo(self.view.centerX);
+        make.top.equalTo(self.filterViewController.view.bottom).offset(20);
+        make.height.equalTo(@25);
+    }];
+    
+    self.emptyMessageLabel = [UILabel new];
+    self.emptyMessageLabel.backgroundColor = [UIColor clearColor];
+    self.emptyMessageLabel.textColor = [UIColor goldColor];
+    self.emptyMessageLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+    [self.view addSubview:self.emptyMessageLabel];
+    self.emptyMessageLabel.hidden = YES;
+    self.emptyMessageLabel.text = @"Tap below to get started.";
+    [self.emptyMessageLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.equalTo(self.view.left).offset(20);
         make.centerX.equalTo(self.view.centerX);
         make.top.equalTo(self.filterViewController.view.bottom).offset(20);
@@ -86,7 +100,6 @@
         make.center.equalTo(self.view);
     }];
     
-    
     UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(didPressActionButton:)];
     actionButton.tintColor = [UIColor pateColor];
     self.navigationItem.rightBarButtonItem = actionButton;
@@ -94,34 +107,13 @@
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,25,25)];
     [button setTintColor:[UIColor pateColor]];
     [button addTarget:self action:@selector(didPressLogoutButton:) forControlEvents:UIControlEventTouchUpInside];
-    //[button setTitle:@"Logout" forState:UIControlStateNormal];
-    //[button.titleLabel setTextColor:[UIColor pateColor]];
-    //[button.titleLabel sizeToFit];
     UIImage *image = [UIImage imageNamed:@"logout"];
     [button setBackgroundImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-
-    //UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStylePlain target:self action:@selector(didPressLogoutButton:)];
-    
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    /*
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didPressLogoutButton:)];
-    UIFont *logoutFont= [UIFont fontWithName:@"MinionPro-Bold" size:16.0];
-    NSDictionary *logoutAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                     [UIColor pateColor], NSForegroundColorAttributeName,
-                                     logoutFont, NSFontAttributeName,nil];
-    [logoutButton setTitleTextAttributes:logoutAttributes forState:UIControlStateNormal];
-     */
-    
-    self.navigationItem.leftBarButtonItem = logoutButton;
- 
-    logoutButton.tintColor = [UIColor pateColor];
- 
     self.navigationItem.leftBarButtonItem = logoutButton;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapNavBar)];
     [self.navigationItem.titleView addGestureRecognizer:tapRecognizer];
-    
-    //self.navigationItem
     
     [self.filterViewController.view mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.top.right.equalTo(self.view);
@@ -139,30 +131,32 @@
         make.bottom.equalTo(self.addBottleButton.mas_top);
     }];
     
-    if (![PFUser currentUser]) {
-        [PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
-            [user saveInBackground];
-            [self.bottleDataSource fetchBottlesForUser:user withCompletion:^{
-                //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
-                self.errorMessageLabel.hidden = YES;
-                self.activityIndicator.hidden = YES;
-                [self.activityIndicator stopAnimating];
-                self.tableView.hidden = NO;
-                [self.tableView reloadData];
-            }];
-        }];
+    self.tableView.hidden = YES;
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
+        self.emptyMessageLabel.hidden = YES;
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator startAnimating];
+    } else {
+        self.emptyMessageLabel.hidden = NO;
+        self.activityIndicator.hidden = YES;
+        [self.activityIndicator stopAnimating];
     }
-    else {
-        NSLog([PFUser currentUser].username);
-        [self.bottleDataSource fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
-            //[self.bottleDataSource generateDataModelForFilter:@"Unopened" dirty:NO];
-            self.errorMessageLabel.hidden = YES;
+    
+    [self.bottleDataSource fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
+           self.emptyMessageLabel.hidden = YES;
+           self.activityIndicator.hidden = YES;
+           [self.activityIndicator stopAnimating];
+           self.tableView.hidden = NO;
+           [self.tableView reloadData];
+        } else {
+            self.emptyMessageLabel.hidden = NO;
             self.activityIndicator.hidden = YES;
             [self.activityIndicator stopAnimating];
-            self.tableView.hidden = NO;
-            [self.tableView reloadData];
-        }];
-    }
+            self.tableView.hidden = YES;
+        }
+    }];
 }
 
 - (void)titleViewTapped
@@ -178,15 +172,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.bottleDataSource regenerateDataModel];
- 
-    self.activityIndicator.hidden = NO;
-    [self.activityIndicator stopAnimating];
-    self.errorMessageLabel.hidden = YES;
-    self.tableView.hidden = NO;
-    [self.tableView reloadData]; // get the edits made in the detail VC
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
+        self.emptyMessageLabel.hidden = YES;
+        self.tableView.hidden = NO;
+        [self.tableView reloadData];
+    } else {
+        self.emptyMessageLabel.hidden = NO;
+        self.tableView.hidden = YES;
+    }
 }
 
-// Use share
 - (void)didPressActionButton:(id)sender
 {
     NSString *highScore = @"Mange your wine collection from your phone- download Vine Spectator to get started!";

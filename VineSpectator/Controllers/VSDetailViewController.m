@@ -139,7 +139,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *tag = [self.tagsDataSource textForIndexPath:indexPath];
-    [self.tagsDataSource addTag:tag];
+    if (tag.length > 0 && [tag stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] > 0) {
+        [self.tagsDataSource addTag:tag];
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -169,7 +171,7 @@
             switch (indexPath.row) { // bottle info
                 case 0: // contains the image and description
                 default: {
-                    CGFloat height = 500;
+                    CGFloat height = 435;
                     if (!bottle.bottleDescription) {
                         height -=100;
                     }
@@ -178,9 +180,12 @@
             }
         case 1:
             switch (indexPath.row) { // additional info
-                case 0: // contains the image and description
-                default:
-                    return 180;
+                case 0:
+                default: {
+                    CGFloat r = self.tagsDataSource.userTags.count/3 + 1;
+                    CGFloat height =  self.tagsDataSource.userTags.count > 0 ?  (60 + 50*r): 60;
+                    return height;
+                }
             }
         case 2:
         case 3:
@@ -256,7 +261,7 @@
             
             [vineyardLabel mas_makeConstraints:^(MASConstraintMaker *make){
                     make.left.equalTo(sectionView).offset(10);
-                    make.top.equalTo(sectionView).offset(8);
+                    make.top.equalTo(sectionView).offset(14);
             }];
             
             [yearLabel mas_makeConstraints:^(MASConstraintMaker *make){
@@ -264,16 +269,17 @@
                 if (vineyardLabel.text.length > 0) {
                     make.centerY.equalTo(vineyardLabel.centerY);
                 } else {
-                    make.top.equalTo(sectionView.top).offset(8);
+                    make.top.equalTo(sectionView.top).offset(14);
                 }
             }];
             
             [grapeVarietyLabel mas_makeConstraints:^(MASConstraintMaker *make){
                 make.left.equalTo(sectionView.left).offset(10);
                 if (vineyardLabel.text.length > 0) {
-                    make.top.equalTo(vineyardLabel.bottom).offset(5);
+//                    make.top.equalTo(vineyardLabel.bottom).offset(8);
+                    make.bottom.equalTo(sectionView.bottom).offset(-13);
                 } else {
-                    make.bottom.equalTo(sectionView.bottom).offset(-5);
+                    make.bottom.equalTo(sectionView.bottom).offset(-13);
                 }
             }];
             
@@ -281,9 +287,10 @@
                 make.right.equalTo(sectionView.right).offset(-20);
                 make.left.equalTo(grapeVarietyLabel.right).offset(10);
                 if (vineyardLabel.text.length > 0) {
-                    make.top.equalTo(vineyardLabel.bottom).offset(5);
+//                    make.top.equalTo(vineyardLabel.bottom).offset(8);
+                    make.bottom.equalTo(sectionView.bottom).offset(-13);
                 } else {
-                    make.bottom.equalTo(sectionView.bottom).offset(-5);
+                    make.bottom.equalTo(sectionView.bottom).offset(-13);
                 }
             }];
             
@@ -351,15 +358,15 @@
             [self.imageView mas_makeConstraints:^(MASConstraintMaker *make){
                 make.top.equalTo(cell.top).offset(20);
                 make.centerX.equalTo(cell.centerX);
-                make.left.equalTo(cell.left).offset(10);
+                make.left.equalTo(cell.left).offset(40);
                 make.height.equalTo(self.imageView.width);
             }];
             self.imageView.layer.borderColor = [UIColor brownInkColor].CGColor;
             self.imageView.layer.borderWidth = 5.0;
             
-            [bottle imageWithCompletion:^(UIImage * _Nonnull image) {
+            [bottle imageWithCompletion:^(BOOL success, UIImage *image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (image) {
+                    if (image && success) {
                         self.imageView.image = image;
                     } else {
                         UIButton *addPhotoButton = [[UIButton alloc] init];
@@ -395,28 +402,11 @@
             break;
         }
         case 1: {
-            KTCenterFlowLayout *layout = [KTCenterFlowLayout new];
-            layout.minimumInteritemSpacing = 10.f;
-            layout.minimumLineSpacing = 10.f;
-            
-            VSPromptLabel *tagsLabel = [[VSPromptLabel alloc] initWithString:@"Tags"];
-            [cell addSubview:tagsLabel];
-            [tagsLabel sizeToFit];
-            
             UIView *spacer1 = [[UIView alloc] initWithFrame:CGRectZero];
             UIView *spacer2 = [[UIView alloc] initWithFrame:CGRectZero];
             [cell addSubview:spacer1];
             [cell addSubview:spacer2];
             
-            self.tagsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-            self.tagsCollectionView.allowsMultipleSelection = YES;
-            self.tagsCollectionView.backgroundColor = [UIColor clearColor];
-            self.tagsCollectionView.dataSource = self.tagsDataSource;
-
-            self.tagsCollectionView.delegate = self;
-            [self.tagsCollectionView registerClass:[VSTagCollectionViewCell class] forCellWithReuseIdentifier:@"TagCell"];
-            [cell addSubview:self.tagsCollectionView];
-
             [spacer1 mas_makeConstraints:^(MASConstraintMaker *make){
                 make.width.equalTo(15);
                 make.left.equalTo(cell.left).offset(100);
@@ -431,33 +421,21 @@
                 make.top.equalTo(cell.top);
             }];
             
-            [tagsLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.left.equalTo(cell.left).offset(15);
-                make.top.equalTo(self.tagsCollectionView.top).offset(-5);
-            }];
-                        
-            [self.tagsCollectionView mas_makeConstraints:^(MASConstraintMaker *make){
-                make.left.equalTo(spacer1.right);
-                make.right.equalTo(spacer2.left);
-                make.top.equalTo(cell.top).offset(20);
-                make.height.equalTo(100);
-            }];
-
             self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Red", @"White"]];
             [cell addSubview:self.segmentedControl];
             [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make){
                 make.left.equalTo(spacer1.right).offset(30);
                 make.right.equalTo(spacer2.left).offset(-30);
-                make.top.equalTo(self.tagsCollectionView.bottom).offset(10);
+                make.top.equalTo(cell.top).offset(20);
                 make.height.equalTo(25);
             }];
-            self.segmentedControl.tintColor = [UIColor redInkColor];
+            self.segmentedControl.tintColor = [UIColor wineColor];
             self.segmentedControl.backgroundColor = [UIColor parchmentColor];
             
             UIFont *segmentFont= [UIFont fontWithName:@"Palatino" size:16.0];
             NSDictionary *segmentAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                              [UIColor redInkColor], NSForegroundColorAttributeName,
-                                              segmentFont, NSFontAttributeName,nil];
+                                               [UIColor redInkColor], NSForegroundColorAttributeName,
+                                               segmentFont, NSFontAttributeName,nil];
             [self.segmentedControl setTitleTextAttributes:segmentAttributes forState:UIControlStateNormal];
             [self.segmentedControl addTarget:self action:@selector(selectionChanged:) forControlEvents:UIControlEventValueChanged];
             
@@ -476,9 +454,41 @@
             [colorLabel sizeToFit];
             
             [colorLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.left.equalTo(tagsLabel.left);
-                make.top.equalTo(self.tagsCollectionView.bottom).offset(10);
+                make.left.equalTo(cell.left).offset(15);
+                make.top.equalTo(self.segmentedControl.top);
             }];
+            
+            if (self.tagsDataSource.userTags.count > 0) {
+
+            KTCenterFlowLayout *layout = [KTCenterFlowLayout new];
+            layout.minimumInteritemSpacing = 10.f;
+            layout.minimumLineSpacing = 10.f;
+            
+            VSPromptLabel *tagsLabel = [[VSPromptLabel alloc] initWithString:@"Tags"];
+            [cell addSubview:tagsLabel];
+            [tagsLabel sizeToFit];
+            
+            self.tagsCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+            self.tagsCollectionView.allowsMultipleSelection = YES;
+            self.tagsCollectionView.backgroundColor = [UIColor clearColor];
+            self.tagsCollectionView.dataSource = self.tagsDataSource;
+
+            self.tagsCollectionView.delegate = self;
+            [self.tagsCollectionView registerClass:[VSTagCollectionViewCell class] forCellWithReuseIdentifier:@"TagCell"];
+            [cell addSubview:self.tagsCollectionView];
+            
+            [tagsLabel mas_makeConstraints:^(MASConstraintMaker *make){
+                make.left.equalTo(colorLabel.left);
+                make.top.equalTo(self.tagsCollectionView.top).offset(-5);
+            }];
+                        
+            [self.tagsCollectionView mas_makeConstraints:^(MASConstraintMaker *make){
+                make.left.equalTo(spacer1.right);
+                make.right.equalTo(spacer2.left);
+                make.top.equalTo(self.segmentedControl.bottom).offset(30);
+                make.bottom.equalTo(cell.bottom).offset(-20);
+            }];
+            }
             
             break;
         }
@@ -491,11 +501,11 @@
 {
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
     NSLog(@"SEGMENT %ld", sender.selectedSegmentIndex);
-    if (sender.selectedSegmentIndex != bottle.color) {
+    if (sender.selectedSegmentIndex != bottle.color || !bottle.color) {
         bottle.color = sender.selectedSegmentIndex + 1;
+        [bottle saveInBackground];
+        NSLog(@"%ld Color", (long)bottle.color);
     }
-    [bottle save];
-    NSLog(@"%ld Color", (long)bottle.color);
 }
 
 - (void)didPressDone:(id)sender

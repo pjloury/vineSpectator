@@ -14,10 +14,18 @@
 #import "VSGrapeVariety.h"
 #import "VSVineyard.h"
 
+// Underline on section header
+// Experiment with Sorting by Year within a given section
+// Show # of bottles in a section if there are > 5
+// Better Clock & Search Icons
+// Search Query should clean up when collapsed
+// Clean up Image Button in Detail for edit/non-edit
+// Place color before tags for each bottle
+// Empty State for tags
+// Implement Discard Bottle
 // Allow the addition of Black Muscat
-//  Break on warnBlockingOperationOnMainThread()
+
 // rely on the local cache, THEN attempt to fetch from the network.
-// NSUserDefaults for Spinner vs No Bottles
 // Tap Top of Nav Bar to Scroll to Top
 
 // Collapsing Search Bar should clear all filters
@@ -41,13 +49,7 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    for (NSString *familyName in [UIFont familyNames]){
-        NSLog(@"Family name: %@", familyName);
-        for (NSString *fontName in [UIFont fontNamesForFamilyName:familyName]) {
-            NSLog(@"--Font name: %@", fontName);
-        }
-    }
-    
+
     [PFUser enableAutomaticUser];
     [Parse enableLocalDatastore];
    
@@ -111,7 +113,7 @@
     signUpController.navigationController.navigationItem.titleView = [VSViewController vineSpectatorView];
     signUpController.view.backgroundColor = [UIColor parchmentColor];
     signUpController.signUpView.logo = self.logo;
-    [signUpController.signUpView.signUpButton addTarget:self action:@selector(signUp) forControlEvents:UIControlEventTouchUpInside];
+    //[signUpController.signUpView.signUpButton addTarget:self action:@selector(signUp) forControlEvents:UIControlEventTouchUpInside];
 
     UIView *navBarView = [UIView new];
     navBarView.backgroundColor = [UIColor wineColor];
@@ -210,11 +212,6 @@
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
 {
     [self showTableViewController];
-}
-
-- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(nullable NSError *)error
-{
-    
 }
 
 - (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController

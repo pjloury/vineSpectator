@@ -20,7 +20,7 @@
 
 @dynamic bottleDescription;
 @dynamic cloudImage;
-
+@dynamic color;
 @dynamic dateDrank;
 @dynamic drank;
 @dynamic grapeVariety;
@@ -33,7 +33,7 @@
 @dynamic vineyardName;
 @dynamic year;
 
-@dynamic color;
+
 //@synthesize color;
 //@synthesize tags;
 
@@ -87,12 +87,16 @@
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:getImagePath];
-    if (!image) {
+    if (image ) {
+        completion(YES, image);
+    }
+    else if (self.cloudImage) {
         [self.cloudImage getDataInBackgroundWithBlock:^(NSData * _Nullable data, NSError * _Nullable error) {
-            completion([UIImage imageWithData:data]);
+            BOOL success = !error;
+            completion(success, [UIImage imageWithData:data]);
         }];
     } else {
-        completion(image);
+        completion(NO, image);
     }
     
 }
