@@ -13,6 +13,7 @@
 
 @property NSString *selectedTag;
 @property (nonatomic) UIStackView *stackView;
+@property BOOL searchOpen;
 
 @end
 
@@ -56,6 +57,10 @@
         [views addObject:view];
     }
     self.stackView = [[UIStackView alloc ] initWithArrangedSubviews:views];
+    if (self.searchOpen) {
+        [self revealSearchField];
+    }
+    
     self.stackView.alignment = UIStackViewAlignmentCenter;
     self.stackView.axis = UILayoutConstraintAxisHorizontal;
 //    self.stackView.distribution = UIStackViewDistributionEqualSpacing;
@@ -69,12 +74,15 @@
 
 - (void)revealSearchField
 {
+    self.searchOpen = YES;
     [self.stackView insertArrangedSubview:self.searchField atIndex:1];
     [self.searchField becomeFirstResponder];
 }
 
 - (void)dismissSearchField
 {
+    self.searchOpen = NO;
+    self.searchField.text = @"";
     [self.searchField resignFirstResponder];
     [self.stackView removeArrangedSubview:self.searchField];
     [self.searchField removeFromSuperview];

@@ -289,13 +289,15 @@
             [self.segmentedControl setTitleTextAttributes:segmentAttributes forState:UIControlStateNormal];
             [self.segmentedControl addTarget:self action:@selector(selectionChanged:) forControlEvents:UIControlEventValueChanged];
             
-            VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
-            if (bottle) {
-                [self updateSegmentedControlForColor:bottle.color];
-            } else {
+            if (self.color) {
                 [self updateSegmentedControlForColor:self.color -1];
+            } else {
+                VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
+                if (bottle) {
+                    [self updateSegmentedControlForColor:bottle.color];
+                }
             }
-            
+                        
             VSPromptLabel *colorLabel = [[VSPromptLabel alloc] initWithString:@"Color"];
             [cell addSubview:colorLabel];
             [colorLabel sizeToFit];
@@ -318,6 +320,7 @@
     if ([autoCompleteField isEqual:self.grapeTextField]) {
         VSWineColorType color = [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:autoCompleteField.text];
         self.color = color;
+        [self updateSegmentedControlForColor:self.color];
     }
 }
 

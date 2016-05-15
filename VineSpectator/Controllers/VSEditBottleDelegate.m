@@ -50,7 +50,7 @@
             switch (indexPath.row) { // edit bottle
                 case 0: // contains the image and description
                 default:
-                    return 260;
+                    return 220;
             }
         case 1:
             return 350;

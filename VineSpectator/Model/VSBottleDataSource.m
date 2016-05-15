@@ -342,6 +342,9 @@
             // TODO: by calling containsTag instead OPTIMIZE
             switch (type) {
                 case VSFilterTypeAll:
+                    if (bottle.drank) {
+                        [filteredBottlesForGrapeVariety removeObject:bottle];
+                    }
                     break;
                 case VSFilterTypeSearch:
                     if (![bottle containsText:tag]) {
@@ -378,7 +381,7 @@
             }
         }
         if (filteredBottlesForGrapeVariety.count != 0) {
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"vineyardName" ascending:YES];
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"year" ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             NSArray *sortedBottlesForGrapeVariety = [filteredBottlesForGrapeVariety sortedArrayUsingDescriptors:sortDescriptors];
             [arrayDictionaryArray addObject:@{key:sortedBottlesForGrapeVariety}];

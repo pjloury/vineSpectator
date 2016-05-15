@@ -14,6 +14,7 @@
 #import "VSGrapeVariety.h"
 #import "VSVineyard.h"
 
+// Must have local cache object in Edit mode to prevent new fields from being wiped out
 // Underline on section header
 // Experiment with Sorting by Year within a given section
 // Show # of bottles in a section if there are > 5
