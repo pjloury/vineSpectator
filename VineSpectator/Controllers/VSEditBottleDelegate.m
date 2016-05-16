@@ -11,6 +11,7 @@
 #import "VSBottleDataSource.h"
 #import "VSBottle.h"
 #import "VSSectionView.h"
+#import "VSTagsDataSource.h"
 
 @interface VSEditBottleDelegate ()
 
@@ -19,6 +20,7 @@
 @property UITableView *tableView;
 @property UISwitch *drunkSwitch;
 @property UIButton *discardBottleButton;
+@property VSTagsDataSource *tagsDataSource;
 
 @end
 
@@ -32,6 +34,7 @@
         _tableView = tableView;
         _bottleDataSource = bottleDataSource;
         _bottleID = bottleID;
+        _tagsDataSource = [[VSTagsDataSource alloc] initWithBottleDataSource:bottleDataSource bottleID:bottleID];
     }
     
     self.tapRecognizer = [[UITapGestureRecognizer alloc]
@@ -54,8 +57,11 @@
             }
         case 1:
             return 350;
-        case 2:
-            return 170; // rating and tags
+        case 2: {
+            CGFloat r = self.tagsDataSource.userTags.count/3 + 1;
+            CGFloat height =  self.tagsDataSource.userTags.count > 0 ?  (60 + 50*r): 60;
+            return height;
+        }
         case 4:
         default:
              return 15.0;
@@ -153,7 +159,17 @@
 
 - (void)didPressDiscardBottle:(id)sender
 {
+    UIAlertAction *act = [UIAlertAction actionWithTitle:@"Discard Bottle" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
+        [self.bottleDataSource deleteBottleWithID:self.bottleID];
+        [self.viewController.navigationController popViewControllerAnimated:YES];
+        
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){}];
     
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Are you sure?" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    [ac addAction:act];
+    [ac addAction:cancel];
+    [self.viewController presentViewController:ac animated:YES completion:nil];
 }
 
 @end

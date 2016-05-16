@@ -313,6 +313,11 @@
             self.drunkButton = drunkButton;
             [sectionView addSubview:drunkButton];  
             drunkButton.selected = bottle.drank;
+            [drunkButton mas_makeConstraints:^(MASConstraintMaker *make){
+                make.center.equalTo(sectionView);
+                make.height.equalTo(40);
+                make.width.equalTo(140);
+            }];
             break;
         }
         case 3: {
@@ -326,6 +331,11 @@
             [editBottleButton addTarget:self action:@selector(didPressEditBottle:) forControlEvents:UIControlEventTouchUpInside];
             self.editButton = editBottleButton;
             [sectionView addSubview:editBottleButton];
+            [editBottleButton mas_makeConstraints:^(MASConstraintMaker *make){
+                make.center.equalTo(sectionView);
+                make.height.equalTo(40);
+                make.width.equalTo(120);
+            }];
             break;
         }
     }
@@ -348,6 +358,8 @@
 {
     static NSString *CellIdentifier = @"DetailCell";
     VSTableViewCell *cell = [[VSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    
+    //VSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier
     
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
     switch (indexPath.section) {
@@ -479,13 +491,13 @@
             
             [tagsLabel mas_makeConstraints:^(MASConstraintMaker *make){
                 make.left.equalTo(colorLabel.left);
-                make.top.equalTo(self.tagsCollectionView.top).offset(-5);
+                make.top.equalTo(self.tagsCollectionView.top);
             }];
                         
             [self.tagsCollectionView mas_makeConstraints:^(MASConstraintMaker *make){
                 make.left.equalTo(spacer1.right);
                 make.right.equalTo(spacer2.left);
-                make.top.equalTo(self.segmentedControl.bottom).offset(30);
+                make.top.equalTo(self.segmentedControl.bottom).offset(20);
                 make.bottom.equalTo(cell.bottom).offset(-20);
             }];
             }
@@ -573,6 +585,7 @@
     self.editBottleDataSource.imageSelectionDelegate = self;
     
     self.editBottleDelegate = [[VSEditBottleDelegate alloc] initWithTableView:self.tableView bottleDataSource:self.bottleDataSource bottleID:self.bottleID];
+    self.editBottleDelegate.viewController = self;
     
     self.tableView.dataSource = self.editBottleDataSource;
     self.tableView.delegate = self.editBottleDelegate;

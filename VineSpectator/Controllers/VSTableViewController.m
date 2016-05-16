@@ -305,14 +305,27 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width-70, 20)];
     view.backgroundColor = [UIColor parchmentColor];
     label.font = [UIFont fontWithName:@"Athelas-Regular" size:18];
     label.textColor = [UIColor oliveInkColor];
     
-    NSString *string = [self.tableView.dataSource tableView:self.tableView titleForHeaderInSection:section];
+    UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width-70, 5, 70, 20)];
+    numberLabel.font = [UIFont systemFontOfSize:14.0];
+    numberLabel.textColor = [UIColor oliveInkColor];
+    numberLabel.text = [self.bottleDataSource numberTextForSection:section];
+    numberLabel.textAlignment = NSTextAlignmentRight;
+
+     NSString *string = [self.tableView.dataSource tableView:self.tableView titleForHeaderInSection:section];
     [label setText:string];
+    [label sizeToFit];
     [view addSubview:label];
+    [view addSubview:numberLabel];
+    
+    [numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(label.centerY);
+        make.left.equalTo(label.right).offset(5);
+    }];
     
     CALayer *upperBorder = [CALayer layer];
     upperBorder.backgroundColor = [[UIColor borderGreyColor] CGColor];

@@ -34,5 +34,7 @@
 - (NSString *)bottleIDForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 - (NSArray *)allBottles;
+- (void)deleteBottleWithID:(NSString *)bottleID;
+- (NSString *)numberTextForSection:(NSInteger) section;
 
 @end

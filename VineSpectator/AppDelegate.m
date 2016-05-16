@@ -14,24 +14,11 @@
 #import "VSGrapeVariety.h"
 #import "VSVineyard.h"
 
-// Must have local cache object in Edit mode to prevent new fields from being wiped out
-// Underline on section header
-// Experiment with Sorting by Year within a given section
-// Show # of bottles in a section if there are > 5
-// Better Clock & Search Icons
-// Search Query should clean up when collapsed
-// Clean up Image Button in Detail for edit/non-edit
-// Place color before tags for each bottle
-// Empty State for tags
-// Implement Discard Bottle
-// Allow the addition of Black Muscat
 
+// Better Clock & Search Icons
 // rely on the local cache, THEN attempt to fetch from the network.
 // Tap Top of Nav Bar to Scroll to Top
 
-// Collapsing Search Bar should clear all filters
-
-// No intuitive way to dismiss number keyboard
 
 @interface AppDelegate () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
@@ -138,21 +125,6 @@
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user
 {
     [self showTableViewController];
-}
-
-- (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(nullable NSError *)error
-{
-    
-}
-
-/**
- Sent to the delegate when the sign up screen is cancelled.
- 
- @param signUpController The signup view controller where signup was cancelled.
- */
-- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController
-{
-    
 }
 
 - (UIView *)icon

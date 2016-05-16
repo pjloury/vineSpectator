@@ -12,8 +12,6 @@
 
 @interface VSBottle ()
 
-//@property BOOL hasImage;
-
 @end
 
 @implementation VSBottle
@@ -34,9 +32,6 @@
 @dynamic year;
 
 
-//@synthesize color;
-//@synthesize tags;
-
 + (void)load {
     [VSBottle registerSubclass];
 }
@@ -45,22 +40,8 @@
     return @"Bottle";
 }
 
-/*
-- (VSWineColorType)computedColor
-{
-    if (color) {
-        return color;
-    } else if ([[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:self.grapeVarietyName]) {
-        return [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:self.grapeVarietyName];
-    } else {
-        return VSWineColorTypeUnspecified;
-    }
-}
-*/
-
 - (BOOL)hasImage {
     NSString *imageName = self.objectId;
-    //NSLog(@"Looking for %@", imageName);
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *getImagePath = [documentsDirectory stringByAppendingPathComponent:imageName];
@@ -130,9 +111,6 @@
     if ([tag isEqualToString:@"Unopened"]) {
         return !self.drank;
     }
-//    else if ([self.grapeVariety.color isEqualToString:tag]) {
-//        return YES;
-//    }
     else if ([self.tags containsObject:tag]) {
         return YES;
     }

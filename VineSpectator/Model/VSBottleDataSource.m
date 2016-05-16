@@ -103,6 +103,19 @@
     return string;
 }
 
+- (NSString *)numberTextForSection:(NSInteger) section
+{
+    NSString *string = @"";
+    if (self.filteredArrayDictionaryArray.count > 0) {
+        NSDictionary *bottlesForGrapeVariety = self.filteredArrayDictionaryArray[section];
+        NSArray *bottles = bottlesForGrapeVariety[bottlesForGrapeVariety.allKeys.firstObject];
+        if (bottles.count > 4) {
+            string = [NSString stringWithFormat:@"(%ld)", bottles.count];
+        }
+    }
+    return string;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -170,6 +183,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"hasBottles"];
     }
     self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
+    self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
     [self regenerateDataModel];
 }
 
@@ -306,7 +320,10 @@
         NSLog(@"VSFilterType: %ld", type);
         NSLog(@"Tag: %@", tag);
         self.previousType = type;
-        if ([tag isEqualToString:@""]) {
+        if (type == VSFilterTypeRed || type == VSFilterTypeDrank || type == VSFilterTypeWhite || type == VSFilterTypeChrono) {
+            self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:type tag:@""];
+        }
+        else if ([tag isEqualToString:@""]) {
             self.previousFilter = @"";
             self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:VSFilterTypeAll tag:@""];
         } else {
@@ -347,7 +364,7 @@
                     }
                     break;
                 case VSFilterTypeSearch:
-                    if (![bottle containsText:tag]) {
+                    if (![bottle containsText:tag] || bottle.drank) {
                         [filteredBottlesForGrapeVariety removeObject:bottle];
                     }
                     break;
@@ -360,21 +377,21 @@
                     }
                     break;
                 case VSFilterTypeRed:
-                    if (bottle.color != VSWineColorTypeRed && [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:bottle.grapeVarietyName] != VSWineColorTypeRed) {
+                    if ((bottle.color != VSWineColorTypeRed && [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:bottle.grapeVarietyName] != VSWineColorTypeRed) || bottle.drank) {
                         [filteredBottlesForGrapeVariety removeObject:bottle];
                     } else {
                         NSLog(@"Bro it's red");
                     }
                     break;
                 case VSFilterTypeWhite:
-                    if (bottle.color != VSWineColorTypeWhite && [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:bottle.grapeVarietyName] != VSWineColorTypeWhite) {
+                    if ((bottle.color != VSWineColorTypeWhite && [[VSGrapeVarietyDataSource sharedInstance] colorForGrapeVariety:bottle.grapeVarietyName] != VSWineColorTypeWhite) || bottle.drank) {
                         [filteredBottlesForGrapeVariety removeObject:bottle];
                     } else {
                         NSLog(@"Bro it's white");
                     }
                     break;
                 case VSFilterTypeTag:
-                        if (![bottle containsTag:tag]) {
+                        if (![bottle containsTag:tag] || bottle.drank) {
                         [filteredBottlesForGrapeVariety removeObject:bottle];
                     }
                     break;
@@ -431,6 +448,7 @@
         [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"hasBottles"];
     }
     self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
+    self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
     
     return bottle.objectId;
 }

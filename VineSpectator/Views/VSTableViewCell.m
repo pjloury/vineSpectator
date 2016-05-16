@@ -27,6 +27,7 @@ CGFloat padding = 10.0f;
     self.yearLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.yearLabel.font = [UIFont fontWithName:@"Avenir-Book" size:14.0];
     self.yearLabel.textColor = [UIColor oliveInkColor];
+    self.yearLabel.textAlignment = NSTextAlignmentRight;
     [self addSubview:self.yearLabel];
     
     self.imageView.layer.borderColor = [UIColor brownInkColor].CGColor;
@@ -70,7 +71,7 @@ CGFloat padding = 10.0f;
     
     [self.yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.textLabel.centerY);
-        make.right.equalTo(self.right).offset(-padding);
+        make.right.equalTo(self.right).offset(-30);
         make.width.equalTo(@55);
         make.height.equalTo(@15);
     }];

@@ -45,8 +45,6 @@ typedef NS_ENUM(NSInteger, VSWineColorType) {
 @property NSString *vineyardName;
 @property NSInteger year;
 
-
-- (VSWineColorType)computedColor;
 - (BOOL)containsText:(NSString *)text;
 - (BOOL)containsTag:(NSString *)tag;
 - (UIImage *)image;
