@@ -304,13 +304,13 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width-70, 20)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 28)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, tableView.frame.size.width-70, 20)];
     view.backgroundColor = [UIColor parchmentColor];
     label.font = [UIFont fontWithName:@"Athelas-Regular" size:18];
     label.textColor = [UIColor oliveInkColor];
     
-    UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width-70, 5, 70, 20)];
+    UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width-70, 8, 70, 20)];
     numberLabel.font = [UIFont systemFontOfSize:14.0];
     numberLabel.textColor = [UIColor oliveInkColor];
     numberLabel.text = [self.bottleDataSource numberTextForSection:section];
@@ -334,7 +334,7 @@
     
     CALayer *lowerBorder = [CALayer layer];
     lowerBorder.backgroundColor = [[UIColor borderGreyColor] CGColor];
-    lowerBorder.frame = CGRectMake(0, CGRectGetHeight(view.frame)-2, CGRectGetWidth(view.frame), 1.0f);
+    lowerBorder.frame = CGRectMake(0, 35, CGRectGetWidth(view.frame), 1.0f);
     [view.layer addSublayer:lowerBorder];
     return view;
 }

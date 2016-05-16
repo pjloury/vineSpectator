@@ -173,7 +173,6 @@
             }];
             
             self.grapeTextField.autocompleteDataSource = [VSGrapeVarietyDataSource sharedInstance];
-            
             break;
         }
         case 1: {
