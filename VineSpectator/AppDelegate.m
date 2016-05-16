@@ -68,7 +68,15 @@
      loginController.fields = (PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton |
      PFLogInFieldsPasswordForgotten);
      loginController.view.backgroundColor = [UIColor parchmentColor];
-     loginController.logInView.logo = self.icon;
+     loginController.logInView.logo = self.placeholder;
+    
+     UIView *logo = self.icon;
+     [loginController.logInView addSubview:logo];
+    
+    [logo mas_makeConstraints:^(MASConstraintMaker *make){
+        make.top.equalTo(loginController.logInView.top).offset(40);
+        make.centerX.equalTo(loginController.logInView.centerX);
+    }];
     
      UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:loginController];
      nc.navigationBar.translucent = NO;
@@ -84,18 +92,6 @@
      loginController.logInView.signUpButton.backgroundColor = [UIColor oliveInkColor];
 //    [loginController.logInView.logInButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     loginController.delegate = self;
-    
-    UILabel *welcomeLabel = [UILabel new];
-    welcomeLabel.text = @"Start your collection today.";
-    welcomeLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:20.0];
-    welcomeLabel.textColor = [UIColor wineColor];
-    [loginController.view addSubview:welcomeLabel];
-    [welcomeLabel sizeToFit];
-    
-    [welcomeLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.centerX.equalTo(loginController.logInView.centerX);
-        make.bottom.equalTo(loginController.logInView.top).offset(125);
-    }];
     
     PFSignUpViewController *signUpController = loginController.signUpController;
     signUpController.navigationController.navigationItem.titleView = [VSViewController vineSpectatorView];
@@ -127,17 +123,39 @@
     [self showTableViewController];
 }
 
+- (UIView *)placeholder {
+    UIView *p = [[UIView alloc] initWithFrame:CGRectMake(0,0,300,300)];
+    p.backgroundColor = [UIColor clearColor];
+    return p;
+}
+
 - (UIView *)icon
 {
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0,0,375,375)];
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectZero];
     UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"colored-bottle-and-glass"]];
     iconView.contentMode = UIViewContentModeScaleAspectFit;
-    
     [containerView addSubview:iconView];
+    
+    UILabel *welcomeLabel = [UILabel new];
+    welcomeLabel.text = @"Start your collection today.";
+    welcomeLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:20.0];
+    welcomeLabel.textColor = [UIColor wineColor];
+    [welcomeLabel sizeToFit];
+    [containerView addSubview:welcomeLabel];
+    
     [iconView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.center.equalTo(containerView);
-        make.leading.trailing.equalTo(containerView);
+        make.top.equalTo(containerView.top);
         make.height.equalTo(100);
+        make.width.equalTo(100);
+        make.centerX.equalTo(containerView.centerX);
+        make.bottom.equalTo(welcomeLabel.top).offset(-20);
+    }];
+    
+    [welcomeLabel mas_makeConstraints:^(MASConstraintMaker *make){
+        make.centerX.equalTo(containerView.centerX);
+        make.bottom.equalTo(containerView.bottom);
+        make.trailing.equalTo(containerView.trailing);
+        make.leading.equalTo(containerView.leading);
     }];
     
     return containerView;

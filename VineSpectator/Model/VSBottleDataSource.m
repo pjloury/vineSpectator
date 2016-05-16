@@ -230,8 +230,7 @@
 - (void)fetchBottlesForUser:(PFUser *)user withCompletion:(void (^)())completion
 {
     PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
-    
-    //[query whereKey:@"owner" equalTo:[PFUser currentUser]];
+    [query whereKey:@"owner" equalTo:[PFUser currentUser]];
     //[query fromLocalDatastore];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         self.bottles = [objects mutableCopy];
