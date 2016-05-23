@@ -56,9 +56,10 @@
                     return 220;
             }
         case 1:
-            return 350;
+            return 290;
         case 2: {
-            CGFloat r = self.tagsDataSource.userTags.count/3 + 1;
+            CGFloat r = self.tagsDataSource.userTags.count/3;
+            if (self.tagsDataSource.userTags.count < 3 && self.tagsDataSource.userTags.count > 0) { r++;}
             CGFloat height =  self.tagsDataSource.userTags.count > 0 ?  (60 + 50*r): 60;
             return height;
         }

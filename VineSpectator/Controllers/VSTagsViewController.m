@@ -95,10 +95,16 @@
 
 - (void)dismissView:(id)sender
 {
-    NSString *trimmedString = [self.textView.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSArray *tags = [trimmedString componentsSeparatedByString:@","];
-    NSMutableArray *iterTags = [tags mutableCopy];
+    NSArray *tags = [self.textView.text componentsSeparatedByString:@","];
+    
+    NSMutableArray *trimmedTags = [NSMutableArray array];
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     for (NSString *tag in tags) {
+        [trimmedTags addObject:[tag stringByTrimmingCharactersInSet:set]];
+    }
+    
+    NSMutableArray *iterTags = [trimmedTags mutableCopy];
+    for (NSString *tag in trimmedTags) {
         if (tag.length == 0) {
             [iterTags removeObject:tag];
         }

@@ -180,9 +180,9 @@
             [cell addSubview:self.imageButton];
             [self.imageButton mas_makeConstraints:^(MASConstraintMaker *make){
                 make.top.equalTo(cell.top).offset(20);
-                make.centerX.equalTo(cell.centerX);
-                make.height.equalTo(@300);
+                make.center.equalTo(cell);
                 make.width.equalTo(self.imageButton.height);
+                make.bottom.equalTo(cell.bottom).offset(-20);
             }];
 
             [self.imageButton addTarget:self action:@selector(didPressImageButton:) forControlEvents:UIControlEventTouchUpInside];

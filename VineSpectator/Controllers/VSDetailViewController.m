@@ -171,7 +171,7 @@
             switch (indexPath.row) { // bottle info
                 case 0: // contains the image and description
                 default: {
-                    CGFloat height = 435;
+                    CGFloat height = 375;
                     if (!bottle.bottleDescription) {
                         height -=100;
                     }
@@ -182,7 +182,8 @@
             switch (indexPath.row) { // additional info
                 case 0:
                 default: {
-                    CGFloat r = self.tagsDataSource.userTags.count/3 + 1;
+                    CGFloat r = self.tagsDataSource.userTags.count/3;
+                    if (self.tagsDataSource.userTags.count < 3 && self.tagsDataSource.userTags.count > 0) { r++;}
                     CGFloat height =  self.tagsDataSource.userTags.count > 0 ?  (60 + 50*r): 60;
                     return height;
                 }
@@ -316,7 +317,7 @@
             [drunkButton mas_makeConstraints:^(MASConstraintMaker *make){
                 make.center.equalTo(sectionView);
                 make.height.equalTo(40);
-                make.width.equalTo(140);
+                make.width.equalTo(sectionView);
             }];
             break;
         }
@@ -334,7 +335,7 @@
             [editBottleButton mas_makeConstraints:^(MASConstraintMaker *make){
                 make.center.equalTo(sectionView);
                 make.height.equalTo(40);
-                make.width.equalTo(120);
+                make.width.equalTo(sectionView);
             }];
             break;
         }
@@ -369,12 +370,19 @@
             [cell addSubview:self.imageView];
             [self.imageView mas_makeConstraints:^(MASConstraintMaker *make){
                 make.top.equalTo(cell.top).offset(20);
-                make.centerX.equalTo(cell.centerX);
-                make.left.equalTo(cell.left).offset(40);
-                make.height.equalTo(self.imageView.width);
+                make.center.equalTo(cell);
+                make.width.equalTo(self.imageView.height);
+                make.bottom.equalTo(cell.bottom).offset(-20);
             }];
             self.imageView.layer.borderColor = [UIColor brownInkColor].CGColor;
             self.imageView.layer.borderWidth = 5.0;
+            
+            UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [self.imageView addSubview:activityIndicatorView];
+            [activityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make){
+                make.center.equalTo(self.imageView);
+            }];
+            [activityIndicatorView startAnimating];
             
             [bottle imageWithCompletion:^(BOOL success, UIImage *image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -392,11 +400,13 @@
                             make.edges.equalTo(self.imageView);
                         }];
                     }
+                    activityIndicatorView.hidden = YES;
                 });
             }];
             
             self.descriptionTextView = [[UITextView alloc] initWithFrame:CGRectZero];
             self.descriptionTextView.text = @"Loren Ipsum dolor";
+            [self.descriptionTextView sizeToFit];
             self.descriptionTextView.font = [UIFont fontWithName:@"Baskerville" size:20.0];
             self.descriptionTextView.textColor = [UIColor oliveInkColor];
             [cell addSubview:self.descriptionTextView];
