@@ -304,12 +304,13 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 28)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 8, tableView.frame.size.width-70, 20)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 35)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     view.backgroundColor = [UIColor parchmentColor];
     label.font = [UIFont fontWithName:@"Athelas-Regular" size:18];
     label.textColor = [UIColor oliveInkColor];
     
+
     UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.size.width-70, 8, 70, 20)];
     numberLabel.font = [UIFont systemFontOfSize:14.0];
     numberLabel.textColor = [UIColor oliveInkColor];
@@ -321,6 +322,11 @@
     [label sizeToFit];
     [view addSubview:label];
     [view addSubview:numberLabel];
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(view.centerY);
+        make.left.equalTo(view.left).offset(10);
+    }];
     
     [numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(label.centerY);
@@ -334,7 +340,7 @@
     
     CALayer *lowerBorder = [CALayer layer];
     lowerBorder.backgroundColor = [[UIColor borderGreyColor] CGColor];
-    lowerBorder.frame = CGRectMake(0, 35, CGRectGetWidth(view.frame), 1.0f);
+    lowerBorder.frame = CGRectMake(0, CGRectGetHeight(view.frame)-1, CGRectGetWidth(view.frame), 1.0f);
     [view.layer addSublayer:lowerBorder];
     return view;
 }
@@ -353,6 +359,11 @@
     } else {
         return self.tableView.frame.size.height;
     }
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 35;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath

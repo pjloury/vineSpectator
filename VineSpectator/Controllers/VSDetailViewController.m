@@ -118,13 +118,11 @@
         // New bottle
         [self setupEditMode:nil];
         self.createMode = YES;
-        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(close)];
-        UIFont *closeFont= [UIFont fontWithName:@"MinionPro-Bold" size:18.0];
-        NSDictionary *closeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [UIColor pateColor], NSForegroundColorAttributeName,
-                                        closeFont, NSFontAttributeName,nil];
-        [closeButton setTitleTextAttributes:closeAttributes forState:UIControlStateNormal];
+        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(close)];
+        closeButton.tintColor = [UIColor pateColor];
         self.navigationItem.leftBarButtonItem = closeButton;
+        self.navigationItem.rightBarButtonItem = closeButton;
+        self.navigationItem.rightBarButtonItem.tintColor = [UIColor wineColor];
     }
     else {
         // Existing bottle
@@ -171,7 +169,7 @@
             switch (indexPath.row) { // bottle info
                 case 0: // contains the image and description
                 default: {
-                    CGFloat height = 375;
+                    CGFloat height = 420;
                     if (!bottle.bottleDescription) {
                         height -=100;
                     }
@@ -383,6 +381,7 @@
                 make.center.equalTo(self.imageView);
             }];
             [activityIndicatorView startAnimating];
+            self.imageView.backgroundColor = [UIColor warmTanColor];
             
             [bottle imageWithCompletion:^(BOOL success, UIImage *image) {
                 dispatch_async(dispatch_get_main_queue(), ^{
