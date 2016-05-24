@@ -176,9 +176,11 @@
         self.emptyMessageLabel.hidden = YES;
         self.tableView.hidden = NO;
         [self.tableView reloadData];
+        self.errorMessageLabel.hidden = YES;
     } else {
         self.emptyMessageLabel.hidden = NO;
         self.tableView.hidden = YES;
+        self.errorMessageLabel.hidden = YES;
     }
 }
 
@@ -263,11 +265,21 @@
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
 {
-    [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeTag tag:tag dirty:YES];
+    BOOL reload = [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeTag tag:tag dirty:YES];
     self.errorMessageLabel.hidden = YES;
     self.activityIndicator.hidden = YES;
     [self.activityIndicator stopAnimating];
     self.tableView.hidden = NO;
+    
+    if (reload) {
+        self.errorMessageLabel.hidden = YES;
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator stopAnimating];
+        self.tableView.hidden = NO;
+    } else {
+        self.errorMessageLabel.hidden = NO;
+        self.tableView.hidden = YES;
+    }
     [self.tableView reloadData];
 }
 

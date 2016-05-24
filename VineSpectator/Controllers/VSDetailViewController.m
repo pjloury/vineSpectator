@@ -112,6 +112,11 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)open
+{
+
+}
+
 - (void)setupUI
 {
     if (self.editMode) {
@@ -119,9 +124,11 @@
         [self setupEditMode:nil];
         self.createMode = YES;
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(close)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,0,30,30)];
+        UIBarButtonItem *blankButton = [[UIBarButtonItem alloc] initWithCustomView:view];
         closeButton.tintColor = [UIColor pateColor];
         self.navigationItem.leftBarButtonItem = closeButton;
-        self.navigationItem.rightBarButtonItem = closeButton;
+        self.navigationItem.rightBarButtonItem = blankButton;
         self.navigationItem.rightBarButtonItem.tintColor = [UIColor wineColor];
     }
     else {
@@ -181,8 +188,12 @@
                 case 0:
                 default: {
                     CGFloat r = self.tagsDataSource.userTags.count/3;
-                    if (self.tagsDataSource.userTags.count < 3 && self.tagsDataSource.userTags.count > 0) { r++;}
-                    CGFloat height =  self.tagsDataSource.userTags.count > 0 ?  (60 + 50*r): 60;
+                    CGFloat height;
+                    if (self.tagsDataSource.userTags.count < 3 && self.tagsDataSource.userTags.count > 0) { r++;
+                        height =  self.tagsDataSource.userTags.count > 0 ?  (70 + 40*r): 60;
+                    } else {
+                        height =  self.tagsDataSource.userTags.count > 0 ?  (70 + 40*(r+1)): 60;
+                    }
                     return height;
                 }
             }
@@ -429,14 +440,14 @@
             [cell addSubview:spacer2];
             
             [spacer1 mas_makeConstraints:^(MASConstraintMaker *make){
-                make.width.equalTo(15);
-                make.left.equalTo(cell.left).offset(100);
+                make.width.equalTo(25);
+                make.left.equalTo(cell.left).offset(cell.frame.size.width/10);
                 make.height.equalTo(cell.height);
                 make.top.equalTo(cell.top);
             }];
             
             [spacer2 mas_makeConstraints:^(MASConstraintMaker *make){
-                make.width.equalTo(spacer1).offset(10);
+                make.width.equalTo(spacer1);
                 make.right.equalTo(cell.right);
                 make.height.equalTo(cell.height);
                 make.top.equalTo(cell.top);
@@ -445,8 +456,8 @@
             self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Red", @"White"]];
             [cell addSubview:self.segmentedControl];
             [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make){
-                make.left.equalTo(spacer1.right).offset(30);
-                make.right.equalTo(spacer2.left).offset(-30);
+                make.left.equalTo(spacer1.right).offset(50);
+                make.right.equalTo(spacer2.left).offset(-50);
                 make.top.equalTo(cell.top).offset(20);
                 make.height.equalTo(25);
             }];

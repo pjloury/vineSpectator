@@ -236,14 +236,14 @@
             [cell addSubview:spacer2];
             
             [spacer1 mas_makeConstraints:^(MASConstraintMaker *make){
-                make.width.equalTo(15);
-                make.left.equalTo(cell.left).offset(100);
+                make.width.equalTo(25);
+                make.left.equalTo(cell.left).offset(cell.frame.size.width/10);
                 make.height.equalTo(cell.height);
                 make.top.equalTo(cell.top);
             }];
             
             [spacer2 mas_makeConstraints:^(MASConstraintMaker *make){
-                make.width.equalTo(spacer1).offset(10);
+                make.width.equalTo(spacer1);
                 make.right.equalTo(cell.right);
                 make.height.equalTo(cell.height);
                 make.top.equalTo(cell.top);
@@ -252,8 +252,8 @@
             self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Red", @"White"]];
             [cell addSubview:self.segmentedControl];
             [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make){
-                make.left.equalTo(spacer1.right).offset(30);
-                make.right.equalTo(spacer2.left).offset(-30);
+                make.left.equalTo(spacer1.right).offset(50);
+                make.right.equalTo(spacer2.left).offset(-50);
                 make.top.equalTo(cell.top).offset(20);
                 make.height.equalTo(25);
             }];

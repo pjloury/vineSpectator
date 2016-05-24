@@ -12,6 +12,7 @@
 #import "VSGrapeVarietyDataSource.h"
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "VSTagsDataSource.h"
 
 @interface VSBottleDataSource ()
 
@@ -342,6 +343,11 @@
 
 - (void)regenerateDataModel
 {
+    VSTagsDataSource *tags = [[VSTagsDataSource alloc] initWithBottleDataSource:self];
+    if (![tags.allTags containsObject:self.previousFilter]) {
+        self.previousFilter = @"";
+        self.previousType = VSFilterTypeAll;
+    }
     [self generateDataModelForFilterType:self.previousType tag:self.previousFilter dirty:YES];
 }
 
