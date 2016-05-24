@@ -50,6 +50,7 @@
     
     self.stackScrollView.contentOffset = CGPointZero;
     self.stackScrollView.userInteractionEnabled = YES;
+    self.stackScrollView.scrollsToTop = NO;
     
     [self.stackView reloadData];
     
