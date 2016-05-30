@@ -220,16 +220,6 @@
 {
     [self showTableViewController];
 }
-
-- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(nullable NSError *)error
-{
- 
-}
-
-- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController
-{
-    
-}
      
 - (void)showTableViewController
 {

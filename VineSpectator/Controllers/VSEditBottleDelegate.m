@@ -13,7 +13,7 @@
 #import "VSSectionView.h"
 #import "VSTagsDataSource.h"
 
-@interface VSEditBottleDelegate ()
+@interface VSEditBottleDelegate ()<UICollectionViewDelegate>
 
 @property VSBottleDataSource *bottleDataSource;
 @property NSString *bottleID;
@@ -36,12 +36,6 @@
         _bottleID = bottleID;
         _tagsDataSource = [[VSTagsDataSource alloc] initWithBottleDataSource:bottleDataSource bottleID:bottleID];
     }
-    
-    self.tapRecognizer = [[UITapGestureRecognizer alloc]
-                                   initWithTarget:self
-                                   action:@selector(dismissKeyboard)];
-    [tableView addGestureRecognizer:self.tapRecognizer];
-    
     return self;
 }
 
@@ -167,7 +161,7 @@
     UIAlertAction *act = [UIAlertAction actionWithTitle:@"Discard Bottle" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
         [self.bottleDataSource deleteBottleWithID:self.bottleID];
         [self.viewController.navigationController popViewControllerAnimated:YES];
-        
+        [self.viewController dismissViewControllerAnimated:YES completion:nil];
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){}];
     

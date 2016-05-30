@@ -47,20 +47,24 @@
 
 @property (nonatomic) VSWineColorType color;
 
+@property (weak) UITableView *tableView;
 @property NSMutableArray *years;
 @property NSInteger thisYear;
+
+@property UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
 @implementation VSEditBottleDataSource
 
-- (instancetype)initWithBottleDataSource:(VSBottleDataSource *)bottleDataSource bottleID:(NSString *)bottleID
+- (instancetype)initWithTableView:(UITableView *)tableView bottleDataSource:(VSBottleDataSource *)bottleDataSource tagsDataSource:(VSTagsDataSource *)tagsDataSource bottleID:(NSString *)bottleID
 {
     self = [super init];
     if (self) {
         _bottleDataSource = bottleDataSource;
         _bottleID = bottleID;
-        _tagsDataSource = [[VSTagsDataSource alloc] initWithBottleDataSource:bottleDataSource bottleID:bottleID];
+        _tagsDataSource = tagsDataSource;
+        _tableView = tableView;
         
         NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy"];
@@ -327,8 +331,8 @@
                 self.tagsCollectionView.allowsMultipleSelection = YES;
                 self.tagsCollectionView.backgroundColor = [UIColor clearColor];
                 self.tagsCollectionView.dataSource = self.tagsDataSource;
+                cell.userInteractionEnabled = YES;
                 
-                self.tagsCollectionView.delegate = self;
                 [self.tagsCollectionView registerClass:[VSTagCollectionViewCell class] forCellWithReuseIdentifier:@"TagCell"];
                 [cell addSubview:self.tagsCollectionView];
                 
@@ -343,6 +347,8 @@
                     make.top.equalTo(self.segmentedControl.bottom).offset(20);
                     make.bottom.equalTo(cell.bottom).offset(-20);
                 }];
+                
+                self.tagsCollectionView.delegate = self;
             }
             break;
         }
@@ -377,6 +383,7 @@
     [self.tagsDataSource removeTag:tag];
 }
 
+
 # pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -394,7 +401,23 @@
     }
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc]
+                                                initWithTarget:self
+                                                action:@selector(dismissKeyboard)];
+   [self.tableView addGestureRecognizer:self.tapGestureRecognizer];
+}
+
+
+- (void)dismissKeyboard
+{
+    [self.tableView endEditing:YES];
+}
+
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self.tableView removeGestureRecognizer:self.tapGestureRecognizer];
+    
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
     if ([textField isEqual:self.grapeTextField]) {
         bottle.grapeVarietyName = self.grapeVariety;

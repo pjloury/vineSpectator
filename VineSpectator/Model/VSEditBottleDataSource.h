@@ -30,6 +30,6 @@
 
 @property (nonatomic, weak) id<VSImageSelectionDelegate> imageSelectionDelegate;
 
-- (instancetype)initWithBottleDataSource:(VSBottleDataSource *)bottleDataSource bottleID:(NSString *)bottleID;
+- (instancetype)initWithTableView:(UITableView *)tableView bottleDataSource:(VSBottleDataSource *)bottleDataSource tagsDataSource:(VSTagsDataSource *)tagsDataSource bottleID:(NSString *)bottleID;
 
 @end

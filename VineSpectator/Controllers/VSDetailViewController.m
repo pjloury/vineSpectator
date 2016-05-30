@@ -47,8 +47,6 @@
 @property VSBottleDataSource *bottleDataSource;
 @property NSString *bottleID;
 
-@property UITapGestureRecognizer *dismissKeyboardTapGesutreRecognizer;
-
 // State
 @property BOOL createMode;
 
@@ -520,8 +518,7 @@
                 make.top.equalTo(self.segmentedControl.bottom).offset(20);
                 make.bottom.equalTo(cell.bottom).offset(-20);
             }];
-            }
-            
+            }            
             break;
         }
     }
@@ -588,9 +585,6 @@
     if (self.editBottleDelegate.tapRecognizer) {
         [self.tableView removeGestureRecognizer:self.editBottleDelegate.tapRecognizer];
     }
-    if (self.dismissKeyboardTapGesutreRecognizer) {
-        [self.tableView removeGestureRecognizer:self.dismissKeyboardTapGesutreRecognizer];
-    }
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -601,7 +595,7 @@
 
 - (void)setupEditMode:(id)sender
 {
-    self.editBottleDataSource = [[VSEditBottleDataSource alloc] initWithBottleDataSource:self.bottleDataSource bottleID:self.bottleID];
+    self.editBottleDataSource = [[VSEditBottleDataSource alloc] initWithTableView:self.tableView bottleDataSource:self.bottleDataSource tagsDataSource:self.tagsDataSource bottleID:self.bottleID];
     self.editBottleDataSource.imageSelectionDelegate = self;
     
     self.editBottleDelegate = [[VSEditBottleDelegate alloc] initWithTableView:self.tableView bottleDataSource:self.bottleDataSource bottleID:self.bottleID];
@@ -612,10 +606,6 @@
     [self.tableView reloadData];
     [self.tableView setContentOffset:CGPointZero animated:YES];
     
-    self.dismissKeyboardTapGesutreRecognizer = [[UITapGestureRecognizer alloc]
-                                                initWithTarget:self
-                                                action:@selector(dismissKeyboard)];
-    [self.tableView addGestureRecognizer:self.dismissKeyboardTapGesutreRecognizer];
     [self.doneButton setTitle:@"Save" forState:UIControlStateNormal];
 }
 
@@ -758,11 +748,6 @@
     navigationController.navigationBar.tintColor = [UIColor pateColor];
     
     viewController.view.backgroundColor = [UIColor offWhiteColor];
-}
-
-- (void)dismissKeyboard
-{
-    [self.tableView endEditing:YES];
 }
 
 @end

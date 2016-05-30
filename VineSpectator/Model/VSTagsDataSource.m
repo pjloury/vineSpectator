@@ -69,11 +69,13 @@
 - (void)addTag:(NSString *)tag
 {
     [self.localTags addObject:tag];
+    [self saveTags];
 }
 
 - (void)removeTag:(NSString *)tag
 {
     [self.localTags removeObject:tag];
+    [self saveTags];
 }
 
 - (void)saveTags
@@ -173,8 +175,6 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
-//    return bottle.tags.count;
     return self.userTags.count;
 }
 
@@ -186,6 +186,8 @@
     cell.tag = tag;
     
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
+    NSLog(bottle.computedTags.description);
+    
     if (bottle.computedTags.count > 0) {
         if ([self.localTags containsObject:tag]) {
             [cell setSelected:YES];

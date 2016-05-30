@@ -152,18 +152,10 @@
     
     CALayer *lowerBorder = [CALayer layer];
     lowerBorder.backgroundColor = [[UIColor warmGray] CGColor];
-    lowerBorder.frame = CGRectMake(0, 80-0.5, 1000, 0.5f);
+    lowerBorder.frame = CGRectMake(18, 80-0.5, 1000, 0.5f);
     [cell.layer addSublayer:lowerBorder];
     
-    //    [cell.bottomBorder mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.left.equalTo(cell.left);
-    //        make.right.equalTo(cell.right);
-    //        make.top.equalTo(cell.bottom);
-    //        make.height.equalTo(@(1.0));
-    //    }];
     return cell;
-    
-
     
 }
 
@@ -177,7 +169,6 @@
         NSString *bottleID = [self bottleIDForRowAtIndexPath:indexPath];
         [self deleteBottleWithID:bottleID];
         [tableView reloadData];
-        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
@@ -205,21 +196,6 @@
         [grapeVarieties addObject:bottle.grapeVariety];
     }
     return [grapeVarieties.allObjects.mutableCopy sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-}
-
-- (NSArray *)_grapeVarietiesWithTag:(NSString *)tag
-{
-    NSMutableSet *grapeVarieties = [[NSMutableSet alloc] init];
-    for (VSBottle *bottle in self.bottles) {
-        //        if ([bottle.tags containsObject:tag])
-        //        [grapeVarieties addObject:bottle.grapeVariety];
-    }
-    return nil;
-}
-
-- (NSArray *)_bottlesWithTag:(NSString *)tag
-{
-    return nil;
 }
 
 - (NSString *)bottleIDForRowAtIndexPath:(NSIndexPath *)indexPath
