@@ -149,7 +149,12 @@
     else {
         cell.imageView.hidden = YES;
     }
-        
+    
+    CALayer *lowerBorder = [CALayer layer];
+    lowerBorder.backgroundColor = [[UIColor warmGray] CGColor];
+    lowerBorder.frame = CGRectMake(0, 80-0.5, 1000, 0.5f);
+    [cell.layer addSublayer:lowerBorder];
+    
     //    [cell.bottomBorder mas_makeConstraints:^(MASConstraintMaker *make) {
     //        make.left.equalTo(cell.left);
     //        make.right.equalTo(cell.right);
@@ -157,6 +162,9 @@
     //        make.height.equalTo(@(1.0));
     //    }];
     return cell;
+    
+
+    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -276,7 +284,9 @@
     NSMutableArray *chrono = [NSMutableArray array];
     for (VSBottle *bottle in bottles) {
         // for this bottle's year, does a dictionary exist?
-        [self array:chrono addBottle:bottle];
+        if (!bottle.drank) {
+            [self array:chrono addBottle:bottle];
+        }
     }
     
     // Sort the array of variety dictionaries by variety

@@ -14,6 +14,7 @@
 @property NSString *selectedTag;
 @property (nonatomic) UIStackView *stackView;
 @property BOOL searchOpen;
+@property UIButton *addButton;
 
 @end
 
@@ -56,6 +57,7 @@
         }
         [views addObject:view];
     }
+    self.addButton = views.firstObject;
     self.stackView = [[UIStackView alloc ] initWithArrangedSubviews:views];
     if (self.searchOpen) {
         [self revealSearchField];

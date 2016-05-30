@@ -28,6 +28,7 @@
 
 @interface VSStackView : UIView
 
+@property (nonatomic, readonly) UIButton *addButton;
 @property (nonatomic) UITextField *searchField;
 - (void)reloadData;
 - (void)revealSearchField;

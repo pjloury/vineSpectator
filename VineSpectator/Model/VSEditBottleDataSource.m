@@ -24,7 +24,7 @@
 // Controllers
 #import "VSDetailViewController.h"
 
-@interface VSEditBottleDataSource ()<UITextFieldDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, HTAutocompleteTextFieldDelegate>
+@interface VSEditBottleDataSource ()<UITextFieldDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, HTAutocompleteTextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property VSBottleDataSource *bottleDataSource;
 
@@ -47,6 +47,8 @@
 
 @property (nonatomic) VSWineColorType color;
 
+@property NSMutableArray *years;
+@property NSInteger thisYear;
 
 @end
 
@@ -59,6 +61,15 @@
         _bottleDataSource = bottleDataSource;
         _bottleID = bottleID;
         _tagsDataSource = [[VSTagsDataSource alloc] initWithBottleDataSource:bottleDataSource bottleID:bottleID];
+        
+        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy"];
+        _thisYear  = [[formatter stringFromDate:[NSDate date]] intValue];
+        
+        _years = [[NSMutableArray alloc] init];
+        for (int i=1960; i<=_thisYear; i++) {
+            [_years addObject:[NSString stringWithFormat:@"%d",i]];
+        }
     }
     return self;
 }
@@ -96,23 +107,38 @@
             self.grapeTextField.delegate = self;
             self.grapeTextField.showAutocompleteButton = YES;
             self.grapeTextField.autoCompleteTextFieldDelegate = self;
+            self.grapeTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
             [cell addSubview:self.grapeTextField];
             
-            self.vineyardPromptLabel = [[VSPromptLabel alloc] initWithString:@"Vineyard:"];
+            self.vineyardPromptLabel = [[VSPromptLabel alloc] initWithString:@"Winery:"];
             [cell addSubview:self.vineyardPromptLabel];
             self.vineyardTextField = [[VSTextField alloc] initWithString:bottle.vineyardName];
             self.vineyardTextField.tag = 1;
             self.vineyardTextField.delegate = self;
+            self.vineyardTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
             [cell addSubview:self.vineyardTextField];
             
             self.yearPromptLabel = [[VSPromptLabel alloc] initWithString:@"Year:"];
             [cell addSubview:self.yearPromptLabel];
             
-            if (bottle.year > 0)self.yearTextField = [[VSTextField alloc] initWithString:@(bottle.year).stringValue];
-            else self.yearTextField = [[VSTextField alloc] initWithString:@""];
-            self.yearTextField.keyboardType = UIKeyboardTypeNumberPad;
+            UIPickerView *pickerView = [[UIPickerView alloc] init];
+            pickerView.dataSource = self;
+            pickerView.delegate = self;
+            pickerView.backgroundColor = [UIColor lightSalmonColor];
+            
+            if (bottle.year > 0) {
+                self.yearTextField = [[VSTextField alloc] initWithString:@(bottle.year).stringValue];
+                NSInteger difference = self.thisYear - bottle.year;
+                [pickerView selectRow:self.years.count-1 - difference inComponent:0 animated:NO];
+            } else {
+                self.yearTextField = [[VSTextField alloc] initWithString:@""];
+                [pickerView selectRow:self.years.count-5 inComponent:0 animated:NO];
+            }
+            //self.yearTextField.keyboardType = UIKeyboardTypeNumberPad;
+            self.yearTextField.inputView = pickerView;
             self.yearTextField.tag = 2;
             self.yearTextField.delegate = self;
+            self.yearTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
             [cell addSubview:self.yearTextField];
             
             self.namePromptLabel = [[VSPromptLabel alloc] initWithString:@"Name:"];
@@ -121,6 +147,7 @@
             self.nameTextField.tag = 3;
             self.nameTextField.delegate = self;
             self.nameTextField.returnKeyType = UIReturnKeyDone;
+            self.nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
             [cell addSubview:self.nameTextField];
          
             [self.grapePromptLabel mas_makeConstraints:^(MASConstraintMaker *make){
@@ -396,6 +423,29 @@
         [textField resignFirstResponder];
     }
     return NO; // We do not want UITextField to insert line-breaks.
+}
+
+# pragma mark - Year Picker
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return self.years.count;
+}
+
+- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [self.years objectAtIndex:row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    NSString *value = [self pickerView:pickerView titleForRow:row forComponent:component];
+    self.yearTextField.text = value;
 }
 
 # pragma mark - Tap Handlers

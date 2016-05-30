@@ -128,7 +128,7 @@
         button.tintColor = [UIColor goldColor];
         [button sizeToFit];
     } else if (index == 2) {
-        UIImage *image = [UIImage imageNamed:@"smallerBottle"];
+        UIImage *image = [UIImage imageNamed:@"glass"];
         UIImage *tintImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [button setImage:tintImage forState:UIControlStateNormal];
         button.tintColor = [UIColor goldColor];

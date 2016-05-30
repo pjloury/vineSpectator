@@ -41,6 +41,7 @@
     self.tableView.backgroundColor = [UIColor offWhiteColor];
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorColor = [UIColor lightGrayColor];
     self.tableView.scrollsToTop = YES;
     self.tableView.bounces = YES;
     [self.view addSubview:self.tableView];
@@ -48,6 +49,7 @@
     self.bottleDataSource = [[VSBottleDataSource alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self.bottleDataSource;
+    [self.tableView setRowHeight:80];
     
     self.filterViewController = [[VSFilterStackViewController alloc] init];
     self.filterViewController.delegate = self;
@@ -85,12 +87,13 @@
     self.emptyMessageLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
     [self.view addSubview:self.emptyMessageLabel];
     self.emptyMessageLabel.hidden = YES;
-    self.emptyMessageLabel.text = @"Tap below to get started.";
+    self.emptyMessageLabel.text = @"No bottles found. Tap below to get started.";
+    self.emptyMessageLabel.numberOfLines = 2;
     [self.emptyMessageLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.equalTo(self.view.left).offset(20);
         make.centerX.equalTo(self.view.centerX);
         make.top.equalTo(self.filterViewController.view.bottom).offset(20);
-        make.height.equalTo(@25);
+        make.height.equalTo(@50);
     }];
     
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

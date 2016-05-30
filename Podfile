@@ -5,3 +5,4 @@ pod 'ParseUI'
 pod 'ParseFacebookUtils'
 pod 'KTCenterFlowLayout'
 pod 'HTAutocompleteTextField'
+pod ‘JDFTooltips’

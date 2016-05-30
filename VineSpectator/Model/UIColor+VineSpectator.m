@@ -74,4 +74,8 @@ alpha:1.0]
     return UIColorFromRGB(0xFFF6F5);
 }
 
++ (UIColor *)warmGray {
+    return UIColorFromRGB(0xDEDDCC);
+}
+
 @end

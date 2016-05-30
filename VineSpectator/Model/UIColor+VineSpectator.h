@@ -24,5 +24,6 @@
 + (UIColor *)borderGreyColor;
 + (UIColor *)warmTanColor;
 + (UIColor *)lightSalmonColor;
++ (UIColor *)warmGray;
 
 @end

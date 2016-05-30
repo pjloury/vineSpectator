@@ -10,11 +10,15 @@
 #import "VSStackView.h"
 #import "VSTagsDataSource.h"
 #import "VSScrollView.h"
+#import "JDFTooltips.h"
 
 @interface VSFilterStackViewController () <VSStackViewDelegate, UITextFieldDelegate>
 
 @property VSScrollView *stackScrollView;
 @property VSTagsDataSource *tagsDataSource;
+@property JDFTooltipManager *manager;
+@property JDFTooltipView *tagsTip;
+@property JDFTooltipView *drankTip;
 
 @end
 
@@ -51,12 +55,27 @@
     self.stackScrollView.contentOffset = CGPointZero;
     self.stackScrollView.userInteractionEnabled = YES;
     self.stackScrollView.scrollsToTop = NO;
+    self.stackScrollView.clipsToBounds = NO;
     
     [self.stackView reloadData];
     
     self.stackScrollView.contentSize = self.stackView.intrinsicContentSize;
     self.stackScrollView.alwaysBounceHorizontal = YES;
     self.stackScrollView.scrollEnabled = YES;
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"seenTagsTip"];
+    [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"seenDrankTip"];
+    
+    //self.tagsTip = [[JDFTooltipView alloc] initWithTargetPoint:CGPointMake(self.stackScrollView.frame.size.width - 5, self.stackScrollView.frame.size.height/2 + 3) hostView:self.view tooltipText:@"Tap + to add Tags" arrowDirection:JDFTooltipViewArrowDirectionRight width:200.0f];
+    self.tagsTip = [[JDFTooltipView alloc] initWithTargetView:self.stackView.addButton hostView:self.view tooltipText:@"Tap + to add Tags" arrowDirection:JDFTooltipViewArrowDirectionRight width:200.0f];    
+    self.tagsTip.dismissOnTouch = YES;
+    
+    self.drankTip = [[JDFTooltipView alloc] initWithTargetPoint:CGPointMake(52*2 + 52/2, self.stackScrollView.frame.size.height - 10) hostView:self.view tooltipText:@"Bottles marked as drank go here" arrowDirection:JDFTooltipViewArrowDirectionUp width:200.0f];
+    self.drankTip.dismissOnTouch = YES;
+    
+    self.manager = [[JDFTooltipManager alloc] initWithHostView:self.view];
+    [self.manager addTooltip:self.tagsTip];
+    [self.manager addTooltip:self.drankTip];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,6 +83,22 @@
     [super viewWillAppear:animated];
     [self.stackView reloadData];
     self.stackScrollView.contentSize = self.stackView.intrinsicContentSize;
+    
+    /*
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"seenTagsTip"] isEqual: @(NO)]) {
+        [self.manager.tooltips.firstObject show];
+        [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"seenTagsTip"];
+    } else if  ([[[NSUserDefaults standardUserDefaults] objectForKey:@"seenDrankTip"] isEqual: @(NO)]){
+        //[self.manager.tooltips.lastObject show];
+        [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"seenDrankTip"];
+    }
+    */
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.drankTip hideAnimated:NO];
+    [self.tagsTip hideAnimated:NO];
 }
 
 # pragma mark - VSStackViewDelegate
