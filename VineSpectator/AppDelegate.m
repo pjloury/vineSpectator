@@ -19,7 +19,6 @@
 // Toggle Tags when in Edit mode
 // Drunk Bottles should be removed from Chrono
 // Trim the String when Grape Variety used to create a new type
-// Change Vineyard to Winery
 
 // Better Clock & Search Icons
 // rely on the local cache, THEN attempt to fetch from the network.

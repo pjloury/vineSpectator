@@ -13,6 +13,7 @@
 #import "VSBottleDataSource.h"
 #import "VSBottle.h"
 #import "VSTagsDataSource.h"
+#import "UIImage+Additions.h"
 
 // Views
 #import "VSPromptLabel.h"
@@ -130,6 +131,19 @@
             pickerView.delegate = self;
             pickerView.backgroundColor = [UIColor lightSalmonColor];
             
+            UIToolbar *toolBar= [[UIToolbar alloc] initWithFrame:CGRectZero];
+            //[toolBar setBarStyle:UIBarStyleBlackOpaque];
+            UIBarButtonItem *barButtonDone = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                              style:UIBarButtonItemStylePlain target:self action:@selector(dismissPicker:)];
+            UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+            toolBar.items = @[flexibleSpace, barButtonDone];
+            toolBar.backgroundColor = [UIColor parchmentColor];
+            barButtonDone.tintColor=[UIColor goldColor];
+            toolBar.barStyle = UIBarStyleDefault;
+            toolBar.translucent = YES;
+            toolBar.userInteractionEnabled = YES;
+            [toolBar sizeToFit];
+            
             if (bottle.year > 0) {
                 self.yearTextField = [[VSTextField alloc] initWithString:@(bottle.year).stringValue];
                 NSInteger difference = self.thisYear - bottle.year;
@@ -140,6 +154,7 @@
             }
             //self.yearTextField.keyboardType = UIKeyboardTypeNumberPad;
             self.yearTextField.inputView = pickerView;
+            self.yearTextField.inputAccessoryView = toolBar;
             self.yearTextField.tag = 2;
             self.yearTextField.delegate = self;
             self.yearTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -230,6 +245,9 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if (image && success) {
                             [self.imageButton setImage:image forState:UIControlStateNormal];
+                            [self.imageButton setImage:image forState:UIControlStateHighlighted];
+                            //[self.imageButton setImage:[UIImage darkenedImageWithImage:image] forState:UIControlStateHighlighted];
+                            self.imageButton.adjustsImageWhenHighlighted = YES;
                         } else {
                             [self.imageButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
                             self.imageButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
@@ -283,8 +301,8 @@
             self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Red", @"White"]];
             [cell addSubview:self.segmentedControl];
             [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make){
-                make.left.equalTo(spacer1.right).offset(50);
-                make.right.equalTo(spacer2.left).offset(-50);
+                make.left.equalTo(spacer1.right).offset(70);
+                make.right.equalTo(spacer2.left).offset(-70);
                 make.top.equalTo(cell.top).offset(20);
                 make.height.equalTo(25);
             }];
@@ -356,6 +374,12 @@
             break;
     }
     return cell;
+}
+
+-(void)dismissPicker:(id)sender
+{
+    //[self.yearTextField resignFirstResponder];
+    [self textFieldShouldReturn:self.yearTextField];
 }
 
 - (void)autoCompleteTextFieldDidAutoComplete:(HTAutocompleteTextField *)autoCompleteField
@@ -455,7 +479,6 @@
     return 1;
 }
 
-// returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     return self.years.count;
@@ -464,6 +487,16 @@
 - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     return [self.years objectAtIndex:row];
+}
+
+- (nullable NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    UIFont *pickerFont =     [UIFont fontWithName:@"Palatino-Bold" size:18.0];//[UIFont fontWithName:@"Belfast-Regular" size:20.0];
+    NSDictionary *pickerAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       [UIColor oliveInkColor], NSForegroundColorAttributeName,
+                                       pickerFont, NSFontAttributeName,nil];
+    NSString *title = [self.years objectAtIndex:row];
+    return [[NSAttributedString alloc] initWithString:title attributes:pickerAttributes];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {

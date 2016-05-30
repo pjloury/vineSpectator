@@ -17,7 +17,7 @@
 // Generators
 //- (BOOL)generateDataModelForFilter:(NSString *)filter dirty:(BOOL)dirty;
 - (BOOL)generateDataModelForFilterType:(VSFilterType)type tag:(NSString *)tag dirty:(BOOL)dirty;
-- (void)regenerateDataModel;
+- (BOOL)regenerateDataModel;
 
 // Mutators
 - (NSString *)insertBottleWithImage:(UIImage *)image name:(NSString *)name year:(NSString *)year grapeVariety:(NSString *)grapeVariety

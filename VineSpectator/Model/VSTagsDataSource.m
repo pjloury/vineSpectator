@@ -186,7 +186,6 @@
     cell.tag = tag;
     
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
-    NSLog(bottle.computedTags.description);
     
     if (bottle.computedTags.count > 0) {
         if ([self.localTags containsObject:tag]) {

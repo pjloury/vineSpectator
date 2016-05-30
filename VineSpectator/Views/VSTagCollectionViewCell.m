@@ -28,7 +28,7 @@
     UILabel *tagLabel = [[UILabel alloc] init];
     tagLabel.font = [UIFont fontWithName:@"Belfast-Regular" size:15.0];
     tagLabel.textColor = [UIColor redInkColor];
-
+    self.tintColor = [UIColor wineColor];
     [self addSubview:tagLabel];
     
     [tagLabel mas_makeConstraints:^(MASConstraintMaker *make){
@@ -44,7 +44,7 @@
     [super setSelected:selected];
     if (selected) {
         self.backgroundColor = [UIColor wineColor];
-        self.tagLabel.textColor = [UIColor lightSalmonColor];
+        self.tagLabel.textColor = [UIColor parchmentColor];
     } else {
         self.backgroundColor = [UIColor parchmentColor];
         self.tagLabel.textColor = [UIColor redInkColor];

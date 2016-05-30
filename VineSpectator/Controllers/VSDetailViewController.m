@@ -315,15 +315,20 @@
             drunkButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
             drunkButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             [drunkButton setTitleColor:[UIColor redInkColor] forState:UIControlStateNormal];
-            [drunkButton setTitleColor:[UIColor redInkColor] forState:UIControlStateSelected];
-            [drunkButton setTitleColor:[UIColor highlightedRedInkColor] forState:UIControlStateHighlighted];
+            [drunkButton setTitleColor:[UIColor parchmentColor] forState:UIControlStateSelected];
+            [drunkButton setTitleColor:[UIColor parchmentColor] forState:UIControlStateHighlighted];
             [drunkButton addTarget:self action:@selector(didPressMarkAsDrunk:) forControlEvents:UIControlEventTouchUpInside];
             self.drunkButton = drunkButton;
             [sectionView addSubview:drunkButton];  
             drunkButton.selected = bottle.drank;
+            if (drunkButton.selected) {
+                [drunkButton setBackgroundColor:[UIColor wineColor]];
+            } else {
+                [drunkButton setBackgroundColor:[UIColor parchmentColor]];
+            }
             [drunkButton mas_makeConstraints:^(MASConstraintMaker *make){
-                make.center.equalTo(sectionView);
-                make.height.equalTo(40);
+                make.top.equalTo(sectionView.top).offset(1);
+                make.height.equalTo(sectionView).offset(-3);
                 make.width.equalTo(sectionView);
             }];
             break;
@@ -454,8 +459,8 @@
             self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Red", @"White"]];
             [cell addSubview:self.segmentedControl];
             [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make){
-                make.left.equalTo(spacer1.right).offset(50);
-                make.right.equalTo(spacer2.left).offset(-50);
+                make.left.equalTo(spacer1.right).offset(70);
+                make.right.equalTo(spacer2.left).offset(-70);
                 make.top.equalTo(cell.top).offset(20);
                 make.height.equalTo(25);
             }];
@@ -611,12 +616,27 @@
 
 - (void)didPressMarkAsDrunk:(id)sender
 {
-    self.drunkButton.selected = !self.drunkButton.isSelected;
-    VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
-    bottle.drank = self.drunkButton.isSelected;
-    [bottle saveInBackground];
+    [UIView transitionWithView:self.drunkButton
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{self.drunkButton.selected = !self.drunkButton.isSelected;
+                        if (self.drunkButton.selected) {
+                            [UIView beginAnimations:nil context:nil];
+                            [UIView setAnimationDuration:1.5];
+                            [self.drunkButton setBackgroundColor:[UIColor wineColor]];
+                            [UIView commitAnimations];
+                        } else {
+                            [UIView beginAnimations:nil context:nil];
+                            [UIView setAnimationDuration:1.5];
+                            [self.drunkButton setBackgroundColor:[UIColor parchmentColor]];
+                            [UIView commitAnimations];
+                        }}
+                    completion:^(BOOL finished){
+                        VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
+                        bottle.drank = self.drunkButton.isSelected;
+                        [bottle saveInBackground];
+                    }];
 }
-
 
 # pragma mark - VSImageSelectionDelegate
 

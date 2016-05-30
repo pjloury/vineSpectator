@@ -29,6 +29,7 @@
 
 @property UITableView *tableView;
 @property VSFilterStackViewController *filterViewController;
+@property BOOL firstLoad;
 
 @end
 
@@ -45,6 +46,8 @@
     self.tableView.scrollsToTop = YES;
     self.tableView.bounces = YES;
     [self.view addSubview:self.tableView];
+    
+    self.firstLoad = YES;
     
     self.bottleDataSource = [[VSBottleDataSource alloc] init];
     self.tableView.delegate = self;
@@ -73,7 +76,7 @@
     self.errorMessageLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
     [self.view addSubview:self.errorMessageLabel];
     self.errorMessageLabel.hidden = YES;
-    self.errorMessageLabel.text = @"No results found.";
+    self.errorMessageLabel.text = @"No bottles found.";
     [self.errorMessageLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.equalTo(self.view.left).offset(20);
         make.centerX.equalTo(self.view.centerX);
@@ -147,12 +150,21 @@
     }
     
     [self.bottleDataSource fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
+        self.firstLoad = NO;
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
            self.emptyMessageLabel.hidden = YES;
            self.activityIndicator.hidden = YES;
            [self.activityIndicator stopAnimating];
            self.tableView.hidden = NO;
-           [self.tableView reloadData];
+            
+           BOOL withBottles = [self.bottleDataSource regenerateDataModel];
+           if (withBottles) {
+               self.errorMessageLabel.hidden = YES;
+               [self.tableView reloadData];
+           } else {
+              self.errorMessageLabel.hidden = NO;
+              self.errorMessageLabel.text = @"No bottles found.";
+           }
         } else {
             self.emptyMessageLabel.hidden = NO;
             self.activityIndicator.hidden = YES;
@@ -162,11 +174,6 @@
     }];
 }
 
-- (void)titleViewTapped
-{
-    NSLog(@"WOW");
-}
-
 - (void)didTapNavBar
 {
     [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
@@ -174,7 +181,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.bottleDataSource regenerateDataModel];
+    BOOL withBottles = [self.bottleDataSource regenerateDataModel];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
         self.emptyMessageLabel.hidden = YES;
         self.tableView.hidden = NO;
@@ -183,6 +190,12 @@
     } else {
         self.emptyMessageLabel.hidden = NO;
         self.tableView.hidden = YES;
+        self.errorMessageLabel.hidden = YES;
+    }
+    if (!withBottles && !self.firstLoad) {
+        self.errorMessageLabel.hidden = NO;
+    }
+    else {
         self.errorMessageLabel.hidden = YES;
     }
 }
@@ -258,29 +271,41 @@
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectFilter:(VSFilterType)type
 {
-    [self.bottleDataSource generateDataModelForFilterType:type tag:nil dirty:YES];
+    BOOL containsValues = [self.bottleDataSource generateDataModelForFilterType:type tag:nil dirty:YES];
     self.errorMessageLabel.hidden = YES;
     self.activityIndicator.hidden = YES;
     [self.activityIndicator stopAnimating];
     self.tableView.hidden = NO;
-    [self.tableView reloadData];
-}
-
-- (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
-{
-    BOOL reload = [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeTag tag:tag dirty:YES];
-    self.errorMessageLabel.hidden = YES;
-    self.activityIndicator.hidden = YES;
-    [self.activityIndicator stopAnimating];
-    self.tableView.hidden = NO;
-    
-    if (reload) {
+    if (containsValues) {
         self.errorMessageLabel.hidden = YES;
         self.activityIndicator.hidden = NO;
         [self.activityIndicator stopAnimating];
         self.tableView.hidden = NO;
     } else {
         self.errorMessageLabel.hidden = NO;
+        self.errorMessageLabel.text = @"No bottles found.";
+        self.tableView.hidden = YES;
+    }
+    [self.tableView reloadData];
+    
+}
+
+- (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
+{
+    BOOL containsValues = [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeTag tag:tag dirty:YES];
+    self.errorMessageLabel.hidden = YES;
+    self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
+    self.tableView.hidden = NO;
+    
+    if (containsValues) {
+        self.errorMessageLabel.hidden = YES;
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator stopAnimating];
+        self.tableView.hidden = NO;
+    } else {
+        self.errorMessageLabel.hidden = NO;
+        self.errorMessageLabel.text = @"No bottles found.";
         self.tableView.hidden = YES;
     }
     [self.tableView reloadData];
@@ -386,10 +411,6 @@
     return @"Delete";
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

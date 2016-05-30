@@ -127,7 +127,6 @@
     NSInteger totalWidth;
     for (NSInteger i = 0; i < self.dataSource.numberOfViewsInStack; i++) {
         UIButton *button = (UIButton *)self.stackView.arrangedSubviews[i];
-        NSLog(@"%f",button.frame.size.width);
         totalWidth += (button.frame.size.width + 20);
     }
     return CGSizeMake(totalWidth, 50);

@@ -42,6 +42,7 @@
 		604611181CE4470700661D7B /* MinionPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 604611171CE446EB00661D7B /* MinionPro-Regular.ttf */; };
 		6046111A1CE447D500661D7B /* MinionPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 604611191CE447D500661D7B /* MinionPro-Bold.ttf */; };
 		6046111C1CE45F3500661D7B /* LucidaGrande.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6046111B1CE45F3500661D7B /* LucidaGrande.ttf */; };
+		606960731CFCE45400891AE6 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 606960721CFCE45400891AE6 /* UIImage+Additions.m */; };
 		6094BEA91C50A8C8005B39E6 /* VSStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6094BEA81C50A8C8005B39E6 /* VSStackView.m */; };
 		60A29ABF1C2F3F3A00FD92FC /* VSTagsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29ABE1C2F3F3A00FD92FC /* VSTagsDataSource.m */; };
 		60A29AC21C2F449C00FD92FC /* VSFilterStackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29AC11C2F449C00FD92FC /* VSFilterStackViewController.m */; };
@@ -124,6 +125,8 @@
 		604611171CE446EB00661D7B /* MinionPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinionPro-Regular.ttf"; sourceTree = "<group>"; };
 		604611191CE447D500661D7B /* MinionPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MinionPro-Bold.ttf"; sourceTree = "<group>"; };
 		6046111B1CE45F3500661D7B /* LucidaGrande.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LucidaGrande.ttf; sourceTree = "<group>"; };
+		606960711CFCE45400891AE6 /* UIImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Additions.h"; path = "VineSpectator/Controllers/UIImage+Additions.h"; sourceTree = "<group>"; };
+		606960721CFCE45400891AE6 /* UIImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Additions.m"; path = "VineSpectator/Controllers/UIImage+Additions.m"; sourceTree = "<group>"; };
 		6094BEA51C4E2788005B39E6 /* VSScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VSScrollView.h; path = VineSpectator/Views/VSScrollView.h; sourceTree = "<group>"; };
 		6094BEA61C4E2788005B39E6 /* VSScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = VSScrollView.m; path = VineSpectator/Views/VSScrollView.m; sourceTree = "<group>"; };
 		6094BEA71C50A8C8005B39E6 /* VSStackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSStackView.h; path = VineSpectator/Views/VSStackView.h; sourceTree = "<group>"; };
@@ -257,6 +260,8 @@
 		6026359E1C02DDB500002300 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				606960711CFCE45400891AE6 /* UIImage+Additions.h */,
+				606960721CFCE45400891AE6 /* UIImage+Additions.m */,
 				60A29ABD1C2F3F3A00FD92FC /* VSTagsDataSource.h */,
 				60A29ABE1C2F3F3A00FD92FC /* VSTagsDataSource.m */,
 				600882641C4C353100ADB8BA /* VSTagCollectionViewCell.h */,
@@ -504,6 +509,7 @@
 				6094BEA91C50A8C8005B39E6 /* VSStackView.m in Sources */,
 				602635AC1C0431DB00002300 /* VSDetailViewController.m in Sources */,
 				602635651C029E7F00002300 /* main.m in Sources */,
+				606960731CFCE45400891AE6 /* UIImage+Additions.m in Sources */,
 				600882691C4C558000ADB8BA /* VSTableView.m in Sources */,
 				6026359D1C02DDA700002300 /* VSBottle.m in Sources */,
 			);

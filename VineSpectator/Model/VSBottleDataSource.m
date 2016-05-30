@@ -302,7 +302,7 @@
 
 - (BOOL)generateDataModelForFilterType:(VSFilterType)type tag:(NSString *)tag dirty:(BOOL)dirty;
 {
-    if (![tag isEqualToString:self.previousFilter] || dirty || type != self.previousType) {
+    if (![tag isEqualToString:self.previousFilter] || dirty || type != self.previousType) { // I marked Uber as drank. 
         NSLog(@"VSFilterType: %ld", type);
         NSLog(@"Tag: %@", tag);
         self.previousType = type;
@@ -319,7 +319,6 @@
             }
             self.filteredArrayDictionaryArray = [self bottlesArrayDictionaryArrayForFilterType:type tag:tag];
         }
-        
         return self.filteredArrayDictionaryArray.count > 0;
     } else {
         NSLog(@"NO, WON'T generate model!!");
@@ -327,14 +326,26 @@
     }
 }
 
-- (void)regenerateDataModel
+- (BOOL)stockFilter:(VSFilterType)filter {
+    return filter >= VSFilterTypeSearch && filter <= VSFilterTypeWhite;
+}
+
+- (BOOL)regenerateDataModel
 {
+    BOOL generateStuff = NO;
     VSTagsDataSource *tags = [[VSTagsDataSource alloc] initWithBottleDataSource:self];
-    if (![tags.allTags containsObject:self.previousFilter]) {
+    self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
+    if ([self stockFilter:self.previousType]) {
+        generateStuff =  [self generateDataModelForFilterType:self.previousType tag:self.previousFilter dirty:YES];
+    }
+    else if (![tags.allTags containsObject:self.previousFilter]) {
         self.previousFilter = @"";
         self.previousType = VSFilterTypeAll;
+        generateStuff = [self generateDataModelForFilterType:self.previousType tag:self.previousFilter dirty:YES];
+    } else {
+        generateStuff = [self generateDataModelForFilterType:self.previousType tag:self.previousFilter dirty:YES];
     }
-    [self generateDataModelForFilterType:self.previousType tag:self.previousFilter dirty:YES];
+    return generateStuff;
 }
 
 - (NSArray *)bottlesArrayDictionaryArrayForFilterType:(VSFilterType)type
@@ -418,7 +429,8 @@
     bottle.drank = NO;
     bottle.name = name ? name : @"";
     bottle.year = year.integerValue;
-    VSGrapeVariety *grapeVarietyObject = [[VSGrapeVarietyDataSource sharedInstance] grapeVarietyForString:grapeVariety?:@""];
+    if (!grapeVariety) grapeVariety = @"";
+    VSGrapeVariety *grapeVarietyObject = [[VSGrapeVarietyDataSource sharedInstance] grapeVarietyForString:grapeVariety];
     NSAssert(grapeVarietyObject, @"grape variety cannot be nil");
     bottle.grapeVariety = grapeVarietyObject;
     bottle.grapeVarietyName = grapeVariety;
@@ -453,7 +465,8 @@
     VSBottle *bottle = [self bottleForID:bottleID];
     bottle.name = name ? name : @"";
     bottle.year = year.integerValue;
-    VSGrapeVariety *grapeVarietyObject = [[VSGrapeVarietyDataSource sharedInstance] grapeVarietyForString:grapeVariety?:@""];
+    if (!grapeVariety) grapeVariety = @"";
+    VSGrapeVariety *grapeVarietyObject = [[VSGrapeVarietyDataSource sharedInstance] grapeVarietyForString:grapeVariety];
     NSAssert(grapeVarietyObject, @"grape variety cannot be nil");
     bottle.grapeVariety = grapeVarietyObject;
     bottle.grapeVarietyName = grapeVariety;
@@ -464,6 +477,9 @@
     if (image) bottle.hasImage = YES;
     [bottle saveInBackground];
     [self saveBottleImage:image withUUID:bottleID];
+
+    self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
+    self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
 }
 
 //- (BOOL)_changesMade
