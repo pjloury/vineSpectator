@@ -220,7 +220,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         self.bottles = [objects mutableCopy];
         
-        if (self.bottles.count > 0) {
+        if (self.bottles.count > 0 && [self someUnopendBottles:self.bottles]) {
             [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"hasBottles"];
         } else {
             [[NSUserDefaults standardUserDefaults] setObject:@(NO) forKey:@"hasBottles"];
@@ -447,13 +447,21 @@
     if (image) bottle.hasImage = YES;
     [self saveBottleImage:image withUUID:bottle.objectId];
     [self.bottles addObject:bottle];
-    if (self.bottles.count > 0) {
+    if (self.bottles.count > 0 && [self someUnopendBottles:self.bottles]) {
         [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:@"hasBottles"];
     }
     self.bottlesDictionary = [self transformBottlesArrayToDictionary:self.bottles];
     self.chronoArrayDictionaryArray = [self transformBottlesArrayToChronoArrayDictionaryArray:self.bottles];
     
     return bottle.objectId;
+}
+
+- (BOOL)someUnopendBottles:(NSArray *)bottles {
+    if (!bottles) return NO;
+    for (VSBottle *bottle in bottles) {
+        if (!bottle.drank) return YES;
+    }
+    return NO;
 }
 
 
@@ -528,6 +536,14 @@
     //});
 }
 
+- (BOOL)someDrankBottles:(NSArray *)bottles {
+    if (!bottles) return NO;
+    for (VSBottle *bottle in bottles) {
+        if (bottle.drank) return YES;
+    }
+    return NO;
+}
+
 - (VSBottle *)bottleForID:(NSString *)bottleID
 {
     for (VSBottle *bottle in self.bottles) {
@@ -537,6 +553,14 @@
     }
     NSAssert(YES, @"Requested ID not amongst bottles");
     return nil;
+}
+
+- (BOOL)shouldShowEmptyMessageForState {
+    if (self.previousType == VSFilterTypeDrank) {
+        return ![self someDrankBottles:self.bottles];
+    } else {
+        return !(self.bottles.count > 0 && [self someUnopendBottles:self.bottles]);
+    }
 }
 
 @end

@@ -24,7 +24,6 @@
 @property UIButton *addBottleButton;
 @property VSBottleDataSource *bottleDataSource;
 @property UILabel *errorMessageLabel;
-@property UILabel *emptyMessageLabel;
 @property UIActivityIndicatorView *activityIndicator;
 
 @property UITableView *tableView;
@@ -68,35 +67,19 @@
     [self.view addSubview:self.addBottleButton];
     [self.view addSubview:self.filterViewController.view];
 
-    self.view.backgroundColor = [UIColor parchmentColor];
+    self.view.backgroundColor = [UIColor offWhiteColor];
     
     self.errorMessageLabel = [UILabel new];
     self.errorMessageLabel.backgroundColor = [UIColor clearColor];
     self.errorMessageLabel.textColor = [UIColor goldColor];
     self.errorMessageLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
+    self.errorMessageLabel.numberOfLines = 2;
     [self.view addSubview:self.errorMessageLabel];
     self.errorMessageLabel.hidden = YES;
-    self.errorMessageLabel.text = @"No bottles found.";
     [self.errorMessageLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.equalTo(self.view.left).offset(20);
         make.centerX.equalTo(self.view.centerX);
         make.top.equalTo(self.filterViewController.view.bottom).offset(20);
-        make.height.equalTo(@25);
-    }];
-    
-    self.emptyMessageLabel = [UILabel new];
-    self.emptyMessageLabel.backgroundColor = [UIColor clearColor];
-    self.emptyMessageLabel.textColor = [UIColor goldColor];
-    self.emptyMessageLabel.font = [UIFont fontWithName:@"Athelas-Regular" size:20];
-    [self.view addSubview:self.emptyMessageLabel];
-    self.emptyMessageLabel.hidden = YES;
-    self.emptyMessageLabel.text = @"No bottles found. Tap below to get started.";
-    self.emptyMessageLabel.numberOfLines = 2;
-    [self.emptyMessageLabel mas_makeConstraints:^(MASConstraintMaker *make){
-        make.left.equalTo(self.view.left).offset(20);
-        make.centerX.equalTo(self.view.centerX);
-        make.top.equalTo(self.filterViewController.view.bottom).offset(20);
-        make.height.equalTo(@50);
     }];
     
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -140,11 +123,12 @@
     self.tableView.hidden = YES;
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
-        self.emptyMessageLabel.hidden = YES;
+        self.errorMessageLabel.hidden = YES;
         self.activityIndicator.hidden = NO;
         [self.activityIndicator startAnimating];
     } else {
-        self.emptyMessageLabel.hidden = NO;
+        self.errorMessageLabel.hidden = NO;
+        self.errorMessageLabel.text = @"Tap below to add a bottle.";
         self.activityIndicator.hidden = YES;
         [self.activityIndicator stopAnimating];
     }
@@ -152,21 +136,14 @@
     [self.bottleDataSource fetchBottlesForUser:[PFUser currentUser] withCompletion:^{
         self.firstLoad = NO;
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
-           self.emptyMessageLabel.hidden = YES;
+           self.errorMessageLabel.hidden = YES;
            self.activityIndicator.hidden = YES;
            [self.activityIndicator stopAnimating];
            self.tableView.hidden = NO;
-            
-           BOOL withBottles = [self.bottleDataSource regenerateDataModel];
-           if (withBottles) {
-               self.errorMessageLabel.hidden = YES;
-               [self.tableView reloadData];
-           } else {
-              self.errorMessageLabel.hidden = NO;
-              self.errorMessageLabel.text = @"No bottles found.";
-           }
+           [self.tableView reloadData];
         } else {
-            self.emptyMessageLabel.hidden = NO;
+            self.errorMessageLabel.hidden = NO;
+            self.errorMessageLabel.text = @"Tap below to add a bottle.";
             self.activityIndicator.hidden = YES;
             [self.activityIndicator stopAnimating];
             self.tableView.hidden = YES;
@@ -183,20 +160,19 @@
 {
     BOOL withBottles = [self.bottleDataSource regenerateDataModel];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
-        self.emptyMessageLabel.hidden = YES;
         self.tableView.hidden = NO;
+        if (!withBottles && !self.firstLoad) {
+            self.errorMessageLabel.hidden = NO;
+            self.errorMessageLabel.text = @"No bottles found.";
+        }
+        else {
+            self.errorMessageLabel.hidden = YES;
+        }
         [self.tableView reloadData];
-        self.errorMessageLabel.hidden = YES;
-    } else {
-        self.emptyMessageLabel.hidden = NO;
-        self.tableView.hidden = YES;
-        self.errorMessageLabel.hidden = YES;
-    }
-    if (!withBottles && !self.firstLoad) {
+    } else if (!self.firstLoad){
         self.errorMessageLabel.hidden = NO;
-    }
-    else {
-        self.errorMessageLabel.hidden = YES;
+        self.errorMessageLabel.text = @"No bottles found.";
+        self.tableView.hidden = YES;
     }
 }
 
@@ -269,31 +245,9 @@
     [self presentViewController:nc animated:YES completion:nil];
 }
 
-- (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectFilter:(VSFilterType)type
-{
-    BOOL containsValues = [self.bottleDataSource generateDataModelForFilterType:type tag:nil dirty:YES];
-    self.errorMessageLabel.hidden = YES;
-    self.activityIndicator.hidden = YES;
-    [self.activityIndicator stopAnimating];
-    self.tableView.hidden = NO;
-    if (containsValues) {
-        self.errorMessageLabel.hidden = YES;
-        self.activityIndicator.hidden = NO;
-        [self.activityIndicator stopAnimating];
-        self.tableView.hidden = NO;
-    } else {
-        self.errorMessageLabel.hidden = NO;
-        self.errorMessageLabel.text = @"No bottles found.";
-        self.tableView.hidden = YES;
-    }
-    [self.tableView reloadData];
-    
-}
-
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectTag:(NSString *)tag
 {
     BOOL containsValues = [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeTag tag:tag dirty:YES];
-    self.errorMessageLabel.hidden = YES;
     self.activityIndicator.hidden = YES;
     [self.activityIndicator stopAnimating];
     self.tableView.hidden = NO;
@@ -305,7 +259,25 @@
         self.tableView.hidden = NO;
     } else {
         self.errorMessageLabel.hidden = NO;
-        self.errorMessageLabel.text = @"No bottles found.";
+        self.errorMessageLabel.text = self.bottleDataSource.shouldShowEmptyMessageForState? @"Tap below to add a bottle." : @"No bottles found.";
+        self.tableView.hidden = YES;
+    }
+    [self.tableView reloadData];
+}
+
+- (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectFilter:(VSFilterType)type
+{
+    BOOL containsValues = [self.bottleDataSource generateDataModelForFilterType:type tag:nil dirty:YES];
+    self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
+    if (containsValues) {
+        self.errorMessageLabel.hidden = YES;
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator stopAnimating];
+        self.tableView.hidden = NO;
+    } else {
+        self.errorMessageLabel.hidden = NO;
+        self.errorMessageLabel.text = self.bottleDataSource.shouldShowEmptyMessageForState? @"Tap below to add a bottle." : @"No bottles found.";
         self.tableView.hidden = YES;
     }
     [self.tableView reloadData];
@@ -313,11 +285,19 @@
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didDeselectTag:(NSString *)tag
 {
-    [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeAll tag:nil dirty:YES];
-    self.errorMessageLabel.hidden = YES;
+    BOOL containsValues = [self.bottleDataSource generateDataModelForFilterType:VSFilterTypeAll tag:nil dirty:YES];
     self.activityIndicator.hidden = YES;
     [self.activityIndicator stopAnimating];
-    self.tableView.hidden = NO;
+    if (containsValues) {
+        self.errorMessageLabel.hidden = YES;
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator stopAnimating];
+        self.tableView.hidden = NO;
+    } else {
+        self.errorMessageLabel.hidden = NO;
+        self.errorMessageLabel.text = self.bottleDataSource.shouldShowEmptyMessageForState? @"Tap below to add a bottle." : @"No bottles found.";
+        self.tableView.hidden = YES;
+    }
     [self.tableView reloadData];
 }
 
@@ -332,6 +312,7 @@
         [self.tableView reloadData];
     } else {
         self.errorMessageLabel.hidden = NO;
+        self.errorMessageLabel.text = @"No bottles found.";
         self.tableView.hidden = YES;
     }
 }

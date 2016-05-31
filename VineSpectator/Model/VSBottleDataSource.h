@@ -37,4 +37,6 @@
 - (void)deleteBottleWithID:(NSString *)bottleID;
 - (NSString *)numberTextForSection:(NSInteger) section;
 
+- (BOOL)shouldShowEmptyMessageForState;
+
 @end

@@ -122,6 +122,7 @@
     switch (index) {
         case VSFilterTypeSearch:
             [self.stackView revealSearchField];
+            [self.delegate filterStackViewController:self didSelectFilter:VSFilterTypeAll];
             break;
         case VSFilterTypeChrono:
             [self.stackView dismissSearchField];
