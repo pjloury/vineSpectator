@@ -301,8 +301,11 @@
             self.segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Red", @"White"]];
             [cell addSubview:self.segmentedControl];
             [self.segmentedControl mas_makeConstraints:^(MASConstraintMaker *make){
-                make.left.equalTo(spacer1.right).offset(70);
-                make.right.equalTo(spacer2.left).offset(-70);
+                CGRect screenRect = [[UIScreen mainScreen] bounds];
+                CGFloat screenWidth = screenRect.size.width;
+                CGFloat val = screenWidth/5;
+                make.left.equalTo(spacer1.right).offset(val);
+                make.right.equalTo(spacer2.left).offset(-val);
                 make.top.equalTo(cell.top).offset(20);
                 make.height.equalTo(25);
             }];
