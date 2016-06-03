@@ -16,13 +16,8 @@
 //#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 
-// Toggle Tags when in Edit mode
-// Drunk Bottles should be removed from Chrono
-// Trim the String when Grape Variety used to create a new type
-
-// Better Clock & Search Icons
-// rely on the local cache, THEN attempt to fetch from the network.
-// Tap Top of Nav Bar to Scroll to Top
+// UPC Database API Key 442da679c3863c3a5eb3166f7c11988f
+// http://api.upcdatabase.org/json/442da679c3863c3a5eb3166f7c11988f/0111222333446
 
 @interface AppDelegate () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
