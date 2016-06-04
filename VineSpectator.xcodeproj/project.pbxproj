@@ -646,7 +646,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pjloury.VineSpectator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c806172d-5699-4b05-8f09-ff9288d53dcc";
+				PROVISIONING_PROFILE = "05f79745-12d4-4e63-9227-5c13424932f4";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -666,7 +666,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pjloury.VineSpectator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c806172d-5699-4b05-8f09-ff9288d53dcc";
+				PROVISIONING_PROFILE = "05f79745-12d4-4e63-9227-5c13424932f4";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

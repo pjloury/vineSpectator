@@ -21,6 +21,7 @@
 @property VSDetailViewController *detailViewController;
 @property UINavigationController *detailNavigationController;
 
+@property UILabel *totalBottlesLabel;
 @property UIButton *addBottleButton;
 @property VSBottleDataSource *bottleDataSource;
 @property UILabel *errorMessageLabel;
@@ -57,6 +58,25 @@
     self.filterViewController.delegate = self;
     [self addChildViewController:self.filterViewController];
     
+    self.totalBottlesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,50)];
+    self.totalBottlesLabel.backgroundColor = [UIColor parchmentColor];
+    self.totalBottlesLabel.textAlignment = NSTextAlignmentCenter;
+    self.totalBottlesLabel.font = [UIFont systemFontOfSize:16.0];
+    self.totalBottlesLabel.font = [UIFont fontWithName:@"Avenir-Book" size:14.0];
+    
+    self.totalBottlesLabel.textColor = [UIColor oliveInkColor];
+    [self.view addSubview:self.totalBottlesLabel];
+    
+    CALayer *upperBorder = [CALayer layer];
+    upperBorder.backgroundColor = [[UIColor borderGreyColor] CGColor];
+    upperBorder.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 1.0f);
+    [self.totalBottlesLabel.layer addSublayer:upperBorder];
+
+    CALayer *lowerBorder = [CALayer layer];
+    lowerBorder.backgroundColor = [[UIColor borderGreyColor] CGColor];
+    lowerBorder.frame = CGRectMake(0, CGRectGetHeight(self.totalBottlesLabel.frame)-2, CGRectGetWidth(self.totalBottlesLabel.frame), 1.0f);
+    [self.totalBottlesLabel.layer addSublayer:lowerBorder];
+    
     self.addBottleButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.addBottleButton addTarget:self action:@selector(didPressNewBottle:) forControlEvents:UIControlEventTouchUpInside];
     [self.addBottleButton setTitle:@"New Bottle" forState:UIControlStateNormal];
@@ -67,6 +87,23 @@
     [self.view addSubview:self.addBottleButton];
     [self.view addSubview:self.filterViewController.view];
 
+    [self.totalBottlesLabel mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.addBottleButton.top);
+        make.height.equalTo(30);
+    }];
+    
+    [self.addBottleButton mas_makeConstraints:^(MASConstraintMaker *make){
+        make.left.bottom.right.equalTo(self.view);
+        make.height.equalTo(@50);
+    }];
+    
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make){
+        make.top.equalTo(self.filterViewController.view.bottom);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.totalBottlesLabel.top);
+    }];
+    
     self.view.backgroundColor = [UIColor offWhiteColor];
     
     self.errorMessageLabel = [UILabel new];
@@ -109,17 +146,6 @@
         make.height.equalTo(@50);
     }];
     
-    [self.addBottleButton mas_makeConstraints:^(MASConstraintMaker *make){
-        make.left.bottom.right.equalTo(self.view);
-        make.height.equalTo(@50);
-    }];
-    
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(self.filterViewController.view.bottom);
-        make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.addBottleButton.mas_top);
-    }];
-    
     self.tableView.hidden = YES;
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hasBottles"] isEqual: @(YES)]) {
@@ -141,14 +167,27 @@
            [self.activityIndicator stopAnimating];
            self.tableView.hidden = NO;
            [self.tableView reloadData];
+           [self reloadFooter];
         } else {
             self.errorMessageLabel.hidden = NO;
             self.errorMessageLabel.text = @"Tap below to add a bottle.";
             self.activityIndicator.hidden = YES;
             [self.activityIndicator stopAnimating];
             self.tableView.hidden = YES;
+            self.totalBottlesLabel.text = @"";
         }
     }];
+}
+
+- (void)reloadFooter {
+    if ([self.bottleDataSource currentNumberOfBottles] > 1) {
+        self.totalBottlesLabel.text = [NSString stringWithFormat:@"%d bottles",[self.bottleDataSource currentNumberOfBottles]];
+    }
+    else if ([self.bottleDataSource currentNumberOfBottles]  == 1)
+        self.totalBottlesLabel.text = [NSString stringWithFormat:@"%d bottle",[self.bottleDataSource currentNumberOfBottles]];
+    else {
+        self.totalBottlesLabel.text = @"";
+    }
 }
 
 - (void)didTapNavBar
@@ -169,10 +208,12 @@
             self.errorMessageLabel.hidden = YES;
         }
         [self.tableView reloadData];
+        [self reloadFooter];
     } else if (!self.firstLoad){
         self.errorMessageLabel.hidden = NO;
         self.errorMessageLabel.text = @"No bottles found.";
         self.tableView.hidden = YES;
+        self.totalBottlesLabel.text = @"";
     }
 }
 
@@ -266,6 +307,7 @@
         self.tableView.hidden = YES;
     }
     [self.tableView reloadData];
+    [self reloadFooter];
 }
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didSelectFilter:(VSFilterType)type
@@ -284,6 +326,7 @@
         self.tableView.hidden = YES;
     }
     [self.tableView reloadData];
+    [self reloadFooter];
 }
 
 - (void)filterStackViewController:(VSFilterStackViewController *)viewController didDeselectTag:(NSString *)tag
@@ -302,6 +345,7 @@
         self.tableView.hidden = YES;
     }
     [self.tableView reloadData];
+    [self reloadFooter];
 }
 
 - (void)filterStackViewController:(VSFilterStackViewController *) viewController didReceiveSearchText:(NSString *)text
@@ -313,10 +357,12 @@
         [self.activityIndicator stopAnimating];
         self.tableView.hidden = NO;
         [self.tableView reloadData];
+        [self reloadFooter];
     } else {
         self.errorMessageLabel.hidden = NO;
         self.errorMessageLabel.text = @"No bottles found.";
         self.tableView.hidden = YES;
+        self.totalBottlesLabel.text = @"";
     }
 }
 

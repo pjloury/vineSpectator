@@ -99,10 +99,10 @@
     if ([text isEqualToString:@"PJLOURY"]) {
         return YES;
     }
-    BOOL inVineyard = [self.vineyardName containsString:text];
+    BOOL inVineyard = [self.vineyardName.lowercaseString containsString:text.lowercaseString];
     BOOL inYear = [@(self.year).stringValue containsString:text];
-    BOOL inName = [self.name containsString:text];
-    BOOL inGrapeVariety = [self.grapeVarietyName containsString:text];
+    BOOL inName = [self.name.lowercaseString containsString:text.lowercaseString];
+    BOOL inGrapeVariety = [self.grapeVarietyName.lowercaseString containsString:text.lowercaseString];
     return inVineyard || inYear || inName || inGrapeVariety || [self containsTag:text];
 }
 

@@ -311,7 +311,7 @@
             sectionView = [[VSSectionView alloc] initWithTableView:self.tableView title:@"" height:50.0];
             UIButton *drunkButton = [[UIButton alloc] initWithFrame:sectionView.frame];
             [drunkButton setTitle:@"Mark as Drunk" forState:UIControlStateNormal];
-            [drunkButton setTitle:@"Drank!" forState:UIControlStateSelected];
+            [drunkButton setTitle:@"Drunk!" forState:UIControlStateSelected];
             drunkButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:18.0];
             drunkButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             [drunkButton setTitleColor:[UIColor redInkColor] forState:UIControlStateNormal];

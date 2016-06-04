@@ -94,6 +94,15 @@
     }
 }
 
+- (NSInteger)currentNumberOfBottles {
+    NSInteger bottles = 0;
+    for (NSDictionary *bottleDictionaryArray in self.filteredArrayDictionaryArray) {
+        NSArray *bottlesArray = bottleDictionaryArray[bottleDictionaryArray.allKeys.firstObject];
+        bottles += bottlesArray.count;
+    }
+    return bottles;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *string;

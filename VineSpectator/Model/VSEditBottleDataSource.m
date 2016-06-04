@@ -48,6 +48,8 @@
 
 @property (nonatomic) VSWineColorType color;
 
+@property (nonatomic) UIPickerView *pickerView;
+
 @property (weak) UITableView *tableView;
 @property NSMutableArray *years;
 @property NSInteger thisYear;
@@ -105,7 +107,9 @@
     VSBottle *bottle = [self.bottleDataSource bottleForID:self.bottleID];
     switch (indexPath.section) {
         case 0: {
-            self.grapePromptLabel = [[VSPromptLabel alloc] initWithString:@"Grape:"];
+            self.grapePromptLabel = [[VSPromptLabel alloc] initWithString:@"Grape Variety:"];
+            self.grapePromptLabel.adjustsFontSizeToFitWidth = YES;
+            self.grapePromptLabel.minimumScaleFactor = 0.8;
             [cell addSubview:self.grapePromptLabel];
             self.grapeTextField = [[VSTextField alloc] initWithString:bottle.grapeVarietyName];
             self.grapeTextField.tag = 0;
@@ -126,10 +130,10 @@
             self.yearPromptLabel = [[VSPromptLabel alloc] initWithString:@"Year:"];
             [cell addSubview:self.yearPromptLabel];
             
-            UIPickerView *pickerView = [[UIPickerView alloc] init];
-            pickerView.dataSource = self;
-            pickerView.delegate = self;
-            pickerView.backgroundColor = [UIColor lightSalmonColor];
+            self.pickerView = [[UIPickerView alloc] init];
+            self.pickerView.dataSource = self;
+            self.pickerView.delegate = self;
+            self.pickerView.backgroundColor = [UIColor lightSalmonColor];
             
             UIToolbar *toolBar= [[UIToolbar alloc] initWithFrame:CGRectZero];
             //[toolBar setBarStyle:UIBarStyleBlackOpaque];
@@ -147,20 +151,21 @@
             if (bottle.year > 0) {
                 self.yearTextField = [[VSTextField alloc] initWithString:@(bottle.year).stringValue];
                 NSInteger difference = self.thisYear - bottle.year;
-                [pickerView selectRow:self.years.count-1 - difference inComponent:0 animated:NO];
+                [self.pickerView selectRow:self.years.count-1 - difference inComponent:0 animated:NO];
             } else {
                 self.yearTextField = [[VSTextField alloc] initWithString:@""];
-                [pickerView selectRow:self.years.count-5 inComponent:0 animated:NO];
+                [self.pickerView selectRow:self.years.count-5 inComponent:0 animated:NO];
             }
-            //self.yearTextField.keyboardType = UIKeyboardTypeNumberPad;
-            self.yearTextField.inputView = pickerView;
+            self.yearTextField.inputView = self.pickerView;
             self.yearTextField.inputAccessoryView = toolBar;
             self.yearTextField.tag = 2;
             self.yearTextField.delegate = self;
             self.yearTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
             [cell addSubview:self.yearTextField];
             
-            self.namePromptLabel = [[VSPromptLabel alloc] initWithString:@"Name:"];
+            self.namePromptLabel = [[VSPromptLabel alloc] initWithString:@"Name/Region:"];
+            self.namePromptLabel.adjustsFontSizeToFitWidth = YES;
+            self.namePromptLabel.minimumScaleFactor = 0.8;
             [cell addSubview:self.namePromptLabel];
             self.nameTextField = [[VSTextField alloc] initWithString:bottle.name];
             self.nameTextField.tag = 3;
@@ -170,7 +175,7 @@
             [cell addSubview:self.nameTextField];
          
             [self.grapePromptLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.width.equalTo(@90);
+                make.width.equalTo(@110);
                 make.left.equalTo(cell.left).offset(25);
                 make.top.equalTo(cell.top).offset(25);
             }];
@@ -182,7 +187,7 @@
             }];
             
             [self.vineyardPromptLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.width.equalTo(@90);
+                make.width.equalTo(@110);
                 [self.vineyardPromptLabel sizeToFit];
                 make.left.equalTo(self.grapePromptLabel.left);
                 make.top.equalTo(self.grapePromptLabel.bottom).offset(25);
@@ -195,7 +200,7 @@
             }];
             
             [self.yearPromptLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.width.equalTo(@90);
+                make.width.equalTo(@110);
                 make.left.equalTo(self.grapePromptLabel.left);
                 make.top.equalTo(self.vineyardPromptLabel.bottom).offset(25);
             }];
@@ -207,7 +212,7 @@
             }];
             
             [self.namePromptLabel mas_makeConstraints:^(MASConstraintMaker *make){
-                make.width.equalTo(@90);
+                make.width.equalTo(@110);
                 make.left.equalTo(self.grapePromptLabel.left);
                 make.top.equalTo(self.yearPromptLabel.bottom).offset(25);
             }];
@@ -379,12 +384,6 @@
     return cell;
 }
 
--(void)dismissPicker:(id)sender
-{
-    //[self.yearTextField resignFirstResponder];
-    [self textFieldShouldReturn:self.yearTextField];
-}
-
 - (void)autoCompleteTextFieldDidAutoComplete:(HTAutocompleteTextField *)autoCompleteField
 {
     if ([autoCompleteField isEqual:self.grapeTextField]) {
@@ -505,6 +504,15 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     NSString *value = [self pickerView:pickerView titleForRow:row forComponent:component];
     self.yearTextField.text = value;
+}
+
+-(void)dismissPicker:(id)sender
+{
+    //[self.yearTextField resignFirstResponder];
+    NSInteger row = [self.pickerView selectedRowInComponent:0];
+    NSString *title = [self pickerView:self.pickerView titleForRow:row forComponent:0];
+    self.yearTextField.text = title;
+    [self textFieldShouldReturn:self.yearTextField];
 }
 
 # pragma mark - Tap Handlers
