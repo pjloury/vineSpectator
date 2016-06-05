@@ -91,7 +91,7 @@
     
     [self.doneButton mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.bottom.right.equalTo(self.view);
-        make.height.equalTo(@50);
+        make.height.equalTo(@52);
     }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make){
@@ -394,28 +394,41 @@
             [activityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make){
                 make.center.equalTo(self.imageView);
             }];
-            [activityIndicatorView startAnimating];
+
             self.imageView.backgroundColor = [UIColor warmTanColor];
             
-            [bottle imageWithCompletion:^(BOOL success, UIImage *image) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (image && success) {
-                        self.imageView.image = image;
-                    } else {
-                        UIButton *addPhotoButton = [[UIButton alloc] init];
-                        [addPhotoButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
-                        addPhotoButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
-                        [addPhotoButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
-                        addPhotoButton.backgroundColor = [UIColor warmTanColor];
-                        [self.imageView addSubview:addPhotoButton];
-                        [addPhotoButton addTarget:self action:@selector(imageButtonWasPressed:) forControlEvents:UIControlEventTouchUpInside];
-                        [addPhotoButton mas_makeConstraints:^(MASConstraintMaker *make){
-                            make.edges.equalTo(self.imageView);
-                        }];
-                    }
-                    activityIndicatorView.hidden = YES;
-                });
+            UIButton *addPhotoButton = [[UIButton alloc] init];
+            addPhotoButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
+            [addPhotoButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
+            addPhotoButton.backgroundColor = [UIColor clearColor];
+            [self.imageView addSubview:addPhotoButton];
+            [addPhotoButton addTarget:self action:@selector(imageButtonWasPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [addPhotoButton mas_makeConstraints:^(MASConstraintMaker *make){
+                make.edges.equalTo(self.imageView);
             }];
+            addPhotoButton.hidden = YES;
+            
+            if ([[VSReachability reachabilityForInternetConnection] isReachable]) {
+                activityIndicatorView.hidden = NO;
+                [activityIndicatorView startAnimating];
+                [bottle imageWithCompletion:^(BOOL success, UIImage *image) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (image && success) {
+                            self.imageView.image = image;
+                        } else {
+                            [addPhotoButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
+                            addPhotoButton.hidden = NO;
+                            addPhotoButton.enabled = YES;
+                        }
+                        activityIndicatorView.hidden = YES;
+                    });
+                }];
+            } else {
+                [addPhotoButton setTitle:@"No Internet Connection" forState:UIControlStateNormal];
+                addPhotoButton.hidden = NO;
+                addPhotoButton.enabled = NO;
+                activityIndicatorView.hidden = YES;
+            }
             
             self.descriptionTextView = [[UITextView alloc] initWithFrame:CGRectZero];
             self.descriptionTextView.text = @"Loren Ipsum dolor";
@@ -462,8 +475,13 @@
                 CGRect screenRect = [[UIScreen mainScreen] bounds];
                 CGFloat screenWidth = screenRect.size.width;
                 CGFloat val = screenWidth/5;
-                make.left.equalTo(spacer1.right).offset(val);
-                make.right.equalTo(spacer2.left).offset(-val);
+                if (screenWidth < 500) {
+                    make.centerX.equalTo(cell.centerX).offset(20);
+                    make.width.equalTo(150);
+                } else {
+                    make.centerX.equalTo(cell.centerX).offset(25);
+                    make.width.equalTo(180);
+                }
                 make.top.equalTo(cell.top).offset(20);
                 make.height.equalTo(25);
             }];
@@ -643,7 +661,7 @@
 
 # pragma mark - VSImageSelectionDelegate
 
-- (void)imageButtonWasPressed:(id)button
+- (void)imageButtonWasPressed:(UIButton *)button
 {
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Add a Photo"
                                                                    message:@""
@@ -654,6 +672,11 @@
                                                           }];
     [alert addAction:defaultAction];
     alert.preferredAction = defaultAction;
+    if ( [alert respondsToSelector:@selector(popoverPresentationController)] ) {
+        alert.popoverPresentationController.sourceView = button;
+        alert.popoverPresentationController.sourceRect = CGRectMake(button.frame.size.width/2, button.frame.size.height, 0, 0);
+        alert.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    }
     
     UIAlertAction* secondaryOption = [UIAlertAction actionWithTitle:@"Photos" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {

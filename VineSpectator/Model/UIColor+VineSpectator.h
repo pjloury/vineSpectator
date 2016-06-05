@@ -25,5 +25,5 @@
 + (UIColor *)warmTanColor;
 + (UIColor *)lightSalmonColor;
 + (UIColor *)warmGray;
-
++ (UIColor *)textFieldBackgroundColor;
 @end

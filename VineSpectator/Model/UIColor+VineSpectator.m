@@ -16,30 +16,16 @@ alpha:1.0]
 
 @implementation UIColor (VineSpectator)
 
-+ (UIColor *)wineColor {
-    return UIColorFromRGB(0x922455);
++ (UIColor *)lightSalmonColor {
+    return UIColorFromRGB(0xFFE9E4);
 }
 
 + (UIColor *)roseColor {
- //F5E9E9
-    return UIColorFromRGB(0xEFDADA);
-}
-
-+ (UIColor *)parchmentColor {
-    return UIColorFromRGB(0xF8F6EC);
-}
-
-+ (UIColor *)offWhiteColor {
-    return UIColorFromRGB(0xFFFDF5);
-}
-
-+ (UIColor *)oliveInkColor {
-    return UIColorFromRGB(0x8D8156);
-}
-// 8D8170
-
-+ (UIColor *)brownInkColor {
-    return UIColorFromRGB(0x897771);
+    //F5E9E9
+    //FFD6D7
+    //EDBEC2   
+    //F9D2CB
+    return UIColorFromRGB(0xF9CECC);
 }
 
 + (UIColor *)redInkColor {
@@ -50,6 +36,26 @@ alpha:1.0]
     return UIColorFromRGB(0xE7648C);
 }
 
++ (UIColor *)wineColor {
+    return UIColorFromRGB(0x922455);
+}
+
++ (UIColor *)offWhiteColor {
+    return UIColorFromRGB(0xFFFDF5);
+}
+
++ (UIColor *)parchmentColor {
+    return UIColorFromRGB(0xF8F6EC);
+}
+
++ (UIColor *)oliveInkColor {
+    return UIColorFromRGB(0x8D8156);
+}
+
++ (UIColor *)brownInkColor {
+    return UIColorFromRGB(0x897771);
+}
+
 + (UIColor *)pateColor {
     return UIColorFromRGB(0xDBD2AE);
 }
@@ -58,24 +64,24 @@ alpha:1.0]
     return UIColorFromRGB(0xECE5CD);
 }
 
++ (UIColor *)warmTanColor {
+    return [UIColor colorWithRed:238.0/255.0 green:224.0/255.0 blue:224.0/255.0 alpha:0.5];
+}
+
 + (UIColor *)goldColor {
     return UIColorFromRGB(0xACA46F);
+}
+
++ (UIColor *)warmGray {
+    return UIColorFromRGB(0xDEDDCC);
 }
 
 + (UIColor *)borderGreyColor {
     return UIColorFromRGB(0x979797);
 }
 
-+ (UIColor *)warmTanColor {
-    return [UIColor colorWithRed:238.0/255.0 green:224.0/255.0 blue:224.0/255.0 alpha:0.5];
-}
-
-+ (UIColor *)lightSalmonColor {
-    return UIColorFromRGB(0xFFF6F5);
-}
-
-+ (UIColor *)warmGray {
-    return UIColorFromRGB(0xDEDDCC);
++ (UIColor *)textFieldBackgroundColor {
+    return UIColorFromRGB(0xFFEFEA);
 }
 
 @end

@@ -21,6 +21,8 @@
 @property VSDetailViewController *detailViewController;
 @property UINavigationController *detailNavigationController;
 
+@property UIBarButtonItem *logoutButton;
+
 @property UILabel *totalBottlesLabel;
 @property UIButton *addBottleButton;
 @property VSBottleDataSource *bottleDataSource;
@@ -58,8 +60,8 @@
     self.filterViewController.delegate = self;
     [self addChildViewController:self.filterViewController];
     
-    self.totalBottlesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,50)];
-    self.totalBottlesLabel.backgroundColor = [UIColor parchmentColor];
+    self.totalBottlesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,40)];
+    self.totalBottlesLabel.backgroundColor = [UIColor lightSalmonColor];
     self.totalBottlesLabel.textAlignment = NSTextAlignmentCenter;
     self.totalBottlesLabel.font = [UIFont systemFontOfSize:16.0];
     self.totalBottlesLabel.font = [UIFont fontWithName:@"Avenir-Book" size:14.0];
@@ -90,12 +92,12 @@
     [self.totalBottlesLabel mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.addBottleButton.top);
-        make.height.equalTo(30);
+        make.height.equalTo(31);
     }];
     
     [self.addBottleButton mas_makeConstraints:^(MASConstraintMaker *make){
         make.left.bottom.right.equalTo(self.view);
-        make.height.equalTo(@50);
+        make.height.equalTo(52);
     }];
     
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make){
@@ -135,8 +137,8 @@
     [button addTarget:self action:@selector(didPressLogoutButton:) forControlEvents:UIControlEventTouchUpInside];
     UIImage *image = [UIImage imageNamed:@"logout"];
     [button setBackgroundImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.leftBarButtonItem = logoutButton;
+    self.logoutButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.leftBarButtonItem = self.logoutButton;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapNavBar)];
     [self.navigationItem.titleView addGestureRecognizer:tapRecognizer];
@@ -217,7 +219,7 @@
     }
 }
 
-- (void)didPressActionButton:(id)sender
+- (void)didPressActionButton:(UIBarButtonItem *)sender
 {
     NSString *highScore = @"Mange your wine collection from your phone- download Vine Spectator to get started!";
     NSString *urlString = [[PFConfig currentConfig] objectForKey:@"appURL"];
@@ -242,7 +244,7 @@
 }
 
 // Use sidways share button
-- (void)didPressLogoutButton:(id)sender
+- (void)didPressLogoutButton:(UIButton *)sender
 {
     UIAlertAction *act = [UIAlertAction actionWithTitle:@"Log out" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action){
         [self logOut];
@@ -252,18 +254,34 @@
     UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Log out?" message:@"Are you sure? We'll miss you!" preferredStyle:UIAlertControllerStyleActionSheet];
     [ac addAction:act];
     [ac addAction:cancel];
+    if ( [ac respondsToSelector:@selector(popoverPresentationController)] ) {
+        ac.popoverPresentationController.barButtonItem = self.logoutButton;
+    }
     [self presentViewController:ac animated:YES completion:nil];
 }
 
 - (void)didPressNewBottle:(id)sender
 {
-    self.detailViewController = [[VSDetailViewController alloc] initWithBottleDataSource:self.bottleDataSource bottleID:nil];
-    self.detailViewController.editMode = YES;
-    
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.detailViewController];
-    self.detailNavigationController = nc;
-    
-    [self presentViewController:nc animated:YES completion:nil];
+    if([[VSReachability reachabilityForInternetConnection] isReachable]) {
+        self.detailViewController = [[VSDetailViewController alloc] initWithBottleDataSource:self.bottleDataSource bottleID:nil];
+        self.detailViewController.editMode = YES;
+        
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.detailViewController];
+        self.detailNavigationController = nc;
+        
+        [self presentViewController:nc animated:YES completion:nil];
+    } else {
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"No Internet access"
+                                              message:@"Find reception to add a bottle"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:nil];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

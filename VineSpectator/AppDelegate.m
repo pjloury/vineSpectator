@@ -13,7 +13,6 @@
 #import "VSBottle.h"
 #import "VSGrapeVariety.h"
 #import "VSVineyard.h"
-//#import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 
 // UPC Database API Key 442da679c3863c3a5eb3166f7c11988f
@@ -45,7 +44,6 @@
     
     [PFFacebookUtils initializeFacebook];
     
-    // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -55,8 +53,9 @@
         [self showTableViewController];
     }
     
-    [self.window makeKeyAndVisible];
+    [PFConfig getConfigInBackground];
     
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
@@ -64,27 +63,47 @@
 
 - (void)showLoginViewController
 {
-     // Show the navBar with Vine Spectator too
      PFLogInViewController *loginController = [[PFLogInViewController alloc] init];
-     // Should I allow Facebook login too?
      loginController.fields = (PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton |
      PFLogInFieldsFacebook | PFLogInFieldsPasswordForgotten);
      loginController.view.backgroundColor = [UIColor parchmentColor];
      loginController.logInView.logo = self.placeholder;
-    
+
      UIView *logo = self.icon;
      [loginController.logInView addSubview:logo];
-    
-    [logo mas_makeConstraints:^(MASConstraintMaker *make){
-        make.top.equalTo(loginController.logInView.top).offset(20);
-        make.centerX.equalTo(loginController.logInView.centerX);
-    }];
     
      UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:loginController];
      nc.navigationBar.translucent = NO;
      [[UINavigationBar appearance] setBarTintColor:[UIColor wineColor]];
      loginController.navigationItem.titleView = [VSViewController vineSpectatorView];
-     
+    
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    CGFloat offset = height * 0.06;
+    
+    if (height < 500) { // iPhone 4
+        logo.hidden = YES;
+    }
+    else if (height < 600) { // iPhone 5
+        offset = 30;
+    }
+    else if (height < 700) { // iPhone 6
+        offset = 70;
+    }
+    else if (height < 800) { // iPhone 6 Plus
+        offset = 100;
+    }
+    else if (height < 1100) { // iPad
+        offset = 150;
+    }
+    else { // 1366 iPad Pro
+        offset = 225;
+    }
+    
+    [logo mas_makeConstraints:^(MASConstraintMaker *make){
+        make.centerY.equalTo(loginController.view.top).offset(offset);
+        make.centerX.equalTo(loginController.logInView.centerX);
+    }];
+    
      loginController.logInView.logInButton.backgroundColor = [UIColor wineColor];
      loginController.logInView.signUpButton.layer.cornerRadius = 4.0;
     
@@ -127,7 +146,7 @@
 }
 
 - (UIView *)placeholder {
-    UIView *p = [[UIView alloc] initWithFrame:CGRectMake(0,0,350,350)];
+    UIView *p = [[UIView alloc] initWithFrame:CGRectMake(0,0,200,200)];
     p.backgroundColor = [UIColor clearColor];
     return p;
 }

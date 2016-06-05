@@ -13,6 +13,7 @@
 
 @property NSArray *grapeVarieties;
 @property (nonatomic) NSArray *grapeVarietyNames;
+@property VSReachability *reachability;
 
 @end
 
@@ -26,6 +27,7 @@
     dispatch_once(&pred, ^{
         shared = [[VSGrapeVarietyDataSource alloc] init];
         [shared _fetchGrapeVarieties];
+        shared.reachability = [VSReachability reachabilityForInternetConnection];
     });
     return shared;
 }
@@ -33,7 +35,11 @@
 - (void)_fetchGrapeVarieties
 {
     PFQuery *query =  [PFQuery queryWithClassName:@"GrapeVariety"];
+    if (![self.reachability isReachable]) {
+        [query fromLocalDatastore];
+    }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        [VSGrapeVariety pinAllInBackground:objects];
         self.grapeVarieties = objects;
     }];
 }
@@ -46,7 +52,12 @@
             return variety;
         }
     }
-    return [self grapeVarietyForString:@"Other"];
+    if (self.grapeVarieties.count > 0) {
+        return [self grapeVarietyForString:@"Other"];
+    }
+    else {
+        return nil;
+    }
 }
 
 - (NSArray *)grapeVarietyNames
@@ -105,7 +116,11 @@
 - (VSWineColorType)colorForGrapeVariety:(NSString *)grapeVariety
 {
     VSGrapeVariety *variety = [self grapeVarietyForString:grapeVariety];
-    return variety.color;
+    if (variety) {
+        return variety.color;
+    } else {
+        return VSWineColorTypeUnspecified;
+    }
 }
 
 @end

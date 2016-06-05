@@ -23,6 +23,7 @@
 @property NSArray *chronoArrayDictionaryArray;
 @property NSString *previousFilter;
 @property VSFilterType previousType;
+@property VSReachability *reachability;
 
 //
 @property NSMutableArray *filteredBottles;
@@ -70,6 +71,7 @@
     [VSGrapeVarietyDataSource sharedInstance];
     self.showImages = NO;
     self.previousType = VSFilterTypeAll;
+    self.reachability = [VSReachability reachabilityForInternetConnection];
     return self;
 }
 
@@ -225,8 +227,13 @@
 {
     PFQuery *query =  [PFQuery queryWithClassName:@"Bottle"];
     [query whereKey:@"owner" equalTo:[PFUser currentUser]];
-    //[query fromLocalDatastore];
+    
+    if (![self.reachability isReachable]) {
+        [query fromLocalDatastore];
+    }
+
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        [VSBottle pinAllInBackground:objects];
         self.bottles = [objects mutableCopy];
         
         if (self.bottles.count > 0 && [self someUnopendBottles:self.bottles]) {

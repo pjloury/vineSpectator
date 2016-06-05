@@ -165,7 +165,15 @@
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){}];
     
-    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Are you sure?" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertControllerStyle style;
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        style = UIAlertControllerStyleAlert;
+    } else {
+        style = UIAlertControllerStyleActionSheet;
+    }
+    
+    UIAlertController *ac = [UIAlertController alertControllerWithTitle:@"Are you sure?" message:@"" preferredStyle:style];
+    
     [ac addAction:act];
     [ac addAction:cancel];
     [self.viewController presentViewController:ac animated:YES completion:nil];

@@ -17,7 +17,7 @@
     self.textColor = [UIColor oliveInkColor];
     self.text = string;
     self.adjustsFontSizeToFitWidth = YES;
-    self.backgroundColor = [UIColor lightSalmonColor];    
+    self.backgroundColor = [UIColor textFieldBackgroundColor];    
     self.returnKeyType = UIReturnKeyNext;
     return self;
 }

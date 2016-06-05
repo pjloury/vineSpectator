@@ -133,10 +133,10 @@
             self.pickerView = [[UIPickerView alloc] init];
             self.pickerView.dataSource = self;
             self.pickerView.delegate = self;
-            self.pickerView.backgroundColor = [UIColor lightSalmonColor];
+            self.pickerView.backgroundColor = [UIColor offWhiteColor];
             
             UIToolbar *toolBar= [[UIToolbar alloc] initWithFrame:CGRectZero];
-            //[toolBar setBarStyle:UIBarStyleBlackOpaque];
+            toolBar.barTintColor = [UIColor parchmentColor];
             UIBarButtonItem *barButtonDone = [[UIBarButtonItem alloc] initWithTitle:@"Done"
                                                                               style:UIBarButtonItemStylePlain target:self action:@selector(dismissPicker:)];
             UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -228,6 +228,7 @@
         }
         case 1: {
             self.imageButton = [[UIButton alloc] initWithFrame:CGRectZero];
+            self.imageButton.backgroundColor = [UIColor warmTanColor];
             [cell addSubview:self.imageButton];
             [self.imageButton mas_makeConstraints:^(MASConstraintMaker *make){
                 make.top.equalTo(cell.top).offset(20);
@@ -240,12 +241,19 @@
             self.imageButton.layer.borderColor = [UIColor brownInkColor].CGColor;
             self.imageButton.layer.borderWidth = 5.0;
             
-            if (bottle == nil) {
+            if (![[VSReachability reachabilityForInternetConnection] isReachable]) {
+                [self.imageButton setTitle:@"No Internet Connection" forState:UIControlStateNormal];
+                self.imageButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
+                [self.imageButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
+                self.imageButton.enabled = NO;
+            }
+            else if (bottle == nil) {
+                self.imageButton.enabled = YES;
                 [self.imageButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
                 self.imageButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
                 [self.imageButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
-                self.imageButton.backgroundColor = [UIColor warmTanColor];
             } else {
+                self.imageButton.enabled = YES;
                 [bottle imageWithCompletion:^(BOOL success, UIImage * image) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if (image && success) {
@@ -257,7 +265,6 @@
                             [self.imageButton setTitle:@"Press to add a Photo" forState:UIControlStateNormal];
                             self.imageButton.titleLabel.font = [UIFont fontWithName:@"Palatino-Bold" size:15.0];
                             [self.imageButton setTitleColor:[UIColor brownInkColor] forState:UIControlStateNormal];
-                            self.imageButton.backgroundColor = [UIColor warmTanColor];
                         }
                     });
                 }];

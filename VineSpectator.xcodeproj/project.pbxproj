@@ -47,6 +47,7 @@
 		60A29ABF1C2F3F3A00FD92FC /* VSTagsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29ABE1C2F3F3A00FD92FC /* VSTagsDataSource.m */; };
 		60A29AC21C2F449C00FD92FC /* VSFilterStackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29AC11C2F449C00FD92FC /* VSFilterStackViewController.m */; };
 		60A29ACE1C2F458100FD92FC /* VSFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 60A29ACD1C2F458100FD92FC /* VSFilterView.m */; };
+		60E5B4C41D034881006ACFD7 /* VSReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 60E5B4C31D034881006ACFD7 /* VSReachability.m */; };
 		C0E0E3FD7C014ACC8B72F652 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A6E73F781570B865DEE9F4 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +138,8 @@
 		60A29AC11C2F449C00FD92FC /* VSFilterStackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSFilterStackViewController.m; path = Controllers/VSFilterStackViewController.m; sourceTree = "<group>"; };
 		60A29ACC1C2F458100FD92FC /* VSFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSFilterView.h; path = VineSpectator/Views/VSFilterView.h; sourceTree = "<group>"; };
 		60A29ACD1C2F458100FD92FC /* VSFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSFilterView.m; path = VineSpectator/Views/VSFilterView.m; sourceTree = "<group>"; };
+		60E5B4C21D034881006ACFD7 /* VSReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VSReachability.h; path = VineSpectator/Managers/VSReachability.h; sourceTree = "<group>"; };
+		60E5B4C31D034881006ACFD7 /* VSReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VSReachability.m; path = VineSpectator/Managers/VSReachability.m; sourceTree = "<group>"; };
 		71A6E73F781570B865DEE9F4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -209,6 +212,7 @@
 				602635A01C02EE7400002300 /* PrefixHeader.pch */,
 				602635661C029E7F00002300 /* AppDelegate.h */,
 				602635671C029E7F00002300 /* AppDelegate.m */,
+				60E5B4C11D03486C006ACFD7 /* Managers */,
 				6026359E1C02DDB500002300 /* Models */,
 				6026359F1C02DDCE00002300 /* Views */,
 				6026358E1C02A0C200002300 /* Controllers */,
@@ -312,6 +316,16 @@
 				60081C391C2CD84A00C01784 /* VSTextField.m */,
 			);
 			name = Views;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		60E5B4C11D03486C006ACFD7 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				60E5B4C21D034881006ACFD7 /* VSReachability.h */,
+				60E5B4C31D034881006ACFD7 /* VSReachability.m */,
+			);
+			name = Managers;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -496,6 +510,7 @@
 				60081C341C2CD0D400C01784 /* VSEditBottleDelegate.m in Sources */,
 				60081C3A1C2CD84A00C01784 /* VSTextField.m in Sources */,
 				6037AB821C8A146700E5B7FE /* VSScrollView.m in Sources */,
+				60E5B4C41D034881006ACFD7 /* VSReachability.m in Sources */,
 				6026358D1C02A0BB00002300 /* VSTableViewController.m in Sources */,
 				60081C311C2CD0B900C01784 /* VSEditBottleDataSource.m in Sources */,
 				60081C121C276B9A00C01784 /* VSVineyardDataSource.m in Sources */,

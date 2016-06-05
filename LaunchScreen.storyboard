@@ -39,10 +39,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uLS-OS-lNv">
-                                <rect key="frame" x="0.0" y="547" width="600" height="53"/>
+                                <rect key="frame" x="0.0" y="548" width="600" height="52"/>
                                 <color key="backgroundColor" red="0.49803921569999998" green="0.062745098040000002" blue="0.26274509800000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="53" id="wLt-gx-1Sm"/>
+                                    <constraint firstAttribute="height" constant="52" id="wLt-gx-1Sm"/>
                                 </constraints>
                             </view>
                         </subviews>
