@@ -117,6 +117,7 @@
             self.grapeTextField.showAutocompleteButton = YES;
             self.grapeTextField.autoCompleteTextFieldDelegate = self;
             self.grapeTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            self.grapeTextField.autocompleteDataSource = [VSGrapeVarietyDataSource sharedInstance];
             [cell addSubview:self.grapeTextField];
             
             self.vineyardPromptLabel = [[VSPromptLabel alloc] initWithString:@"Winery:"];
